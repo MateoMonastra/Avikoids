@@ -6,7 +6,7 @@
 #include "Screens/Game.h"
 
 using namespace menu;
-using namespace game;
+//using namespace game;
 
 namespace scenemanager
 {
@@ -54,7 +54,7 @@ namespace scenemanager
 			MenuUpdate(currentScreen);
 			break;
 		case Screen::Game:
-			GameUpdate(currentScreen);
+			/*GameUpdate(currentScreen);*/
 			break;
 		case Screen::Credits:
 			/*CreditsUpdate(currentScreen);*/
@@ -76,7 +76,7 @@ namespace scenemanager
 			MenuDrawing();
 			break;
 		case Screen::Game:
-			DrawGame(currentScreen);
+			/*DrawGame(currentScreen);*/
 			break;
 		case Screen::Credits:
 			/*CreditsDrawing();*/

@@ -1,6 +1,8 @@
 #include "ScreenManagements/ScreenManager.h"
 
-void main()
+int main()
 {
 	scenemanager::RunProgram();
+
+	return 0;
 }
