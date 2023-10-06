@@ -2,7 +2,5 @@
 
 void main()
 {
-
 	scenemanager::RunProgram();
-
 }
