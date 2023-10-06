@@ -28,10 +28,10 @@ namespace scenemanager
 
 	static void InitProgram()
 	{
-		int windowH = 950;
-		int windowW = 1100;
+		int windowH = 768;
+		int windowW = 1024;
 
-		
+		InitWindow(windowW, windowH,"Avikoids by Mateo Viko Monastra");
 		
 
 		currentScreen = Screen::Menu;
