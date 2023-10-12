@@ -1,9 +1,12 @@
 #pragma once
 #include "ScreenManagements/Screen.h"
 
-namespace menu
+namespace asteroids
 {
-	void InitMenu();
-	void MenuUpdate(Screen& currentScene);
-	void MenuDrawing();
+	namespace menu
+	{
+		void InitMenu();
+		void MenuUpdate(Screen& currentScene);
+		void MenuDrawing();
+	}
 }

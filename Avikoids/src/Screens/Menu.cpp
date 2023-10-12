@@ -15,15 +15,24 @@ namespace asteroids
 		
 		};
 
+		struct Vector2f
+		{
+			float x = {};
+			float y = {};
+
+		};
+
 		struct Button
 		{
-			Vector2i recPosition = {};
+			Vector2i recPosition_i = {};
+			Vector2f recPosition_f = {};
 			int recW = {};
 			int recH = {};
 			Color RecColor = WHITE;
 
 			const char* text = " ";
-			Vector2i TextPosition = {};
+			Vector2i TextPosition_i = {};
+			Vector2f TextPosition_f = {};
 			Color TextColor = BLACK;
 			int size = {};
 		};
@@ -32,50 +41,57 @@ namespace asteroids
 		static Button game;
 		static Button exit;
 
-		static bool MouseMenuColision(float mousex, float mousey, int recx, int recy, int recw, int rech);
+		static bool MouseMenuColision(float mousex, float mousey, Button recPos);
 		static void DrawButton(Button button);
 
 		void InitMenu()
 		{
-			int middleScreen = GetScreenWidth() / 2;
+			float middleScreenf = static_cast<float>(GetScreenWidth() / 2);
+			int middleScreeni = GetScreenWidth() / 2;
 
-			title.recPosition = { middleScreen - 180 , 20 };
+			title.recPosition_i = { middleScreeni - 180 , 20 };
+			title.recPosition_f = { middleScreenf - 180 , 20 };
 			title.recW = 350;
 			title.recH = 90;
 			title.RecColor = BLUE;
 
-			title.TextPosition = { middleScreen - 100, 50 };
+			title.TextPosition_i = { middleScreeni - 100, 50 };
+			title.TextPosition_f = { middleScreenf - 100, 50 };
 			title.text = "VikoPong";
 			title.size = 40;
 
 
-			game.recPosition = { middleScreen - 325, 175 };
+			game.recPosition_i = { middleScreeni - 325, 175 };
+			game.recPosition_f = { middleScreenf - 325 , 175 };
 			game.recW = 250;
 			game.recH = 90;
 			game.RecColor = RED;
 
-			game.TextPosition = { middleScreen - 320, 200 };
+			game.TextPosition_i = { middleScreeni - 320, 200 };
+			game.TextPosition_f = { middleScreenf - 320, 200 };
 			game.text = "Single Mode";
 			game.size = 40;
 
-			exit.recPosition = { middleScreen - 128, 350 };
+			exit.recPosition_i = { middleScreeni - 128, 350 };
+			exit.recPosition_f = { middleScreenf - 128, 350 };
 			exit.recW = 250;
 			exit.recH = 90;
 			exit.RecColor = YELLOW;
 
-			exit.TextPosition = { middleScreen - 40, 375 };
+			exit.TextPosition_i = { middleScreeni - 40, 375 };
+			exit.TextPosition_f = { middleScreenf - 40, 375 };
 			exit.text = "Exit";
 			exit.size = 40;
 
 		}
 
-		bool MouseMenuColision(float mousex, float mousey, int recx, int recy, int recw, int rech)
+		bool MouseMenuColision(float mousex, float mousey, Button rec)
 		{
 
-			if (mousex >= recx &&
-				mousex <= recx + recw &&
-				mousey >= recy &&
-				mousey <= recy + rech)
+			if (mousex >= rec.recPosition_f.x &&
+				mousex <= rec.recPosition_f.x + rec.recW &&
+				mousey >= rec.recPosition_f.y &&
+				mousey <= rec.recPosition_f.y + rec.recH)
 			{
 				return true;
 			}
@@ -87,7 +103,7 @@ namespace asteroids
 			Vector2 mousePosition = GetMousePosition();
 
 
-			if (MouseMenuColision(mousePosition.x, mousePosition.y, game.recPosition.x, game.recPosition.y, game.recW, game.recH))
+			if (MouseMenuColision(mousePosition.x, mousePosition.y, game))
 			{
 				game.RecColor = WHITE;
 
@@ -97,7 +113,7 @@ namespace asteroids
 					game::InitGame(currentScreen);*/
 				}
 			}
-			else if (MouseMenuColision(mousePosition.x, mousePosition.y, exit.recPosition.x, exit.recPosition.y, exit.recW, exit.recH))
+			else if (MouseMenuColision(mousePosition.x, mousePosition.y, exit))
 			{
 				exit.RecColor = WHITE;
 
@@ -126,8 +142,8 @@ namespace asteroids
 
 		static void DrawButton(Button button)
 		{
-			DrawRectangle(button.recPosition.x, button.recPosition.y, button.recW, button.recH, button.RecColor);
-			DrawText(button.text, button.TextPosition.x, button.TextPosition.y, button.size, button.RecColor);
+			DrawRectangle(button.recPosition_i.x, button.recPosition_i.y, button.recW, button.recH, button.RecColor);
+			DrawText(button.text, button.TextPosition_i.x, button.TextPosition_i.y, button.size, button.RecColor);
 
 		}
 	}

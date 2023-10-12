@@ -1,6 +1,9 @@
 #pragma once
 
-namespace scenemanager
+namespace asteroids
 {
-	void RunProgram();
+	namespace scenemanager
+	{
+		void RunProgram();
+	}
 }
