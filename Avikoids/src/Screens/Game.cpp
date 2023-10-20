@@ -19,11 +19,14 @@ namespace asteroids
 			float HeightF = static_cast<float>(GetScreenHeight());
 			int HeightI = GetScreenHeight();
 
-			player.Position_i = { WidthI / 2, HeightI / 2};
-			player.Position_f = { WidthF / 2, HeightF / 2};
+			player.position_i = { WidthI / 2, HeightI / 2};
 
-			playerSprite.x = WidthF ;
-			playerSprite.y = HeightF ;
+			player.position_f = { WidthF / 2, HeightF / 2};
+
+			player.origin = { static_cast<float>(player.height / 2), static_cast<float> (player.width / 2) };
+
+			playerSprite.x = WidthF / 2;
+			playerSprite.y = HeightF / 2;
 			playerSprite.width = player.width;
 			playerSprite.height = player.height;
 		}
@@ -35,7 +38,7 @@ namespace asteroids
 
 		void DrawGame()
 		{
-			DrawRectanglePro(playerSprite, player.Position_f, player.shipRotation, RED);
+			DrawRectanglePro(playerSprite, player.origin, static_cast<float>(player.shipRotation), RED);
 		}
 	}
 };

@@ -6,9 +6,9 @@ namespace asteroids
 	{
 		Vector2 mousePos = GetMousePosition();
 
-		Vector2 direction = Vector2Subtract(player.Position_f, mousePos);
+		Vector2 direction = Vector2Subtract(player.position_f, mousePos);
 
-		float angle = direction.x / direction.y;
+		double angle = atan2 (static_cast<double>(direction.y),static_cast<double>(direction.x)) * RAD2DEG + 90;
 	
 		player.shipRotation = angle;
 	}
