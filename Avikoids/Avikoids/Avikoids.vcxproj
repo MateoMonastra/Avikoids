@@ -20,12 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\Objects\Player.cpp" />
     <ClCompile Include="..\src\ProjectUtilities\Utilities.cpp" />
     <ClCompile Include="..\src\ScreenManagements\ScreenManager.cpp" />
     <ClCompile Include="..\src\Screens\Game.cpp" />
     <ClCompile Include="..\src\Screens\Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Objects\Player.h" />
     <ClInclude Include="..\src\ProjectUtilities\Utilities.h" />
     <ClInclude Include="..\src\ScreenManagements\Screen.h" />
     <ClInclude Include="..\src\ScreenManagements\ScreenManager.h" />
@@ -110,13 +112,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)lib\raylib\include;$(SolutionDir)src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

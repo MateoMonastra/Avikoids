@@ -1,9 +1,12 @@
 #pragma once
 
-enum class Screen
+namespace asteroids
 {
-    Menu,
-    Game, 
-    Credits,
-    Exit
-};
+    enum class Screen
+    {
+        Menu,
+        Game,
+        Credits,
+        Exit
+    };
+}

@@ -5,8 +5,6 @@
 #include "Screens/Menu.h"
 #include "Screens/Game.h"
 
-//using namespace game;
-
 namespace asteroids
 {
 	namespace scenemanager
@@ -55,7 +53,7 @@ namespace asteroids
 				menu::MenuUpdate(currentScreen);
 				break;
 			case Screen::Game:
-				/*GameUpdate(currentScreen);*/
+				game::GameUpdate();
 				break;
 			case Screen::Credits:
 				/*CreditsUpdate(currentScreen);*/
@@ -72,13 +70,14 @@ namespace asteroids
 		static void Draw()
 		{
 			BeginDrawing();
+			ClearBackground(BLACK);
 			switch (currentScreen)
 			{
 			case Screen::Menu:
 				menu::MenuDrawing();
 				break;
 			case Screen::Game:
-				/*DrawGame(currentScreen);*/
+				game::DrawGame();
 				break;
 			case Screen::Credits:
 				/*CreditsDrawing();*/

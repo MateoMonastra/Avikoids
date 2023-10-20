@@ -8,31 +8,18 @@ namespace asteroids
 {
 	namespace menu
 	{
-		struct Vector2i
-		{
-			int x = {};
-			int y = {};
-		
-		};
-
-		struct Vector2f
-		{
-			float x = {};
-			float y = {};
-
-		};
 
 		struct Button
 		{
 			Vector2i recPosition_i = {};
-			Vector2f recPosition_f = {};
+			Vector2 recPosition_f = {};
 			int recW = {};
 			int recH = {};
 			Color RecColor = WHITE;
 
 			const char* text = " ";
 			Vector2i TextPosition_i = {};
-			Vector2f TextPosition_f = {};
+			Vector2 TextPosition_f = {};
 			Color TextColor = BLACK;
 			int size = {};
 		};
@@ -57,19 +44,19 @@ namespace asteroids
 
 			title.TextPosition_i = { middleScreeni - 100, 50 };
 			title.TextPosition_f = { middleScreenf - 100, 50 };
-			title.text = "VikoPong";
+			title.text = "Avikoids";
 			title.size = 40;
 
 
-			game.recPosition_i = { middleScreeni - 325, 175 };
-			game.recPosition_f = { middleScreenf - 325 , 175 };
+			game.recPosition_i = { middleScreeni - 128, 175 };
+			game.recPosition_f = { middleScreenf - 128 , 175 };
 			game.recW = 250;
 			game.recH = 90;
 			game.RecColor = RED;
 
-			game.TextPosition_i = { middleScreeni - 320, 200 };
-			game.TextPosition_f = { middleScreenf - 320, 200 };
-			game.text = "Single Mode";
+			game.TextPosition_i = { middleScreeni - 40, 200 };
+			game.TextPosition_f = { middleScreenf - 40, 200 };
+			game.text = "Play";
 			game.size = 40;
 
 			exit.recPosition_i = { middleScreeni - 128, 350 };
@@ -109,8 +96,8 @@ namespace asteroids
 
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
-					/*currentScreen = Screen::Game;
-					game::InitGame(currentScreen);*/
+					currentScreen = Screen::Game;
+					game::InitGame();
 				}
 			}
 			else if (MouseMenuColision(mousePosition.x, mousePosition.y, exit))
@@ -143,7 +130,7 @@ namespace asteroids
 		static void DrawButton(Button button)
 		{
 			DrawRectangle(button.recPosition_i.x, button.recPosition_i.y, button.recW, button.recH, button.RecColor);
-			DrawText(button.text, button.TextPosition_i.x, button.TextPosition_i.y, button.size, button.RecColor);
+			DrawText(button.text, button.TextPosition_i.x, button.TextPosition_i.y, button.size, button.TextColor);
 
 		}
 	}
