@@ -30,7 +30,7 @@
     <ClCompile Include="..\src\Screens\Game.cpp">
       <Filter>Archivos de recursos</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Objects\Player.cpp">
+    <ClCompile Include="..\src\Objects\SpaceShip.cpp">
       <Filter>Archivos de recursos</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,7 +50,7 @@
     <ClInclude Include="..\src\Screens\Menu.h">
       <Filter>Archivos de origen\Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Objects\Player.h">
+    <ClInclude Include="..\src\Objects\SpaceShip.h">
       <Filter>Archivos de origen\Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

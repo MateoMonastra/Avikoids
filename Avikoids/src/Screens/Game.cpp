@@ -1,14 +1,15 @@
 #include "Game.h"
 
 #include "ProjectUtilities/Utilities.h"
-#include "Objects/Player.h"
+#include "Objects/SpaceShip.h"
 
 namespace asteroids
 {
 	namespace game
 	{
+		Rectangle playerSprite;
 
-			Spaceship player;
+		Spaceship player;
 
 		void InitGame()
 		{
@@ -20,6 +21,11 @@ namespace asteroids
 
 			player.Position_i = { WidthI / 2, HeightI / 2};
 			player.Position_f = { WidthF / 2, HeightF / 2};
+
+			playerSprite.x = WidthF ;
+			playerSprite.y = HeightF ;
+			playerSprite.width = player.width;
+			playerSprite.height = player.height;
 		}
 
 		void GameUpdate()
@@ -29,7 +35,7 @@ namespace asteroids
 
 		void DrawGame()
 		{
-			DrawRectangle(player.Position_i.x, player.Position_i.y, 55,55, RED);
+			DrawRectanglePro(playerSprite, player.Position_f, player.shipRotation, RED);
 		}
 	}
 };

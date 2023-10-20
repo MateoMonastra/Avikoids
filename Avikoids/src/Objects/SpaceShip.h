@@ -9,6 +9,12 @@ namespace asteroids
 		Vector2i Position_i= {0,0};
 		Vector2 Position_f= {0,0};
 
+		float height = 55;
+		
+		float width = 55;
+
+
+
 		float shipRotation = {};
 
 		float BASE_SPEED = {};
