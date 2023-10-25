@@ -6,6 +6,24 @@ namespace asteroids
 {
 	void SpaceshipUpdate(Spaceship& player)
 	{
+
+		if (player.position.y <  0)
+		{
+			player.position.y = GetScreenHeight() - player.height;
+		}
+		if (player.position.y > GetScreenHeight())
+		{
+			player.position.y = player.height;
+		}
+		if (player.position.x < 0)
+		{
+			player.position.x = GetScreenWidth() - player.width;
+		}
+		if (player.position.x > GetScreenWidth())
+		{
+			player.position.x = player.width;
+		}
+
 		Vector2 mousePos = GetMousePosition();
 
 		Vector2 direction = Vector2Subtract(player.position, mousePos);
