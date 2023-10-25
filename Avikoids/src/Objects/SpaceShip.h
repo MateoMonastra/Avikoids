@@ -1,32 +1,41 @@
 #pragma once
 
 #include "ProjectUtilities/Utilities.h"
+#include "Bullet.h"
 
 namespace asteroids
 {
-	struct Spaceship
+	namespace game
 	{
-		Vector2 position = { 0,0 };
 
-		float height = 55;
+		struct Spaceship
+		{
+			static const int maxBullets = 30;
+			int currentBullet = 0;
 
-		float width = 55;
+			Rectangle textureRec = {};
 
-		Vector2 origin = {};
+			Rectangle dest = {};
+			Rectangle source = {};
 
-		double shipRotation = {};
+			Vector2 normalizedDirection = {};
+			Vector2 position = {};
+			Vector2 origin = {};
 
-		Vector2 velocity = {};
+			double shipRotation = {};
+			Vector2 velocity = {};
+			float aceleration = { -1 };
 
-		float aceleration = {-1};
+			Texture2D texture = {};
 
-		Texture2D texture = {};
-		
-	};
-
-
-	void SpaceshipUpdate(Spaceship& player);
+			Bullet bullets[maxBullets];
+		};
 
 
+		void SpaceshipUpdate(Spaceship& player);
+		void SpaceshipMobility(Spaceship& player);
+		void SpaceshipShoot(Spaceship& player);
+
+	}
 
 }
