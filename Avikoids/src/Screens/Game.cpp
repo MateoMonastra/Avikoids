@@ -14,14 +14,11 @@ namespace asteroids
 		void InitGame()
 		{
 			float WidthF = static_cast<float>(GetScreenWidth());
-			int WidthI = GetScreenWidth();
-
+			
 			float HeightF = static_cast<float>(GetScreenHeight());
-			int HeightI = GetScreenHeight();
 
-			player.position_i = { WidthI / 2, HeightI / 2};
 
-			player.position_f = { WidthF / 2, HeightF / 2};
+			player.position = { WidthF / 2, HeightF / 2};
 
 			player.origin = { static_cast<float>(player.height / 2), static_cast<float> (player.width / 2) };
 
@@ -34,6 +31,8 @@ namespace asteroids
 		void GameUpdate()
 		{
 			SpaceshipUpdate(player);
+			playerSprite.x = player.position.x;
+			playerSprite.y = player.position.y;
 		}
 
 		void DrawGame()

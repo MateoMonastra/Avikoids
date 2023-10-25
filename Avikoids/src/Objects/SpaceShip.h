@@ -6,8 +6,7 @@ namespace asteroids
 {
 	struct Spaceship
 	{
-		Vector2i position_i = { 0,0 };
-		Vector2 position_f = { 0,0 };
+		Vector2 position = { 0,0 };
 
 		float height = 55;
 
@@ -17,9 +16,9 @@ namespace asteroids
 
 		double shipRotation = {};
 
-		float BASE_SPEED = {};
+		Vector2 velocity = {};
 
-		float aceleration = {};
+		float aceleration = {-1};
 
 		Texture2D texture = {};
 		
