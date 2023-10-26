@@ -7,10 +7,10 @@ namespace asteroids
 		void CreateBullet(Bullet& bullet, Vector2 position, Vector2 rotation)
 		{
 
-			bullet.colition.color = WHITE;
-			bullet.colition.radius = 10;
-			bullet.colition.x = position.x;
-			bullet.colition.y = position.y;
+			bullet.hitBox.color = WHITE;
+			bullet.hitBox.radius = 10;
+			bullet.hitBox.position.x = position.x;
+			bullet.hitBox.position.y = position.y;
 
 			bullet.aceleration = { rotation.x,rotation.y };
 			bullet.IsActive = true;
@@ -21,8 +21,8 @@ namespace asteroids
 		{
 			if (bullet.IsActive)
 			{
-				bullet.colition.x -= bullet.aceleration.x * bullet.speed * GetFrameTime();
-				bullet.colition.y -= bullet.aceleration.y * bullet.speed * GetFrameTime();
+				bullet.hitBox.position.x -= bullet.aceleration.x * bullet.speed * GetFrameTime();
+				bullet.hitBox.position.y -= bullet.aceleration.y * bullet.speed * GetFrameTime();
 			}
 		}
 
@@ -30,7 +30,7 @@ namespace asteroids
 		{
 			if (bullet.IsActive)
 			{
-				DrawCircle(static_cast<int>(bullet.colition.x), static_cast<int>(bullet.colition.y), bullet.colition.radius, bullet.colition.color);
+				DrawCircle(static_cast<int>(bullet.hitBox.position.x), static_cast<int>(bullet.hitBox.position.y), bullet.hitBox.radius, bullet.hitBox.color);
 			}
 
 		}

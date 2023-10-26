@@ -10,19 +10,21 @@ namespace asteroids
 
 		struct Spaceship
 		{
+			Circle hitBox;
 			static const int maxBullets = 30;
 			int currentBullet = 0;
 
 			Rectangle textureRec = {};
-
+			Vector2 origin = {};
 			Rectangle dest = {};
 			Rectangle source = {};
+			double shipRotation = {};
 
 			Vector2 normalizedDirection = {};
-			Vector2 position = {};
-			Vector2 origin = {};
 
-			double shipRotation = {};
+			int lives = {};
+			bool IsAlive = {};
+
 			Vector2 velocity = {};
 			float aceleration = { -1 };
 
@@ -34,7 +36,7 @@ namespace asteroids
 
 		void SpaceshipUpdate(Spaceship& player);
 		void SpaceshipMobility(Spaceship& player);
-		void SpaceshipShoot(Spaceship& player);
+		void SpaceshipDraw(Spaceship player);
 
 	}
 

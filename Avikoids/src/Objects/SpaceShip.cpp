@@ -6,6 +6,8 @@ namespace asteroids
 {
 	namespace game
 	{
+		static void SpaceshipShoot(Spaceship& player);
+
 		void SpaceshipUpdate(Spaceship& player)
 		{
 
@@ -24,52 +26,61 @@ namespace asteroids
 
 		void SpaceshipMobility(Spaceship& player)
 		{
-			if (player.position.y < 0)
+			if (player.hitBox.position.y < 0)
 			{
-				player.position.y = GetScreenHeight() - player.textureRec.height;
+				player.hitBox.position.y = GetScreenHeight() - player.textureRec.height;
 			}
-			if (player.position.y > GetScreenHeight())
+			if (player.hitBox.position.y > GetScreenHeight())
 			{
-				player.position.y = player.textureRec.height;
+				player.hitBox.position.y = player.textureRec.height;
 			}
-			if (player.position.x < 0)
+			if (player.hitBox.position.x < 0)
 			{
-				player.position.x = GetScreenWidth() - player.textureRec.width;
+				player.hitBox.position.x = GetScreenWidth() - player.textureRec.width;
 			}
-			if (player.position.x > GetScreenWidth())
+			if (player.hitBox.position.x > GetScreenWidth())
 			{
-				player.position.x = player.textureRec.width;
+				player.hitBox.position.x = player.textureRec.width;
 			}
 
 			Vector2 mousePos = GetMousePosition();
 
-			Vector2 direction = Vector2Subtract(player.position, mousePos);
+			Vector2 direction = Vector2Subtract(player.hitBox.position, mousePos);
 
 			double angle = atan2(static_cast<double>(direction.y), static_cast<double>(direction.x)) * RAD2DEG + 90;
 
 			player.shipRotation = angle;
 
-			 player.normalizedDirection = Vector2Normalize(direction);
+			player.normalizedDirection = Vector2Normalize(direction);
 
 			if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
 			{
 				player.velocity = Vector2Add(player.velocity, Vector2Scale(direction, player.aceleration * GetFrameTime()));
 			}
 
-			player.position = Vector2Add(player.position, Vector2Scale(player.velocity, GetFrameTime()));
-			player.dest.x = player.position.x;
-			player.dest.y = player.position.y;
+			player.hitBox.position = Vector2Add(player.hitBox.position, Vector2Scale(player.velocity, GetFrameTime()));
+			player.dest.x = player.hitBox.position.x;
+			player.dest.y = player.hitBox.position.y;
 		}
 
-		void SpaceshipShoot(Spaceship& player)
+		static void SpaceshipShoot(Spaceship& player)
 		{
-			CreateBullet(player.bullets[player.currentBullet],player.position,player.normalizedDirection);
-			
+			CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection);
+
 			player.currentBullet++;
 
 			if (player.currentBullet >= player.maxBullets)
 			{
 				player.currentBullet = 0;
+			}
+		}
+
+		void SpaceshipDraw(Spaceship player)
+		{
+			if (player.IsAlive)
+			{
+				DrawTexturePro(player.texture, player.source, player.dest, player.origin, static_cast<float>(player.shipRotation), WHITE);
+				DrawCircle(static_cast<int>(player.hitBox.position.x), static_cast<int>(player.hitBox.position.y), player.hitBox.radius, GREEN);
 			}
 		}
 	}

@@ -8,8 +8,7 @@ namespace asteroids
 	{
 		struct Circle
 		{
-			float x = {};
-			float y = {};
+			Vector2 position = {};
 			float radius = {};
 			Color color = {};
 		};
@@ -17,7 +16,7 @@ namespace asteroids
 		struct Bullet
 		{
 
-			Circle colition = {};
+			Circle hitBox = {};
 			bool IsActive = {};
 
 			Vector2 aceleration = {};

@@ -9,7 +9,7 @@ namespace asteroids
 	{
 		struct Asteroid
 		{
-			Circle colition = {};
+			Circle hitBox = {};
 
 			Rectangle dest = {};
 			Rectangle source = {};
@@ -22,7 +22,9 @@ namespace asteroids
 
 			bool IsAlive = false;
 
-			Texture2D texture = {};
+			Texture2D textureBigAsteroid = {};
+			Texture2D textureMediumAsteroid = {};
+			Texture2D textureSmallAsteroid = {};
 			
 
 		};
