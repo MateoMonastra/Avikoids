@@ -1,7 +1,5 @@
 #include "Bullet.h"
 
-#include <iostream>
-
 namespace asteroids
 {
 	namespace game

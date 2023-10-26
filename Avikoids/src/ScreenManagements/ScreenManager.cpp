@@ -40,6 +40,7 @@ namespace asteroids
 			currentScreen = Screen::Menu;
 
 			SetExitKey(NULL);
+			SetRandomSeed(NULL);
 
 			menu::InitMenu();
 		}

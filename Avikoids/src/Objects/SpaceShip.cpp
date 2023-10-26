@@ -1,7 +1,6 @@
 #include "SpaceShip.h"
 
 #include "Bullet.h"
-#include <iostream>
 
 namespace asteroids
 {
@@ -65,7 +64,6 @@ namespace asteroids
 		void SpaceshipShoot(Spaceship& player)
 		{
 			CreateBullet(player.bullets[player.currentBullet],player.position,player.normalizedDirection);
-			std::cout << player.currentBullet;
 			
 			player.currentBullet++;
 
