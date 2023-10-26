@@ -16,13 +16,13 @@ namespace asteroids
 		{
 			float width = static_cast<float>(GetScreenWidth());
 			float height = static_cast<float>(GetScreenHeight());
-			int randomSpawn = GetRandomValue(1, 3);
+			int randomSpawn = GetRandomValue(1, 4);
 
 
 			if (randomSpawn == 1)
 			{
 				asteroid.hitBox.radius = 30;
-				asteroid.hitBox.position = { width, height / 2 };
+				asteroid.hitBox.position = { width,static_cast<float>(GetRandomValue(100, 1000)) };
 				asteroid.hitBox.color = WHITE;
 				asteroid.aceleration = { -1,1 };
 				asteroid.IsAlive = true;
@@ -30,7 +30,7 @@ namespace asteroids
 			else if (randomSpawn == 2)
 			{
 				asteroid.hitBox.radius = 30;
-				asteroid.hitBox.position = { 20, height / 3 };
+				asteroid.hitBox.position = { 20, static_cast<float>(GetRandomValue(100, 1000)) };
 				asteroid.hitBox.color = WHITE;
 				asteroid.aceleration = { 1,-1 };
 				asteroid.IsAlive = true;
@@ -38,7 +38,15 @@ namespace asteroids
 			else if (randomSpawn == 3)
 			{
 				asteroid.hitBox.radius = 30;
-				asteroid.hitBox.position = { width / 2, height };
+				asteroid.hitBox.position = { static_cast<float>(GetRandomValue(100, 700)), 0 };
+				asteroid.hitBox.color = WHITE;
+				asteroid.hitBox = { 1,1 };
+				asteroid.IsAlive = true;
+			}
+			else if (randomSpawn == 4)
+			{
+				asteroid.hitBox.radius = 30;
+				asteroid.hitBox.position = { static_cast<float>(GetRandomValue(100, 700)), height };
 				asteroid.hitBox.color = WHITE;
 				asteroid.hitBox = { -1,-1 };
 				asteroid.IsAlive = true;
@@ -103,7 +111,7 @@ namespace asteroids
 
 			for (int i = 0; i < TOTAL_ASTEROIDS; i++)
 			{
-				if (bigAsteroidsCount < 10)
+				if (bigAsteroidsCount < 4)
 				{
 					CreateBigAsteroid(asteroids[currentAsteroid]);
 

@@ -53,6 +53,10 @@ namespace asteroids
 			InitAsteroid(mediumAsteroids, mediumAsteroidTexture);
 			InitAsteroid(smallAsteroids, smallAsteroidTexture);
 
+			for (int i = 0; i < player.maxBullets; i++)
+			{
+				player.bullets[i].texture = LoadTexture("assets/PNG/Bullets/BaseBullet.png");
+			}
 
 		}
 
@@ -83,7 +87,7 @@ namespace asteroids
 		{
 			for (int i = 0; i < TOTAL_ASTEROIDS; i++)
 			{
-				if (CheckCollisionCircles(player.hitBox.position, player.hitBox.radius, bigAsteroids[i].hitBox.position, bigAsteroids[i].hitBox.radius))
+				if (CheckCollisionCircles(player.hitBox.position, player.hitBox.radius, bigAsteroids[i].hitBox.position, bigAsteroids[i].hitBox.radius) && bigAsteroids[i].IsAlive)
 				{
 					player.lives--;
 					Reset();
@@ -95,11 +99,14 @@ namespace asteroids
 				}
 				for (int j = 0; j < player.maxBullets; j++)
 				{
-					if (CheckCollisionCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, bigAsteroids[i].hitBox.position, bigAsteroids[i].hitBox.radius))
+					if (player.bullets[j].IsActive && bigAsteroids[i].IsAlive)
 					{
-						bigAsteroids[i].IsAlive = false;
-						player.bullets[j].IsActive = false;
+						if (CheckCollisionCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, bigAsteroids[i].hitBox.position, bigAsteroids[i].hitBox.radius))
+						{
+							bigAsteroids[i].IsAlive = false;
+							player.bullets[j].IsActive = false;
 
+						}
 					}
 				}
 			}

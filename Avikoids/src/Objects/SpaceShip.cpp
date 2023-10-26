@@ -65,7 +65,7 @@ namespace asteroids
 
 		static void SpaceshipShoot(Spaceship& player)
 		{
-			CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection);
+			CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection,player.shipRotation);
 
 			player.currentBullet++;
 

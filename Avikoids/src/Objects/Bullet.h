@@ -19,12 +19,20 @@ namespace asteroids
 			Circle hitBox = {};
 			bool IsActive = {};
 
+			Rectangle textureRec = {};
+			Vector2 origin = {};
+			Rectangle dest = {};
+			Rectangle source = {};
+			double rotation = {};
+
+			Texture2D texture = {};
+
 			Vector2 aceleration = {};
 			float speed = {};
 
 		};
 
-		void CreateBullet(Bullet& bullet, Vector2 position, Vector2 rotation);
+		void CreateBullet(Bullet& bullet, Vector2 position, Vector2 rotation, double playerRotation);
 		void BulletUpdate(Bullet& bullet);
 		void DrawBullet(Bullet bullet);
 	}
