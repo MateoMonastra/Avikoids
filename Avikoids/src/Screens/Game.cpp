@@ -12,12 +12,15 @@ namespace asteroids
 
 		static void GameColitions();
 		static void Reset();
-		static void InitAsteroid(Asteroid asteroids[], Texture2D texture);
+		static void InitAsteroids();
 
-		const int TOTAL_ASTEROIDS = 60;
-		Asteroid bigAsteroids[TOTAL_ASTEROIDS];
-		Asteroid mediumAsteroids[TOTAL_ASTEROIDS];
-		Asteroid smallAsteroids[TOTAL_ASTEROIDS];
+		const int TOTAL_BIG_ASTEROIDS = 10;
+		const int TOTAL_MEDIUM_ASTEROIDS = 20;
+		const int TOTAL_SMALL_ASTEROIDS = 40;
+
+		Asteroid bigAsteroids[TOTAL_BIG_ASTEROIDS];
+		Asteroid mediumAsteroids[TOTAL_MEDIUM_ASTEROIDS];
+		Asteroid smallAsteroids[TOTAL_SMALL_ASTEROIDS];
 		Spaceship player;
 
 
@@ -44,14 +47,7 @@ namespace asteroids
 
 			player.origin = { static_cast<float>(player.source.width / 2) * scale , static_cast<float> (player.source.height / 4) * scale };
 
-			Texture2D bigAsteroidTexture = LoadTexture("assets/PNG/Asteroids/BigAsteroid.png");
-			Texture2D mediumAsteroidTexture = LoadTexture("assets/PNG/Asteroids/MediumAsteroid.png");
-			Texture2D smallAsteroidTexture = LoadTexture("assets/PNG/Asteroids/SmallAsteroid.png");
-
-
-			InitAsteroid(bigAsteroids, bigAsteroidTexture);
-			InitAsteroid(mediumAsteroids, mediumAsteroidTexture);
-			InitAsteroid(smallAsteroids, smallAsteroidTexture);
+			InitAsteroids();
 
 			for (int i = 0; i < player.maxBullets; i++)
 			{
@@ -64,14 +60,13 @@ namespace asteroids
 		{
 			SpaceshipUpdate(player);
 
-			AsteroidUpdate(bigAsteroids/*, mediumAsteroids, smallAsteroids*/);
+			AsteroidUpdate(bigAsteroids, mediumAsteroids);
 
+			GameColitions();
 		}
 
 		void DrawGame()
 		{
-			GameColitions();
-
 			SpaceshipDraw(player);
 
 			for (int i = 0; i < player.maxBullets; i++)
@@ -85,7 +80,7 @@ namespace asteroids
 
 		static void GameColitions()
 		{
-			for (int i = 0; i < TOTAL_ASTEROIDS; i++)
+			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
 			{
 				if (CheckCollisionCircles(player.hitBox.position, player.hitBox.radius, bigAsteroids[i].hitBox.position, bigAsteroids[i].hitBox.radius) && bigAsteroids[i].IsAlive)
 				{
@@ -104,7 +99,9 @@ namespace asteroids
 						if (CheckCollisionCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, bigAsteroids[i].hitBox.position, bigAsteroids[i].hitBox.radius))
 						{
 							bigAsteroids[i].IsAlive = false;
+							bigAsteroids[i].SpawnChild = true;
 							player.bullets[j].IsActive = false;
+
 
 						}
 					}
@@ -119,7 +116,7 @@ namespace asteroids
 
 			player.hitBox.position = { WidthF / 2, HeightF / 2 };
 
-			for (int i = 0; i < TOTAL_ASTEROIDS; i++)
+			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
 			{
 				bigAsteroids[i].hitBox.position = { NULL, NULL };
 				bigAsteroids[i].IsAlive = false;
@@ -127,11 +124,19 @@ namespace asteroids
 
 		}
 
-		static void InitAsteroid(Asteroid asteroids[], Texture2D texture)
+		static void InitAsteroids()
 		{
-			for (int i = 0; i < TOTAL_ASTEROIDS; i++)
+			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
 			{
-				asteroids[i].textureBigAsteroid = texture;
+				bigAsteroids[i].texture = LoadTexture("assets/PNG/Asteroids/BigAsteroid.png");
+			}
+			for (int i = 0; i < TOTAL_MEDIUM_ASTEROIDS; i++)
+			{
+				mediumAsteroids[i].texture = LoadTexture("assets/PNG/Asteroids/MediumAsteroid.png");
+			}
+			for (int i = 0; i < TOTAL_SMALL_ASTEROIDS; i++)
+			{
+				smallAsteroids[i].texture = LoadTexture("assets/PNG/Asteroids/SmallAsteroid.png");
 			}
 
 		}

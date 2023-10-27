@@ -10,3 +10,5 @@ struct Vector2i
 
 };
 
+float RandomDirection(int min, int max);
+
