@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ProjectUtilities/Utilities.h"
-#include "Objects/Bullet.h"
+#include "Spaceship.h"
 
 namespace asteroids
 {
@@ -25,11 +25,14 @@ namespace asteroids
 
 			Texture2D texture = {};
 
+			const int ASTEROID_DIVITION = 2;
+
+			float SCALE = {};
 		};
 
 		
 		void DrawAsteroid(Asteroid bigAsteroids[], Asteroid mediumAsteroids[], Asteroid smallAsteroids[]);
-		void AsteroidUpdate(Asteroid bigAsteroids[], Asteroid mediumAsteroids[]/*, Asteroid smallAsteroids[]*/);
+		void AsteroidUpdate(Asteroid bigAsteroids[], Asteroid mediumAsteroids[], Asteroid smallAsteroids[], Spaceship player);
 
 
 	}

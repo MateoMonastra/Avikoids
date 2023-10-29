@@ -14,9 +14,9 @@ namespace asteroids
 		static void Reset();
 		static void InitAsteroids();
 
-		const int TOTAL_BIG_ASTEROIDS = 10;
-		const int TOTAL_MEDIUM_ASTEROIDS = 20;
-		const int TOTAL_SMALL_ASTEROIDS = 40;
+		const int TOTAL_BIG_ASTEROIDS = 20;
+		const int TOTAL_MEDIUM_ASTEROIDS = 40;
+		const int TOTAL_SMALL_ASTEROIDS = 80;
 
 		Asteroid bigAsteroids[TOTAL_BIG_ASTEROIDS];
 		Asteroid mediumAsteroids[TOTAL_MEDIUM_ASTEROIDS];
@@ -29,38 +29,18 @@ namespace asteroids
 			float scale = 0.15f;
 			float WidthF = static_cast<float>(GetScreenWidth());
 			float HeightF = static_cast<float>(GetScreenHeight());
+			Texture2D bulletTexture = LoadTexture("assets/PNG/Bullets/BaseBullet.png");
 
-
-			player.lives = 3;
-			player.IsAlive = true;
-			player.hitBox.radius = 25;
-			player.hitBox.position = { WidthF / 2, HeightF / 2 };
-			player.textureRec.x = WidthF / 2;
-			player.textureRec.y = HeightF / 2;
-			player.textureRec.height = 50;
-			player.textureRec.width = 50;
-			player.texture = LoadTexture("assets/PNG/player/Player.png");
-
-			player.source = { 0,0,static_cast<float>(player.texture.width),static_cast<float>(player.texture.height) };
-
-			player.dest = { player.hitBox.position.x,player.hitBox.position.y,static_cast<float>(player.texture.width) * scale,static_cast<float>(player.texture.height) * scale };
-
-			player.origin = { static_cast<float>(player.source.width / 2) * scale , static_cast<float> (player.source.height / 4) * scale };
+			InitPlayer(player,WidthF, HeightF, scale, bulletTexture);
 
 			InitAsteroids();
-
-			for (int i = 0; i < player.maxBullets; i++)
-			{
-				player.bullets[i].texture = LoadTexture("assets/PNG/Bullets/BaseBullet.png");
-			}
-
 		}
 
 		void GameUpdate()
 		{
 			SpaceshipUpdate(player);
 
-			AsteroidUpdate(bigAsteroids, mediumAsteroids);
+			AsteroidUpdate(bigAsteroids, mediumAsteroids, smallAsteroids, player);
 
 			GameColitions();
 		}
@@ -76,6 +56,8 @@ namespace asteroids
 
 			DrawAsteroid(bigAsteroids, mediumAsteroids, smallAsteroids);
 
+			DrawText(TextFormat("SCORE: %i", player.score), 30, 30, 40, WHITE);
+			DrawText(TextFormat("SCORE: %i", player.lives), 30, 70, 40, WHITE);
 		}
 
 		static void GameColitions()
@@ -102,7 +84,64 @@ namespace asteroids
 							bigAsteroids[i].SpawnChild = true;
 							player.bullets[j].IsActive = false;
 
+							player.score += 75;
+						}
+					}
+				}
+			}
 
+			for (int i = 0; i < TOTAL_MEDIUM_ASTEROIDS; i++)
+			{
+				if (CheckCollisionCircles(player.hitBox.position, player.hitBox.radius, mediumAsteroids[i].hitBox.position, mediumAsteroids[i].hitBox.radius) && mediumAsteroids[i].IsAlive)
+				{
+					player.lives--;
+					Reset();
+
+					if (player.lives == 0)
+					{
+						player.IsAlive = false;
+					}
+				}
+				for (int j = 0; j < player.maxBullets; j++)
+				{
+					if (player.bullets[j].IsActive && mediumAsteroids[i].IsAlive)
+					{
+						if (CheckCollisionCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, mediumAsteroids[i].hitBox.position, mediumAsteroids[i].hitBox.radius))
+						{
+							mediumAsteroids[i].IsAlive = false;
+							mediumAsteroids[i].SpawnChild = true;
+							player.bullets[j].IsActive = false;
+
+							player.score += 120;
+
+						}
+					}
+				}
+			}
+
+			for (int i = 0; i < TOTAL_SMALL_ASTEROIDS; i++)
+			{
+				if (CheckCollisionCircles(player.hitBox.position, player.hitBox.radius, smallAsteroids[i].hitBox.position, smallAsteroids[i].hitBox.radius) && smallAsteroids[i].IsAlive)
+				{
+					player.lives--;
+					Reset();
+
+					if (player.lives == 0)
+					{
+						player.IsAlive = false;
+					}
+				}
+				for (int j = 0; j < player.maxBullets; j++)
+				{
+					if (player.bullets[j].IsActive && smallAsteroids[i].IsAlive)
+					{
+						if (CheckCollisionCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, smallAsteroids[i].hitBox.position, smallAsteroids[i].hitBox.radius))
+						{
+							smallAsteroids[i].IsAlive = false;
+							smallAsteroids[i].SpawnChild = true;
+							player.bullets[j].IsActive = false;
+
+							player.score += 175;
 						}
 					}
 				}
@@ -112,31 +151,51 @@ namespace asteroids
 		static void Reset()
 		{
 			float WidthF = static_cast<float>(GetScreenWidth());
-				float HeightF = static_cast<float>(GetScreenHeight());
+			float HeightF = static_cast<float>(GetScreenHeight());
 
 			player.hitBox.position = { WidthF / 2, HeightF / 2 };
 
+			for (int i = 0; i < player.maxBullets; i++)
+			{
+				player.bullets[i].IsActive = false;
+			}
+
 			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
 			{
-				bigAsteroids[i].hitBox.position = { NULL, NULL };
 				bigAsteroids[i].IsAlive = false;
 			}
+
+			for (int i = 0; i < TOTAL_MEDIUM_ASTEROIDS; i++)
+			{
+				mediumAsteroids[i].IsAlive = false;
+			}
+
+			for (int i = 0; i < TOTAL_SMALL_ASTEROIDS; i++)
+			{
+				smallAsteroids[i].IsAlive = false;
+			}
+
+			
 
 		}
 
 		static void InitAsteroids()
 		{
+			Texture2D bigAsteroidTexture = LoadTexture("assets/PNG/Asteroids/BigAsteroid.png");
+			Texture2D mediumAsteroidTexture = LoadTexture("assets/PNG/Asteroids/MediumAsteroid.png");
+			Texture2D smallAsteroidTexture = LoadTexture("assets/PNG/Asteroids/SmallAsteroid.png");
+
 			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
 			{
-				bigAsteroids[i].texture = LoadTexture("assets/PNG/Asteroids/BigAsteroid.png");
+				bigAsteroids[i].texture = bigAsteroidTexture;
 			}
 			for (int i = 0; i < TOTAL_MEDIUM_ASTEROIDS; i++)
 			{
-				mediumAsteroids[i].texture = LoadTexture("assets/PNG/Asteroids/MediumAsteroid.png");
+				mediumAsteroids[i].texture = mediumAsteroidTexture;
 			}
 			for (int i = 0; i < TOTAL_SMALL_ASTEROIDS; i++)
 			{
-				smallAsteroids[i].texture = LoadTexture("assets/PNG/Asteroids/SmallAsteroid.png");
+				smallAsteroids[i].texture = smallAsteroidTexture;
 			}
 
 		}

@@ -31,12 +31,15 @@ namespace asteroids
 			Texture2D texture = {};
 
 			Bullet bullets[maxBullets];
+
+			int score = 0;
 		};
 
 
 		void SpaceshipUpdate(Spaceship& player);
 		void SpaceshipMobility(Spaceship& player);
 		void SpaceshipDraw(Spaceship player);
+		void InitPlayer(Spaceship& player, float WidthF, float HeightF, float scale, const Texture2D& bulletTexture);
 
 	}
 

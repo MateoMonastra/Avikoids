@@ -8,6 +8,27 @@ namespace asteroids
 	{
 		static void SpaceshipShoot(Spaceship& player);
 
+		void InitPlayer(Spaceship& player, float WidthF, float HeightF, float scale, const Texture2D& bulletTexture)
+		{
+			player.lives = 3;
+			player.IsAlive = true;
+			player.hitBox.radius = 25;
+			player.hitBox.position = { WidthF / 2, HeightF / 2 };
+			player.texture = LoadTexture("assets/PNG/player/Player.png");
+
+			player.source = { 0,0,static_cast<float>(player.texture.width),static_cast<float>(player.texture.height) };
+
+			player.dest = { player.hitBox.position.x,player.hitBox.position.y,static_cast<float>(player.texture.width) * scale,static_cast<float>(player.texture.height) * scale };
+
+			player.origin = { static_cast<float>(player.source.width / 2) * scale , static_cast<float> (player.source.height / 4) * scale };
+
+
+			for (int i = 0; i < player.maxBullets; i++)
+			{
+				player.bullets[i].texture = bulletTexture;
+			}
+		}
+
 		void SpaceshipUpdate(Spaceship& player)
 		{
 

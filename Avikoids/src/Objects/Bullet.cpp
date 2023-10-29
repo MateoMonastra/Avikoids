@@ -16,7 +16,7 @@ namespace asteroids
 
 			bullet.rotation = playerRotation;
 			bullet.IsActive = true;
-			bullet.speed = { 300 };
+			bullet.speed = { 500 };
 		}
 
 		void BulletUpdate(Bullet& bullet)

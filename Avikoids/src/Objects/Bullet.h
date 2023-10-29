@@ -6,12 +6,6 @@ namespace asteroids
 {
 	namespace game
 	{
-		struct Circle
-		{
-			Vector2 position = {};
-			float radius = {};
-			Color color = {};
-		};
 
 		struct Bullet
 		{

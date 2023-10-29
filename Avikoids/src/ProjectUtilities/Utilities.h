@@ -10,5 +10,12 @@ struct Vector2i
 
 };
 
+struct Circle
+{
+	Vector2 position = {};
+	float radius = {};
+	Color color = {};
+};
+
 float RandomDirection(int min, int max);
 
