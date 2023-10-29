@@ -33,6 +33,8 @@ namespace asteroids
 			Bullet bullets[maxBullets];
 
 			int score = 0;
+
+			bool IsAutoShooting = false;
 		};
 
 

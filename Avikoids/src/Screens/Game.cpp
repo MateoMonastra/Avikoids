@@ -26,11 +26,12 @@ namespace asteroids
 
 		void InitGame()
 		{
+
 			float scale = 0.15f;
 			float WidthF = static_cast<float>(GetScreenWidth());
 			float HeightF = static_cast<float>(GetScreenHeight());
-			Texture2D bulletTexture = LoadTexture("assets/PNG/Bullets/BaseBullet.png");
 
+			Texture2D bulletTexture = LoadTexture("assets/PNG/Bullets/BaseBullet.png");
 			InitPlayer(player,WidthF, HeightF, scale, bulletTexture);
 
 			InitAsteroids();

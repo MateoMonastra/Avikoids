@@ -8,6 +8,8 @@ namespace asteroids
 	{
 		static void SpaceshipShoot(Spaceship& player);
 
+		double autoShootingTimer = GetTime();
+
 		void InitPlayer(Spaceship& player, float WidthF, float HeightF, float scale, const Texture2D& bulletTexture)
 		{
 			player.lives = 3;
@@ -34,9 +36,33 @@ namespace asteroids
 
 			SpaceshipMobility(player);
 
-			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+			if (IsMouseButtonPressed(MOUSE_BUTTON_MIDDLE))
 			{
-				SpaceshipShoot(player);
+				if (player.IsAutoShooting)
+				{
+					player.IsAutoShooting = false;
+				}
+				else
+				{
+					player.IsAutoShooting = true;
+				}
+			}
+
+			if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || player.IsAutoShooting)
+			{
+				if (!player.IsAutoShooting)
+				{
+					SpaceshipShoot(player);
+				}
+				else
+				{
+					if (GetTime() - autoShootingTimer > 0.23 )
+					{
+						SpaceshipShoot(player);
+
+						autoShootingTimer = GetTime();
+					}
+				}
 			}
 
 			for (int i = 0; i < player.maxBullets; i++)
@@ -86,7 +112,7 @@ namespace asteroids
 
 		static void SpaceshipShoot(Spaceship& player)
 		{
-			CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection,player.shipRotation);
+			CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation);
 
 			player.currentBullet++;
 
