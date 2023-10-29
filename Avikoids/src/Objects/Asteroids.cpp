@@ -258,8 +258,6 @@ namespace asteroids
 					smallAsteroid[i].hitBox.position.x += smallAsteroid[i].aceleration.x * smallAsteroid[i].velocity * GetFrameTime();
 					smallAsteroid[i].hitBox.position.y += smallAsteroid[i].aceleration.y * smallAsteroid[i].velocity * GetFrameTime();
 
-					mediumAsteroid[i].rotation += 50;
-
 					smallAsteroid[i].source = { 0,0,static_cast<float>(smallAsteroid[i].texture.width),static_cast<float>(smallAsteroid[i].texture.height) };
 					smallAsteroid[i].dest = { smallAsteroid[i].hitBox.position.x,smallAsteroid[i].hitBox.position.y,static_cast<float>(smallAsteroid[i].texture.width) * smallAsteroid[i].SCALE,static_cast<float>(smallAsteroid[i].texture.height) * smallAsteroid[i].SCALE };
 					smallAsteroid[i].origin = { static_cast<float>(smallAsteroid[i].source.width / 2) * smallAsteroid[i].SCALE, static_cast<float> (smallAsteroid[i].source.height / 2) * smallAsteroid[i].SCALE };

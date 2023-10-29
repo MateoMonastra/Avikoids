@@ -11,17 +11,10 @@ namespace asteroids
 
 		struct Button
 		{
-			Vector2i recPosition_i = {};
-			Vector2 recPosition_f = {};
-			int recW = {};
-			int recH = {};
-			Color RecColor = WHITE;
-
-			const char* text = " ";
-			Vector2i TextPosition_i = {};
-			Vector2 TextPosition_f = {};
-			Color TextColor = BLACK;
-			int size = {};
+			Vector2 position = {};
+			Color color = WHITE;
+			Texture2D sprite = {};
+			float scale = 0;
 		};
 
 		static Button title;
@@ -34,51 +27,27 @@ namespace asteroids
 		void InitMenu()
 		{
 			float middleScreenf = static_cast<float>(GetScreenWidth() / 2);
-			int middleScreeni = GetScreenWidth() / 2;
 
-			title.recPosition_i = { middleScreeni - 180 , 20 };
-			title.recPosition_f = { middleScreenf - 180 , 20 };
-			title.recW = 350;
-			title.recH = 90;
-			title.RecColor = BLUE;
+			title.position = { middleScreenf - 360 , 40 };
+			title.sprite = LoadTexture("assets/PNG/Menu/Header.png");
+			title.scale = 0.7f;
 
-			title.TextPosition_i = { middleScreeni - 100, 50 };
-			title.TextPosition_f = { middleScreenf - 100, 50 };
-			title.text = "Avikoids";
-			title.size = 40;
+			game.position = { middleScreenf - 118 , 380 };
+			game.sprite = LoadTexture("assets/PNG/Menu/PlayButton.png");
+			game.scale = 0.6f;
 
-
-			game.recPosition_i = { middleScreeni - 128, 175 };
-			game.recPosition_f = { middleScreenf - 128 , 175 };
-			game.recW = 250;
-			game.recH = 90;
-			game.RecColor = RED;
-
-			game.TextPosition_i = { middleScreeni - 40, 200 };
-			game.TextPosition_f = { middleScreenf - 40, 200 };
-			game.text = "Play";
-			game.size = 40;
-
-			exit.recPosition_i = { middleScreeni - 128, 350 };
-			exit.recPosition_f = { middleScreenf - 128, 350 };
-			exit.recW = 250;
-			exit.recH = 90;
-			exit.RecColor = YELLOW;
-
-			exit.TextPosition_i = { middleScreeni - 40, 375 };
-			exit.TextPosition_f = { middleScreenf - 40, 375 };
-			exit.text = "Exit";
-			exit.size = 40;
-
+			exit.position = { middleScreenf - 118, 550 };
+			exit.sprite = LoadTexture("assets/PNG/Menu/ExitButton.png");
+			exit.scale = 0.6f;
 		}
 
 		bool MouseMenuColision(float mousex, float mousey, Button rec)
 		{
 
-			if (mousex >= rec.recPosition_f.x &&
-				mousex <= rec.recPosition_f.x + rec.recW &&
-				mousey >= rec.recPosition_f.y &&
-				mousey <= rec.recPosition_f.y + rec.recH)
+			if (mousex >= rec.position.x &&
+				mousex <= rec.position.x + rec.sprite.width * rec.scale &&
+				mousey >= rec.position.y &&
+				mousey <= rec.position.y + rec.sprite.height * rec.scale)
 			{
 				return true;
 			}
@@ -92,7 +61,7 @@ namespace asteroids
 
 			if (MouseMenuColision(mousePosition.x, mousePosition.y, game))
 			{
-				game.RecColor = WHITE;
+				game.color = GRAY;
 
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
@@ -102,7 +71,7 @@ namespace asteroids
 			}
 			else if (MouseMenuColision(mousePosition.x, mousePosition.y, exit))
 			{
-				exit.RecColor = WHITE;
+				exit.color = GRAY;
 
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
@@ -111,8 +80,8 @@ namespace asteroids
 			}
 			else
 			{
-				game.RecColor = MAROON;
-				exit.RecColor = YELLOW;
+				game.color = WHITE;
+				exit.color = WHITE;
 			}
 
 
@@ -129,9 +98,7 @@ namespace asteroids
 
 		static void DrawButton(Button button)
 		{
-			DrawRectangle(button.recPosition_i.x, button.recPosition_i.y, button.recW, button.recH, button.RecColor);
-			DrawText(button.text, button.TextPosition_i.x, button.TextPosition_i.y, button.size, button.TextColor);
-
+			DrawTextureEx(button.sprite,button.position,0,button.scale,button.color);
 		}
 	}
 }
