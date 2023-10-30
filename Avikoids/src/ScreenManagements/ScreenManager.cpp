@@ -4,6 +4,7 @@
 #include "ProjectUtilities/Utilities.h"
 #include "Screens/Menu.h"
 #include "Screens/Game.h"
+#include "Screens/Credits.h"
 
 namespace asteroids
 {
@@ -57,7 +58,7 @@ namespace asteroids
 				game::GameUpdate(currentScreen);
 				break;
 			case Screen::Credits:
-				/*CreditsUpdate(currentScreen);*/
+				credits::CreditsUpdate(currentScreen);
 				break;
 			case Screen::Exit:
 				Close();
@@ -81,7 +82,7 @@ namespace asteroids
 				game::DrawGame();
 				break;
 			case Screen::Credits:
-				/*CreditsDrawing();*/
+				credits::CreditsDrawing();
 				break;
 			default:
 				break;

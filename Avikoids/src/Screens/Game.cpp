@@ -27,7 +27,7 @@ namespace asteroids
 		GameScenes actualScene;
 		Button showScore;
 		Button showPlayerLife;
-		Button Rules;
+		Button ShowRules;
 		Button NextButton;
 		Button ReturnMenuButton;
 		Button PlayAganButton;
@@ -82,7 +82,12 @@ namespace asteroids
 						currentScene = Screen::Menu;
 					}
 				}
-				else if (MouseMenuColision(PlayAganButton))
+				else
+				{
+					ReturnMenuButton.color = WHITE;
+				}
+				
+				if (MouseMenuColision(PlayAganButton))
 				{
 					PlayAganButton.color = GRAY;
 
@@ -93,7 +98,6 @@ namespace asteroids
 				}
 				else
 				{
-					ReturnMenuButton.color = WHITE;
 					PlayAganButton.color = WHITE;
 				}
 			}
@@ -103,7 +107,7 @@ namespace asteroids
 		{
 			if (actualScene == GameScenes::ShowRules)
 			{
-				DrawTextureEx(Rules.sprite, Rules.position, 0, Rules.scale, Rules.color);
+				DrawTextureEx(ShowRules.sprite, ShowRules.position, 0, ShowRules.scale, ShowRules.color);
 				DrawTextureEx(NextButton.sprite, NextButton.position, 0, NextButton.scale, NextButton.color);
 			}
 			else if (actualScene == GameScenes::Playing)
@@ -122,7 +126,11 @@ namespace asteroids
 			}
 			else if (actualScene == GameScenes::Lose)
 			{
+				showScore.position = { 100, 300 };
+				showScore.fontSize = 60;
+
 				DrawText(TextFormat("HIGHSCORE: %i", player.highScore), static_cast<int>(showPlayerHighscore.position.x), static_cast<int>(showPlayerHighscore.position.y), showPlayerHighscore.fontSize, showPlayerHighscore.color);
+				DrawText(TextFormat("YOUR SCORE WAS: %i", player.score), static_cast<int>(showScore.position.x), static_cast<int>(showScore.position.y), showScore.fontSize, showScore.color);
 				DrawTextureEx(PlayAganButton.sprite, PlayAganButton.position, 0, PlayAganButton.scale, PlayAganButton.color);
 				DrawTextureEx(ReturnMenuButton.sprite, ReturnMenuButton.position, 0, ReturnMenuButton.scale, ReturnMenuButton.color);
 			}
@@ -261,22 +269,23 @@ namespace asteroids
 			showPlayerLife.fontSize = 40;
 			showPlayerLife.position = { 30,70 };
 
-			Rules.position = { 140,100 };
-			Rules.scale = 1;
-			Rules.sprite = LoadTexture("res/PNG/Game/Rules/ShowRules.png");
+			ShowRules.position = { 140,100 };
+			ShowRules.scale = 1;
+			ShowRules.sprite = LoadTexture("res/PNG/Game/Rules/ShowRules.png");
 
 			NextButton.position = { 600,600 };
 			NextButton.scale = 0.6f;
 			NextButton.sprite = LoadTexture("res/PNG/Game/Rules/NextButton.png");
 
-			ReturnMenuButton.position = { 400,450 };
+			ReturnMenuButton.position = { 400,550 };
 			ReturnMenuButton.scale = 0.6f;
 			ReturnMenuButton.sprite = LoadTexture("res/PNG/Game/Lose/ReturnMenuButton.png");
 
 			showPlayerHighscore.position = { 100, 150 };
 			showPlayerHighscore.fontSize = 80;
+			showPlayerHighscore.color = PINK;
 
-			PlayAganButton.position = { 400,300 };
+			PlayAganButton.position = { 400,450 };
 			PlayAganButton.scale = 0.6f;
 			PlayAganButton.sprite = LoadTexture("res/PNG/Game/Lose/PlayAgainButton.png");
 

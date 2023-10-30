@@ -67,7 +67,7 @@ namespace asteroids
 			float HeightF = static_cast<float>(GetScreenHeight());
 			Texture2D bulletTexture = LoadTexture("res/PNG/Game/Play/Bullets/BaseBullet.png");
 
-			player.lives = 3;
+			player.lives = 1;
 			player.IsAlive = true;
 			player.hitBox.radius = 25;
 			player.hitBox.position = { WidthF / 2, HeightF / 2 };

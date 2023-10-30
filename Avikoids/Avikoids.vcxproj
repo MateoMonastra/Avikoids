@@ -25,6 +25,7 @@
     <ClCompile Include="src\Objects\SpaceShip.cpp" />
     <ClCompile Include="src\ProjectUtilities\Utilities.cpp" />
     <ClCompile Include="src\ScreenManagements\ScreenManager.cpp" />
+    <ClCompile Include="src\Screens\Credits.cpp" />
     <ClCompile Include="src\Screens\Game.cpp" />
     <ClCompile Include="src\Screens\Menu.cpp" />
   </ItemGroup>
@@ -36,6 +37,7 @@
     <ClInclude Include="src\ScreenManagements\GameScenes.h" />
     <ClInclude Include="src\ScreenManagements\Screen.h" />
     <ClInclude Include="src\ScreenManagements\ScreenManager.h" />
+    <ClInclude Include="src\Screens\Credits.h" />
     <ClInclude Include="src\Screens\Game.h" />
     <ClInclude Include="src\Screens\Menu.h" />
   </ItemGroup>

@@ -3,6 +3,7 @@
 #include "ProjectUtilities/Utilities.h"
 #include "ScreenManagements/Screen.h"
 #include "Game.h"
+#include "Credits.h"
 
 
 namespace asteroids
@@ -12,6 +13,7 @@ namespace asteroids
 		static Button title;
 		static Button game;
 		static Button exit;
+		static Button credits;
 
 		static void DrawButton(Button button);
 
@@ -27,9 +29,14 @@ namespace asteroids
 			game.sprite = LoadTexture("res/PNG/Menu/PlayButton.png");
 			game.scale = 0.6f;
 
-			exit.position = { middleScreenf - 118, 550 };
+			credits.position = { middleScreenf - 118, 470 };
+			credits.sprite = LoadTexture("res/PNG/Menu/CreditsButton.png");
+			credits.scale = 0.6f;
+			
+			exit.position = { middleScreenf - 118, 560 };
 			exit.sprite = LoadTexture("res/PNG/Menu/ExitButton.png");
 			exit.scale = 0.6f;
+
 		}
 
 		void MenuUpdate(Screen& currentScreen)
@@ -44,7 +51,12 @@ namespace asteroids
 					game::InitGame();
 				}
 			}
-			else if (MouseMenuColision(exit))
+			else
+			{
+				game.color = WHITE;
+			}
+
+			if (MouseMenuColision(exit))
 			{
 				exit.color = GRAY;
 
@@ -55,8 +67,22 @@ namespace asteroids
 			}
 			else
 			{
-				game.color = WHITE;
 				exit.color = WHITE;
+			}
+			
+			if (MouseMenuColision(credits))
+			{
+				credits.color = GRAY;
+
+				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+				{
+					currentScreen = Screen::Credits;
+					credits::InitCredits();
+				}
+			}
+			else
+			{
+				credits.color = WHITE;
 			}
 
 
@@ -69,6 +95,7 @@ namespace asteroids
 			DrawButton(title);
 			DrawButton(game);
 			DrawButton(exit);
+			DrawButton(credits);
 		}
 
 		static void DrawButton(Button button)
