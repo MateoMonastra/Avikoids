@@ -3,11 +3,12 @@
 #include "raylib.h"
 #include "raymath.h"
 
-struct Vector2i
+struct Button
 {
-	int x = {};
-	int y = {};
-
+	Vector2 position = {};
+	Color color = WHITE;
+	Texture2D sprite = {};
+	float scale = 0;
 };
 
 struct Circle

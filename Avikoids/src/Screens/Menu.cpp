@@ -8,15 +8,6 @@ namespace asteroids
 {
 	namespace menu
 	{
-
-		struct Button
-		{
-			Vector2 position = {};
-			Color color = WHITE;
-			Texture2D sprite = {};
-			float scale = 0;
-		};
-
 		static Button title;
 		static Button game;
 		static Button exit;

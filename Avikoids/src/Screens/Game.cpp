@@ -4,6 +4,8 @@
 #include "Objects/SpaceShip.h"
 #include "Objects/Bullet.h"
 #include "Objects/Asteroids.h"
+#include "ScreenManagements/GameScenes.h"
+
 
 namespace asteroids
 {
@@ -22,7 +24,7 @@ namespace asteroids
 		Asteroid mediumAsteroids[TOTAL_MEDIUM_ASTEROIDS];
 		Asteroid smallAsteroids[TOTAL_SMALL_ASTEROIDS];
 		Spaceship player;
-
+		GameScenes actualScene;
 
 		void InitGame()
 		{
@@ -33,32 +35,44 @@ namespace asteroids
 
 			Texture2D bulletTexture = LoadTexture("res/PNG/Bullets/BaseBullet.png");
 			InitPlayer(player,WidthF, HeightF, scale, bulletTexture);
-
 			InitAsteroids();
+
+			actualScene = GameScenes::ShowRules;
+
 		}
 
 		void GameUpdate()
 		{
+			if (actualScene == GameScenes::Playing)
+			{
 			SpaceshipUpdate(player);
 
 			AsteroidUpdate(bigAsteroids, mediumAsteroids, smallAsteroids, player);
 
 			GameColitions();
+			}
 		}
 
 		void DrawGame()
 		{
-			SpaceshipDraw(player);
-
-			for (int i = 0; i < player.maxBullets; i++)
+			if (actualScene == GameScenes::ShowRules)
 			{
-				DrawBullet(player.bullets[i]);
+
 			}
+			else if (actualScene == GameScenes::Playing)
+			{
+				SpaceshipDraw(player);
 
-			DrawAsteroid(bigAsteroids, mediumAsteroids, smallAsteroids);
+				for (int i = 0; i < player.maxBullets; i++)
+				{
+					DrawBullet(player.bullets[i]);
+				}
 
-			DrawText(TextFormat("SCORE: %i", player.score), 30, 30, 40, WHITE);
-			DrawText(TextFormat("SCORE: %i", player.lives), 30, 70, 40, WHITE);
+				DrawAsteroid(bigAsteroids, mediumAsteroids, smallAsteroids);
+
+				DrawText(TextFormat("SCORE: %i", player.score), 30, 30, 40, WHITE);
+				DrawText(TextFormat("SCORE: %i", player.lives), 30, 70, 40, WHITE);
+			}
 		}
 
 		static void GameColitions()
