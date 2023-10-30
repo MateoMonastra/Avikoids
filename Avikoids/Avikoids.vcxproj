@@ -19,24 +19,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="..\src\Objects\Asteroids.cpp" />
-    <ClCompile Include="..\src\Objects\Bullet.cpp" />
-    <ClCompile Include="..\src\Objects\SpaceShip.cpp" />
-    <ClCompile Include="..\src\ProjectUtilities\Utilities.cpp" />
-    <ClCompile Include="..\src\ScreenManagements\ScreenManager.cpp" />
-    <ClCompile Include="..\src\Screens\Game.cpp" />
-    <ClCompile Include="..\src\Screens\Menu.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Objects\Asteroids.cpp" />
+    <ClCompile Include="src\Objects\Bullet.cpp" />
+    <ClCompile Include="src\Objects\SpaceShip.cpp" />
+    <ClCompile Include="src\ProjectUtilities\Utilities.cpp" />
+    <ClCompile Include="src\ScreenManagements\ScreenManager.cpp" />
+    <ClCompile Include="src\Screens\Game.cpp" />
+    <ClCompile Include="src\Screens\Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\Objects\Asteroids.h" />
-    <ClInclude Include="..\src\Objects\Bullet.h" />
-    <ClInclude Include="..\src\Objects\SpaceShip.h" />
-    <ClInclude Include="..\src\ProjectUtilities\Utilities.h" />
-    <ClInclude Include="..\src\ScreenManagements\Screen.h" />
-    <ClInclude Include="..\src\ScreenManagements\ScreenManager.h" />
-    <ClInclude Include="..\src\Screens\Game.h" />
-    <ClInclude Include="..\src\Screens\Menu.h" />
+    <ClInclude Include="src\Objects\Asteroids.h" />
+    <ClInclude Include="src\Objects\Bullet.h" />
+    <ClInclude Include="src\Objects\SpaceShip.h" />
+    <ClInclude Include="src\ProjectUtilities\Utilities.h" />
+    <ClInclude Include="src\ScreenManagements\GameScenes.h" />
+    <ClInclude Include="src\ScreenManagements\Screen.h" />
+    <ClInclude Include="src\ScreenManagements\ScreenManager.h" />
+    <ClInclude Include="src\Screens\Game.h" />
+    <ClInclude Include="src\Screens\Menu.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -118,7 +119,7 @@
       </Command>
     </PreBuildEvent>
     <PostBuildEvent>
-      <Command>xcopy /y /i /s "$(ProjectDir)assets" "$(OutDir)assets"</Command>
+      <Command>xcopy /y /i /s "$(ProjectDir)res" "$(OutDir)res"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -142,7 +143,7 @@
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y /i /s "$(ProjectDir)assets" "$(OutDir)assets"</Command>
+      <Command>xcopy /y /i /s "$(ProjectDir)res" "$(OutDir)res"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>

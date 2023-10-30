@@ -31,7 +31,7 @@ namespace asteroids
 			float WidthF = static_cast<float>(GetScreenWidth());
 			float HeightF = static_cast<float>(GetScreenHeight());
 
-			Texture2D bulletTexture = LoadTexture("assets/PNG/Bullets/BaseBullet.png");
+			Texture2D bulletTexture = LoadTexture("res/PNG/Bullets/BaseBullet.png");
 			InitPlayer(player,WidthF, HeightF, scale, bulletTexture);
 
 			InitAsteroids();
@@ -182,9 +182,9 @@ namespace asteroids
 
 		static void InitAsteroids()
 		{
-			Texture2D bigAsteroidTexture = LoadTexture("assets/PNG/Asteroids/BigAsteroid.png");
-			Texture2D mediumAsteroidTexture = LoadTexture("assets/PNG/Asteroids/MediumAsteroid.png");
-			Texture2D smallAsteroidTexture = LoadTexture("assets/PNG/Asteroids/SmallAsteroid.png");
+			Texture2D bigAsteroidTexture = LoadTexture("res/PNG/Asteroids/BigAsteroid.png");
+			Texture2D mediumAsteroidTexture = LoadTexture("res/PNG/Asteroids/MediumAsteroid.png");
+			Texture2D smallAsteroidTexture = LoadTexture("res/PNG/Asteroids/SmallAsteroid.png");
 
 			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
 			{

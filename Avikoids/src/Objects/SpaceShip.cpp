@@ -16,7 +16,7 @@ namespace asteroids
 			player.IsAlive = true;
 			player.hitBox.radius = 25;
 			player.hitBox.position = { WidthF / 2, HeightF / 2 };
-			player.texture = LoadTexture("assets/PNG/player/Player.png");
+			player.texture = LoadTexture("res/PNG/player/Player.png");
 
 			player.source = { 0,0,static_cast<float>(player.texture.width),static_cast<float>(player.texture.height) };
 

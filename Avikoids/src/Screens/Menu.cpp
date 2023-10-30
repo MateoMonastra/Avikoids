@@ -29,15 +29,15 @@ namespace asteroids
 			float middleScreenf = static_cast<float>(GetScreenWidth() / 2);
 
 			title.position = { middleScreenf - 360 , 40 };
-			title.sprite = LoadTexture("assets/PNG/Menu/Header.png");
+			title.sprite = LoadTexture("res/PNG/Menu/Header.png");
 			title.scale = 0.7f;
 
 			game.position = { middleScreenf - 118 , 380 };
-			game.sprite = LoadTexture("assets/PNG/Menu/PlayButton.png");
+			game.sprite = LoadTexture("res/PNG/Menu/PlayButton.png");
 			game.scale = 0.6f;
 
 			exit.position = { middleScreenf - 118, 550 };
-			exit.sprite = LoadTexture("assets/PNG/Menu/ExitButton.png");
+			exit.sprite = LoadTexture("res/PNG/Menu/ExitButton.png");
 			exit.scale = 0.6f;
 		}
 
