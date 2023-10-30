@@ -1,10 +1,16 @@
 #pragma once
 
-enum class GameScenes
+namespace asteroids
 {
-	ShowRules = 1,
-	ShowPowerUps,
-	Playing,
-	Paused,
-	Lose
-};
+	namespace game 
+	{
+		enum class GameScenes
+		{
+			ShowRules = 1,
+			ShowPowerUps,
+			Playing,
+			Paused,
+			Lose
+		};
+	}
+}

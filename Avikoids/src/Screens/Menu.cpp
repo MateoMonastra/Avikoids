@@ -4,6 +4,7 @@
 #include "ScreenManagements/Screen.h"
 #include "Game.h"
 
+
 namespace asteroids
 {
 	namespace menu
@@ -12,7 +13,6 @@ namespace asteroids
 		static Button game;
 		static Button exit;
 
-		static bool MouseMenuColision(float mousex, float mousey, Button recPos);
 		static void DrawButton(Button button);
 
 		void InitMenu()
@@ -32,25 +32,9 @@ namespace asteroids
 			exit.scale = 0.6f;
 		}
 
-		bool MouseMenuColision(float mousex, float mousey, Button rec)
-		{
-
-			if (mousex >= rec.position.x &&
-				mousex <= rec.position.x + rec.sprite.width * rec.scale &&
-				mousey >= rec.position.y &&
-				mousey <= rec.position.y + rec.sprite.height * rec.scale)
-			{
-				return true;
-			}
-			return false;
-		}
-
 		void MenuUpdate(Screen& currentScreen)
 		{
-			Vector2 mousePosition = GetMousePosition();
-
-
-			if (MouseMenuColision(mousePosition.x, mousePosition.y, game))
+			if (MouseMenuColision( game))
 			{
 				game.color = GRAY;
 
@@ -60,7 +44,7 @@ namespace asteroids
 					game::InitGame();
 				}
 			}
-			else if (MouseMenuColision(mousePosition.x, mousePosition.y, exit))
+			else if (MouseMenuColision(exit))
 			{
 				exit.color = GRAY;
 

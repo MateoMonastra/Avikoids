@@ -26,22 +26,24 @@ namespace asteroids
 			bool IsAlive = {};
 
 			Vector2 velocity = {};
-			float aceleration = { -1 };
+			float aceleration = {-1};
 
 			Texture2D texture = {};
 
 			Bullet bullets[maxBullets];
 
 			int score = 0;
+			int highScore = 0;
 
 			bool IsAutoShooting = false;
+
 		};
 
 
 		void SpaceshipUpdate(Spaceship& player);
-		void SpaceshipMobility(Spaceship& player);
 		void SpaceshipDraw(Spaceship player);
-		void InitPlayer(Spaceship& player, float WidthF, float HeightF, float scale, const Texture2D& bulletTexture);
+		void InitPlayer(Spaceship& player);
+		void UpdateHighScore(Spaceship& player);
 
 	}
 

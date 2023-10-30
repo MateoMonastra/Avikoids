@@ -2,11 +2,11 @@
 
 namespace asteroids
 {
-    enum class Screen
-    {
-        Menu,
-        Game,
-        Credits,
-        Exit
-    };
+        enum class Screen
+        {
+            Menu,
+            Game,
+            Credits,
+            Exit
+        };
 }

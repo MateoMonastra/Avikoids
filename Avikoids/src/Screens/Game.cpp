@@ -14,7 +14,7 @@ namespace asteroids
 
 		static void GameColitions();
 		static void Reset();
-		static void InitAsteroids();
+		static void initSprites();
 
 		const int TOTAL_BIG_ASTEROIDS = 20;
 		const int TOTAL_MEDIUM_ASTEROIDS = 40;
@@ -25,31 +25,77 @@ namespace asteroids
 		Asteroid smallAsteroids[TOTAL_SMALL_ASTEROIDS];
 		Spaceship player;
 		GameScenes actualScene;
+		Button showScore;
+		Button showPlayerLife;
+		Button Rules;
+		Button NextButton;
+		Button ReturnMenuButton;
+		Button PlayAganButton;
+		Button showPlayerHighscore;
 
 		void InitGame()
 		{
-
-			float scale = 0.15f;
-			float WidthF = static_cast<float>(GetScreenWidth());
-			float HeightF = static_cast<float>(GetScreenHeight());
-
-			Texture2D bulletTexture = LoadTexture("res/PNG/Bullets/BaseBullet.png");
-			InitPlayer(player,WidthF, HeightF, scale, bulletTexture);
-			InitAsteroids();
+			initSprites();
+			InitPlayer(player);
+			InitAsteroids(bigAsteroids, mediumAsteroids, smallAsteroids);
+			Reset();
 
 			actualScene = GameScenes::ShowRules;
-
 		}
 
-		void GameUpdate()
+		void GameUpdate(Screen& currentScene)
 		{
 			if (actualScene == GameScenes::Playing)
 			{
-			SpaceshipUpdate(player);
+				SpaceshipUpdate(player);
 
-			AsteroidUpdate(bigAsteroids, mediumAsteroids, smallAsteroids, player);
+				AsteroidUpdate(bigAsteroids, mediumAsteroids, smallAsteroids, player);
 
-			GameColitions();
+				GameColitions();
+			}
+			else if (actualScene == GameScenes::ShowRules)
+			{
+				if (MouseMenuColision(NextButton))
+				{
+					NextButton.color = GRAY;
+
+					if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+					{
+						InitGame();
+						actualScene = GameScenes::Playing;
+					}
+				}
+				else
+				{
+					NextButton.color = WHITE;
+				}
+			}
+			else if (actualScene == GameScenes::Lose)
+			{
+				if (MouseMenuColision(ReturnMenuButton))
+				{
+					ReturnMenuButton.color = GRAY;
+
+					if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+					{
+						actualScene = GameScenes::ShowRules;
+						currentScene = Screen::Menu;
+					}
+				}
+				else if (MouseMenuColision(PlayAganButton))
+				{
+					PlayAganButton.color = GRAY;
+
+					if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+					{
+						actualScene = GameScenes::ShowRules;
+					}
+				}
+				else
+				{
+					ReturnMenuButton.color = WHITE;
+					PlayAganButton.color = WHITE;
+				}
 			}
 		}
 
@@ -57,7 +103,8 @@ namespace asteroids
 		{
 			if (actualScene == GameScenes::ShowRules)
 			{
-
+				DrawTextureEx(Rules.sprite, Rules.position, 0, Rules.scale, Rules.color);
+				DrawTextureEx(NextButton.sprite, NextButton.position, 0, NextButton.scale, NextButton.color);
 			}
 			else if (actualScene == GameScenes::Playing)
 			{
@@ -70,8 +117,14 @@ namespace asteroids
 
 				DrawAsteroid(bigAsteroids, mediumAsteroids, smallAsteroids);
 
-				DrawText(TextFormat("SCORE: %i", player.score), 30, 30, 40, WHITE);
-				DrawText(TextFormat("SCORE: %i", player.lives), 30, 70, 40, WHITE);
+				DrawText(TextFormat("SCORE: %i", player.score), static_cast<int>(showScore.position.x), static_cast<int>(showScore.position.y), showScore.fontSize, showScore.color);
+				DrawText(TextFormat("LIVES: %i", player.lives), static_cast<int>(showPlayerLife.position.x), static_cast<int>(showPlayerLife.position.y), showPlayerLife.fontSize, showPlayerLife.color);
+			}
+			else if (actualScene == GameScenes::Lose)
+			{
+				DrawText(TextFormat("HIGHSCORE: %i", player.highScore), static_cast<int>(showPlayerHighscore.position.x), static_cast<int>(showPlayerHighscore.position.y), showPlayerHighscore.fontSize, showPlayerHighscore.color);
+				DrawTextureEx(PlayAganButton.sprite, PlayAganButton.position, 0, PlayAganButton.scale, PlayAganButton.color);
+				DrawTextureEx(ReturnMenuButton.sprite, ReturnMenuButton.position, 0, ReturnMenuButton.scale, ReturnMenuButton.color);
 			}
 		}
 
@@ -87,6 +140,8 @@ namespace asteroids
 					if (player.lives == 0)
 					{
 						player.IsAlive = false;
+						actualScene = GameScenes::Lose;
+						UpdateHighScore(player);
 					}
 				}
 				for (int j = 0; j < player.maxBullets; j++)
@@ -115,6 +170,8 @@ namespace asteroids
 					if (player.lives == 0)
 					{
 						player.IsAlive = false;
+						actualScene = GameScenes::Lose;
+						UpdateHighScore(player);
 					}
 				}
 				for (int j = 0; j < player.maxBullets; j++)
@@ -144,6 +201,8 @@ namespace asteroids
 					if (player.lives == 0)
 					{
 						player.IsAlive = false;
+						actualScene = GameScenes::Lose;
+						UpdateHighScore(player);
 					}
 				}
 				for (int j = 0; j < player.maxBullets; j++)
@@ -169,6 +228,8 @@ namespace asteroids
 			float HeightF = static_cast<float>(GetScreenHeight());
 
 			player.hitBox.position = { WidthF / 2, HeightF / 2 };
+			player.IsAutoShooting = false;
+			player.velocity = { 0, 0 };
 
 			for (int i = 0; i < player.maxBullets; i++)
 			{
@@ -190,28 +251,34 @@ namespace asteroids
 				smallAsteroids[i].IsAlive = false;
 			}
 
-			
-
 		}
 
-		static void InitAsteroids()
+		static void initSprites()
 		{
-			Texture2D bigAsteroidTexture = LoadTexture("res/PNG/Asteroids/BigAsteroid.png");
-			Texture2D mediumAsteroidTexture = LoadTexture("res/PNG/Asteroids/MediumAsteroid.png");
-			Texture2D smallAsteroidTexture = LoadTexture("res/PNG/Asteroids/SmallAsteroid.png");
+			showScore.fontSize = 40;
+			showScore.position = { 30,30 };
 
-			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
-			{
-				bigAsteroids[i].texture = bigAsteroidTexture;
-			}
-			for (int i = 0; i < TOTAL_MEDIUM_ASTEROIDS; i++)
-			{
-				mediumAsteroids[i].texture = mediumAsteroidTexture;
-			}
-			for (int i = 0; i < TOTAL_SMALL_ASTEROIDS; i++)
-			{
-				smallAsteroids[i].texture = smallAsteroidTexture;
-			}
+			showPlayerLife.fontSize = 40;
+			showPlayerLife.position = { 30,70 };
+
+			Rules.position = { 140,100 };
+			Rules.scale = 1;
+			Rules.sprite = LoadTexture("res/PNG/Game/Rules/ShowRules.png");
+
+			NextButton.position = { 600,600 };
+			NextButton.scale = 0.6f;
+			NextButton.sprite = LoadTexture("res/PNG/Game/Rules/NextButton.png");
+
+			ReturnMenuButton.position = { 400,450 };
+			ReturnMenuButton.scale = 0.6f;
+			ReturnMenuButton.sprite = LoadTexture("res/PNG/Game/Lose/ReturnMenuButton.png");
+
+			showPlayerHighscore.position = { 100, 150 };
+			showPlayerHighscore.fontSize = 80;
+
+			PlayAganButton.position = { 400,300 };
+			PlayAganButton.scale = 0.6f;
+			PlayAganButton.sprite = LoadTexture("res/PNG/Game/Lose/PlayAgainButton.png");
 
 		}
 	}

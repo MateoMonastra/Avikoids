@@ -7,29 +7,9 @@ namespace asteroids
 	namespace game
 	{
 		static void SpaceshipShoot(Spaceship& player);
+		static void SpaceshipMobility(Spaceship& player);
 
 		double autoShootingTimer = GetTime();
-
-		void InitPlayer(Spaceship& player, float WidthF, float HeightF, float scale, const Texture2D& bulletTexture)
-		{
-			player.lives = 3;
-			player.IsAlive = true;
-			player.hitBox.radius = 25;
-			player.hitBox.position = { WidthF / 2, HeightF / 2 };
-			player.texture = LoadTexture("res/PNG/player/Player.png");
-
-			player.source = { 0,0,static_cast<float>(player.texture.width),static_cast<float>(player.texture.height) };
-
-			player.dest = { player.hitBox.position.x,player.hitBox.position.y,static_cast<float>(player.texture.width) * scale,static_cast<float>(player.texture.height) * scale };
-
-			player.origin = { static_cast<float>(player.source.width / 2) * scale , static_cast<float> (player.source.height / 4) * scale };
-
-
-			for (int i = 0; i < player.maxBullets; i++)
-			{
-				player.bullets[i].texture = bulletTexture;
-			}
-		}
 
 		void SpaceshipUpdate(Spaceship& player)
 		{
@@ -70,8 +50,67 @@ namespace asteroids
 				BulletUpdate(player.bullets[i]);
 			}
 		}
+		
+		void SpaceshipDraw(Spaceship player)
+		{
+			if (player.IsAlive)
+			{
+				DrawTexturePro(player.texture, player.source, player.dest, player.origin, static_cast<float>(player.shipRotation), WHITE);
+				DrawCircle(static_cast<int>(player.hitBox.position.x), static_cast<int>(player.hitBox.position.y), player.hitBox.radius, GREEN);
+			}
+		}
+		
+		void InitPlayer(Spaceship& player)
+		{
+			float scale = 0.15f;
+			float WidthF = static_cast<float>(GetScreenWidth());
+			float HeightF = static_cast<float>(GetScreenHeight());
+			Texture2D bulletTexture = LoadTexture("res/PNG/Game/Play/Bullets/BaseBullet.png");
 
-		void SpaceshipMobility(Spaceship& player)
+			player.lives = 3;
+			player.IsAlive = true;
+			player.hitBox.radius = 25;
+			player.hitBox.position = { WidthF / 2, HeightF / 2 };
+			player.texture = LoadTexture("res/PNG/Game/Play/player/Player.png");
+			player.score = 0;
+			player.velocity = { 0, 0 };
+
+			player.source = { 0,0,static_cast<float>(player.texture.width),static_cast<float>(player.texture.height) };
+
+			player.dest = { player.hitBox.position.x,player.hitBox.position.y,static_cast<float>(player.texture.width) * scale,static_cast<float>(player.texture.height) * scale };
+
+			player.origin = { static_cast<float>(player.source.width / 2) * scale , static_cast<float> (player.source.height / 4) * scale };
+
+
+			for (int i = 0; i < player.maxBullets; i++)
+			{
+				player.bullets[i].texture = bulletTexture;
+			}
+		}
+
+		void UpdateHighScore(Spaceship& player)
+		{
+		
+			if (player.score > player.highScore)
+			{
+				player.highScore = player.score;
+			}
+		
+		}
+
+		static void SpaceshipShoot(Spaceship& player)
+		{
+			CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation);
+
+			player.currentBullet++;
+
+			if (player.currentBullet >= player.maxBullets)
+			{
+				player.currentBullet = 0;
+			}
+		}
+	
+		static void SpaceshipMobility(Spaceship& player)
 		{
 			if (player.hitBox.position.y < 0)
 			{
@@ -110,25 +149,6 @@ namespace asteroids
 			player.dest.y = player.hitBox.position.y;
 		}
 
-		static void SpaceshipShoot(Spaceship& player)
-		{
-			CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation);
 
-			player.currentBullet++;
-
-			if (player.currentBullet >= player.maxBullets)
-			{
-				player.currentBullet = 0;
-			}
-		}
-
-		void SpaceshipDraw(Spaceship player)
-		{
-			if (player.IsAlive)
-			{
-				DrawTexturePro(player.texture, player.source, player.dest, player.origin, static_cast<float>(player.shipRotation), WHITE);
-				DrawCircle(static_cast<int>(player.hitBox.position.x), static_cast<int>(player.hitBox.position.y), player.hitBox.radius, GREEN);
-			}
-		}
 	}
 }

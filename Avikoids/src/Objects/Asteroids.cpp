@@ -1,11 +1,11 @@
 #include "Asteroids.h"
-#include <iostream>
 
 
 namespace asteroids
 {
 	namespace game
 	{
+
 		static void CreateBigAsteroid(Asteroid& asteroid);
 		static void CreateMediumAsteroid(Asteroid& asteroid, Asteroid bigAsteroid);
 		static void CreateSmallAsteroid(Asteroid& asteroid, Asteroid mediumAsteroid);
@@ -17,84 +17,25 @@ namespace asteroids
 
 		double timerBigAsteroidSpawn = GetTime();
 
-		static void CreateBigAsteroid(Asteroid& asteroid)
+		void InitAsteroids(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[])
 		{
-			float width = static_cast<float>(GetScreenWidth());
-			float height = static_cast<float>(GetScreenHeight());
-			int randomSpawn = GetRandomValue(1, 4);
+			Texture2D bigAsteroidTexture = LoadTexture("res/PNG/Game/Play/Asteroids/BigAsteroid.png");
+			Texture2D mediumAsteroidTexture = LoadTexture("res/PNG/Game/Play/Asteroids/MediumAsteroid.png");
+			Texture2D smallAsteroidTexture = LoadTexture("res/PNG/Game/Play/Asteroids/SmallAsteroid.png");
 
-
-			if (randomSpawn == 1)
+			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
 			{
-				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(50, 55)) };
-				asteroid.hitBox.position = { width,static_cast<float>(GetRandomValue(100, 1000)) };
-				asteroid.hitBox.color = WHITE;
-				asteroid.velocity = { 60 };
-				asteroid.aceleration = { RandomDirection(-1,-100),RandomDirection(-100,100) };
-				asteroid.IsAlive = true;
-				asteroid.SpawnChild = false;
-				asteroid.SCALE = asteroid.hitBox.radius / 150;
+				bigAsteroid[i].texture = bigAsteroidTexture;
 			}
-			else if (randomSpawn == 2)
+			for (int i = 0; i < TOTAL_MEDIUM_ASTEROIDS; i++)
 			{
-				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(50, 55)) };
-				asteroid.hitBox.position = { 40, static_cast<float>(GetRandomValue(100, 1000)) };
-				asteroid.hitBox.color = WHITE;
-				asteroid.velocity = { 60 };
-				asteroid.aceleration = { RandomDirection(1,100),RandomDirection(-100,100) };
-				asteroid.IsAlive = true;
-				asteroid.SpawnChild = false;
-				asteroid.SCALE = asteroid.hitBox.radius / 200;
+				mediumAsteroid[i].texture = mediumAsteroidTexture;
 			}
-			else if (randomSpawn == 3)
+			for (int i = 0; i < TOTAL_SMALL_ASTEROIDS; i++)
 			{
-				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(50, 55)) };
-				asteroid.hitBox.position = { static_cast<float>(GetRandomValue(100, 700)), 40 };
-				asteroid.hitBox.color = WHITE;
-				asteroid.velocity = { 60 };
-				asteroid.aceleration = { RandomDirection(1,100),RandomDirection(-1,-100) };
-				asteroid.IsAlive = true;
-				asteroid.SpawnChild = false;
-				asteroid.SCALE = asteroid.hitBox.radius / 200;
-			}
-			else if (randomSpawn == 4)
-			{
-				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(50, 55)) };
-				asteroid.hitBox.position = { static_cast<float>(GetRandomValue(100, 1000)), height };
-				asteroid.hitBox.color = WHITE;
-				asteroid.velocity = { 60 };
-				asteroid.aceleration = { RandomDirection(-100,100),RandomDirection(1,100) };
-				asteroid.IsAlive = true;
-				asteroid.SpawnChild = false;
-				asteroid.SCALE = asteroid.hitBox.radius / 220;
+				smallAsteroid[i].texture = smallAsteroidTexture;
 			}
 
-
-
-		}
-
-		static void CreateMediumAsteroid(Asteroid& asteroid, Asteroid bigAsteroid)
-		{
-
-			asteroid.hitBox.radius = { bigAsteroid.hitBox.radius / 2 };
-			asteroid.hitBox.position = bigAsteroid.hitBox.position;
-			asteroid.aceleration = { RandomDirection(-100,100), RandomDirection(-100,100) };
-			asteroid.velocity = { 70 };
-			asteroid.hitBox.color = WHITE;
-			asteroid.IsAlive = true;
-			asteroid.SpawnChild = false;
-			asteroid.SCALE = asteroid.hitBox.radius / 200;
-		}
-
-		static void CreateSmallAsteroid(Asteroid& asteroid, Asteroid mediumAsteroid)
-		{
-			asteroid.hitBox.radius = { mediumAsteroid.hitBox.radius / 2 };
-			asteroid.hitBox.position = mediumAsteroid.hitBox.position;
-			asteroid.aceleration = { RandomDirection(-100,100), RandomDirection(-100,100) };
-			asteroid.velocity = { 80 };
-			asteroid.hitBox.color = WHITE;
-			asteroid.IsAlive = true;
-			asteroid.SCALE = asteroid.hitBox.radius / 160;
 		}
 
 		void DrawAsteroid(Asteroid bigAsteroids[], Asteroid mediumAsteroids[], Asteroid smallAsteroids[])
@@ -280,5 +221,86 @@ namespace asteroids
 				}
 			}
 		}
+		
+		static void CreateBigAsteroid(Asteroid& asteroid)
+		{
+			float width = static_cast<float>(GetScreenWidth());
+			float height = static_cast<float>(GetScreenHeight());
+			int randomSpawn = GetRandomValue(1, 4);
+
+
+			if (randomSpawn == 1)
+			{
+				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(50, 55)) };
+				asteroid.hitBox.position = { width,static_cast<float>(GetRandomValue(100, 1000)) };
+				asteroid.hitBox.color = WHITE;
+				asteroid.velocity = { 60 };
+				asteroid.aceleration = { RandomDirection(-1,-100),RandomDirection(-100,100) };
+				asteroid.IsAlive = true;
+				asteroid.SpawnChild = false;
+				asteroid.SCALE = asteroid.hitBox.radius / 150;
+			}
+			else if (randomSpawn == 2)
+			{
+				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(50, 55)) };
+				asteroid.hitBox.position = { 40, static_cast<float>(GetRandomValue(100, 1000)) };
+				asteroid.hitBox.color = WHITE;
+				asteroid.velocity = { 60 };
+				asteroid.aceleration = { RandomDirection(1,100),RandomDirection(-100,100) };
+				asteroid.IsAlive = true;
+				asteroid.SpawnChild = false;
+				asteroid.SCALE = asteroid.hitBox.radius / 200;
+			}
+			else if (randomSpawn == 3)
+			{
+				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(50, 55)) };
+				asteroid.hitBox.position = { static_cast<float>(GetRandomValue(100, 700)), 40 };
+				asteroid.hitBox.color = WHITE;
+				asteroid.velocity = { 60 };
+				asteroid.aceleration = { RandomDirection(1,100),RandomDirection(-1,-100) };
+				asteroid.IsAlive = true;
+				asteroid.SpawnChild = false;
+				asteroid.SCALE = asteroid.hitBox.radius / 200;
+			}
+			else if (randomSpawn == 4)
+			{
+				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(50, 55)) };
+				asteroid.hitBox.position = { static_cast<float>(GetRandomValue(100, 1000)), height };
+				asteroid.hitBox.color = WHITE;
+				asteroid.velocity = { 60 };
+				asteroid.aceleration = { RandomDirection(-100,100),RandomDirection(1,100) };
+				asteroid.IsAlive = true;
+				asteroid.SpawnChild = false;
+				asteroid.SCALE = asteroid.hitBox.radius / 220;
+			}
+
+
+
+		}
+
+		static void CreateMediumAsteroid(Asteroid& asteroid, Asteroid bigAsteroid)
+		{
+
+			asteroid.hitBox.radius = { bigAsteroid.hitBox.radius / 2 };
+			asteroid.hitBox.position = bigAsteroid.hitBox.position;
+			asteroid.aceleration = { RandomDirection(-100,100), RandomDirection(-100,100) };
+			asteroid.velocity = { 70 };
+			asteroid.hitBox.color = WHITE;
+			asteroid.IsAlive = true;
+			asteroid.SpawnChild = false;
+			asteroid.SCALE = asteroid.hitBox.radius / 200;
+		}
+
+		static void CreateSmallAsteroid(Asteroid& asteroid, Asteroid mediumAsteroid)
+		{
+			asteroid.hitBox.radius = { mediumAsteroid.hitBox.radius / 2 };
+			asteroid.hitBox.position = mediumAsteroid.hitBox.position;
+			asteroid.aceleration = { RandomDirection(-100,100), RandomDirection(-100,100) };
+			asteroid.velocity = { 80 };
+			asteroid.hitBox.color = WHITE;
+			asteroid.IsAlive = true;
+			asteroid.SCALE = asteroid.hitBox.radius / 160;
+		}
+
 	}
 }

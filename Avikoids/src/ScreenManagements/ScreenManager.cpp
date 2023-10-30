@@ -54,7 +54,7 @@ namespace asteroids
 				menu::MenuUpdate(currentScreen);
 				break;
 			case Screen::Game:
-				game::GameUpdate();
+				game::GameUpdate(currentScreen);
 				break;
 			case Screen::Credits:
 				/*CreditsUpdate(currentScreen);*/
