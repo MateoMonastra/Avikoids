@@ -15,6 +15,10 @@ namespace asteroids
 		static void GameColitions();
 		static void Reset();
 		static void initSprites();
+		static void RulesUpdate();
+		static void LoseUpdate(Screen& currentScene);
+		static void PauseButtonUpdate();
+		static void PausedUpdate(Screen& currentScreen);
 
 		const int TOTAL_BIG_ASTEROIDS = 20;
 		const int TOTAL_MEDIUM_ASTEROIDS = 40;
@@ -23,28 +27,49 @@ namespace asteroids
 		Asteroid bigAsteroids[TOTAL_BIG_ASTEROIDS];
 		Asteroid mediumAsteroids[TOTAL_MEDIUM_ASTEROIDS];
 		Asteroid smallAsteroids[TOTAL_SMALL_ASTEROIDS];
+		
 		Spaceship player;
+
 		GameScenes actualScene;
+
 		Button showScore;
 		Button showPlayerLife;
-		Button ShowRules;
+		Button showRules;
 		Button NextButton;
 		Button ReturnMenuButton;
 		Button PlayAganButton;
 		Button showPlayerHighscore;
+		Button PauseButton;
+		Button PurpleRec;
+		Button MenuButton;
+		Button RestartButton;
+		Button ResumeButton;
+
+		Music gameMusic;
+
+		Sound AsteroidHitSound;
+		Sound PlayerDeadSound;
 
 		void InitGame()
 		{
 			initSprites();
 			InitPlayer(player);
 			InitAsteroids(bigAsteroids, mediumAsteroids, smallAsteroids);
-			Reset();
+			Reset(); 
+
+			gameMusic = LoadMusicStream("res/MUSIC/PlayingMusic.mp3");
+
+			AsteroidHitSound = LoadSound("res/MUSIC/SoundEffects/AsteroidHitSound.mp3");
+			PlayerDeadSound = LoadSound("res/MUSIC/SoundEffects/PlayerDeadSound.mp3");
+			SetSoundVolume(AsteroidHitSound, 0.1f);
+			SetSoundVolume(PlayerDeadSound, 0.1f);
 
 			actualScene = GameScenes::ShowRules;
 		}
 
 		void GameUpdate(Screen& currentScene)
 		{
+
 			if (actualScene == GameScenes::Playing)
 			{
 				SpaceshipUpdate(player);
@@ -52,62 +77,33 @@ namespace asteroids
 				AsteroidUpdate(bigAsteroids, mediumAsteroids, smallAsteroids, player);
 
 				GameColitions();
+
+				PauseButtonUpdate();
 			}
 			else if (actualScene == GameScenes::ShowRules)
 			{
-				if (MouseMenuColision(NextButton))
-				{
-					NextButton.color = GRAY;
-
-					if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-					{
-						InitGame();
-						actualScene = GameScenes::Playing;
-					}
-				}
-				else
-				{
-					NextButton.color = WHITE;
-				}
+				RulesUpdate();
 			}
 			else if (actualScene == GameScenes::Lose)
 			{
-				if (MouseMenuColision(ReturnMenuButton))
-				{
-					ReturnMenuButton.color = GRAY;
-
-					if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-					{
-						actualScene = GameScenes::ShowRules;
-						currentScene = Screen::Menu;
-					}
-				}
-				else
-				{
-					ReturnMenuButton.color = WHITE;
-				}
-				
-				if (MouseMenuColision(PlayAganButton))
-				{
-					PlayAganButton.color = GRAY;
-
-					if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-					{
-						actualScene = GameScenes::ShowRules;
-					}
-				}
-				else
-				{
-					PlayAganButton.color = WHITE;
-				}
+				LoseUpdate(currentScene);
 			}
+			else if (actualScene == GameScenes::Paused)
+			{
+				PausedUpdate(currentScene);
+			}
+
+			PlayMusicStream(gameMusic);
+			SetMusicVolume(gameMusic, 0.2f);
+			UpdateMusicStream(gameMusic);
 		}
 
 		void DrawGame()
 		{
+			
 			if (actualScene == GameScenes::ShowRules)
 			{
-				DrawTextureEx(ShowRules.sprite, ShowRules.position, 0, ShowRules.scale, ShowRules.color);
+				DrawTextureEx(showRules.sprite, showRules.position, 0, showRules.scale, showRules.color);
 				DrawTextureEx(NextButton.sprite, NextButton.position, 0, NextButton.scale, NextButton.color);
 			}
 			else if (actualScene == GameScenes::Playing)
@@ -123,6 +119,8 @@ namespace asteroids
 
 				DrawText(TextFormat("SCORE: %i", player.score), static_cast<int>(showScore.position.x), static_cast<int>(showScore.position.y), showScore.fontSize, showScore.color);
 				DrawText(TextFormat("LIVES: %i", player.lives), static_cast<int>(showPlayerLife.position.x), static_cast<int>(showPlayerLife.position.y), showPlayerLife.fontSize, showPlayerLife.color);
+
+				DrawButton(PauseButton);
 			}
 			else if (actualScene == GameScenes::Lose)
 			{
@@ -134,6 +132,14 @@ namespace asteroids
 				DrawTextureEx(PlayAganButton.sprite, PlayAganButton.position, 0, PlayAganButton.scale, PlayAganButton.color);
 				DrawTextureEx(ReturnMenuButton.sprite, ReturnMenuButton.position, 0, ReturnMenuButton.scale, ReturnMenuButton.color);
 			}
+			else if (actualScene == GameScenes::Paused)
+			{
+				DrawButton(PurpleRec);
+				DrawButton(MenuButton);
+				DrawButton(RestartButton);
+				DrawButton(ResumeButton);
+			
+			}
 		}
 
 		static void GameColitions()
@@ -142,6 +148,7 @@ namespace asteroids
 			{
 				if (CheckCollisionCircles(player.hitBox.position, player.hitBox.radius, bigAsteroids[i].hitBox.position, bigAsteroids[i].hitBox.radius) && bigAsteroids[i].IsAlive)
 				{
+					PlaySound(PlayerDeadSound);
 					player.lives--;
 					Reset();
 
@@ -158,6 +165,7 @@ namespace asteroids
 					{
 						if (CheckCollisionCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, bigAsteroids[i].hitBox.position, bigAsteroids[i].hitBox.radius))
 						{
+							PlaySound(AsteroidHitSound);
 							bigAsteroids[i].IsAlive = false;
 							bigAsteroids[i].SpawnChild = true;
 							player.bullets[j].IsActive = false;
@@ -172,6 +180,7 @@ namespace asteroids
 			{
 				if (CheckCollisionCircles(player.hitBox.position, player.hitBox.radius, mediumAsteroids[i].hitBox.position, mediumAsteroids[i].hitBox.radius) && mediumAsteroids[i].IsAlive)
 				{
+					PlaySound(PlayerDeadSound);
 					player.lives--;
 					Reset();
 
@@ -188,6 +197,7 @@ namespace asteroids
 					{
 						if (CheckCollisionCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, mediumAsteroids[i].hitBox.position, mediumAsteroids[i].hitBox.radius))
 						{
+							PlaySound(AsteroidHitSound);
 							mediumAsteroids[i].IsAlive = false;
 							mediumAsteroids[i].SpawnChild = true;
 							player.bullets[j].IsActive = false;
@@ -203,6 +213,7 @@ namespace asteroids
 			{
 				if (CheckCollisionCircles(player.hitBox.position, player.hitBox.radius, smallAsteroids[i].hitBox.position, smallAsteroids[i].hitBox.radius) && smallAsteroids[i].IsAlive)
 				{
+					PlaySound(PlayerDeadSound);
 					player.lives--;
 					Reset();
 
@@ -219,6 +230,7 @@ namespace asteroids
 					{
 						if (CheckCollisionCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, smallAsteroids[i].hitBox.position, smallAsteroids[i].hitBox.radius))
 						{
+							PlaySound(AsteroidHitSound);
 							smallAsteroids[i].IsAlive = false;
 							smallAsteroids[i].SpawnChild = true;
 							player.bullets[j].IsActive = false;
@@ -269,9 +281,9 @@ namespace asteroids
 			showPlayerLife.fontSize = 40;
 			showPlayerLife.position = { 30,70 };
 
-			ShowRules.position = { 140,100 };
-			ShowRules.scale = 1;
-			ShowRules.sprite = LoadTexture("res/PNG/Game/Rules/ShowRules.png");
+			showRules.position = { 140,100 };
+			showRules.scale = 1;
+			showRules.sprite = LoadTexture("res/PNG/Game/Rules/ShowRules.png");
 
 			NextButton.position = { 600,600 };
 			NextButton.scale = 0.6f;
@@ -288,6 +300,145 @@ namespace asteroids
 			PlayAganButton.position = { 400,450 };
 			PlayAganButton.scale = 0.6f;
 			PlayAganButton.sprite = LoadTexture("res/PNG/Game/Lose/PlayAgainButton.png");
+
+			PauseButton.position = { 900,40 };
+			PauseButton.scale = 0.3f;
+			PauseButton.sprite = LoadTexture("res/PNG/Game/Pause/PauseButton.png");
+
+			PurpleRec.position = { 340,100 };
+			PurpleRec.scale = 0.8f;
+			PurpleRec.sprite = LoadTexture("res/PNG/Game/Pause/PurpleRec.png");
+
+			ResumeButton.position = { 370,250 };
+			ResumeButton.scale = 0.7f;
+			ResumeButton.sprite = LoadTexture("res/PNG/Game/Pause/ResumeButton.png");
+			
+			RestartButton.position = { 370,400 };
+			RestartButton.scale = 0.7f;
+			RestartButton.sprite = LoadTexture("res/PNG/Game/Pause/RestartButton.png");
+
+			MenuButton.position = { 370,550 };
+			MenuButton.scale = 0.7f;
+			MenuButton.sprite = LoadTexture("res/PNG/Game/Pause/MenuButton.png");
+
+		}
+
+		static void RulesUpdate()
+		{
+			if (MouseMenuColision(NextButton))
+			{
+				NextButton.color = GRAY;
+
+				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+				{
+					InitPlayer(player);
+					initSprites();
+					Reset();
+					actualScene = GameScenes::Playing;
+				}
+			}
+			else
+			{
+				NextButton.color = WHITE;
+			}
+		}
+
+		static void LoseUpdate(Screen& currentScene)
+		{
+			if (MouseMenuColision(ReturnMenuButton))
+			{
+				ReturnMenuButton.color = GRAY;
+
+				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+				{
+					actualScene = GameScenes::ShowRules;
+					currentScene = Screen::Menu;
+				}
+			}
+			else
+			{
+				ReturnMenuButton.color = WHITE;
+			}
+
+			if (MouseMenuColision(PlayAganButton))
+			{
+				PlayAganButton.color = GRAY;
+
+				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+				{
+					actualScene = GameScenes::ShowRules;
+				}
+			}
+			else
+			{
+				PlayAganButton.color = WHITE;
+			}
+		}
+		
+		static void PauseButtonUpdate()
+		{
+			if (MouseMenuColision(PauseButton))
+			{
+				PauseButton.color = GRAY;
+
+				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+				{
+					actualScene = GameScenes::Paused;
+				}
+			}
+			else
+			{
+				PauseButton.color = WHITE;
+			}
+		}
+
+		static void PausedUpdate(Screen& currentScreen)
+		{
+
+			if (MouseMenuColision(MenuButton))
+			{
+				MenuButton.color = GRAY;
+
+				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+				{
+					currentScreen = Screen::Menu;
+					actualScene = GameScenes::ShowRules;
+				}
+			}
+			else
+			{
+				MenuButton.color = WHITE;
+			}
+
+			if (MouseMenuColision(RestartButton))
+			{
+				RestartButton.color = GRAY;
+
+				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+				{
+					actualScene = GameScenes::ShowRules;
+				}
+			}
+			else
+			{
+				RestartButton.color = WHITE;
+			}
+
+
+			if (MouseMenuColision(ResumeButton))
+			{
+				ResumeButton.color = GRAY;
+
+				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+				{
+					actualScene = GameScenes::Playing;
+				}
+			}
+			else
+			{
+				ResumeButton.color = WHITE;
+			}
+
 
 		}
 	}

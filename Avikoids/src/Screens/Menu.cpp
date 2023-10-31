@@ -16,7 +16,8 @@ namespace asteroids
 		static Button credits;
 		static Button backGround;
 
-		static void DrawButton(Button button);
+		Music menuMusic;
+		Sound menuTouchSFX;
 
 		void InitMenu()
 		{
@@ -34,23 +35,33 @@ namespace asteroids
 			credits.sprite = LoadTexture("res/PNG/Menu/CreditsButton.png");
 			credits.scale = 0.6f;
 			
-			exit.position = { middleScreenf - 118, 560 };
+			exit.position = { middleScreenf - 118, 510 };
 			exit.sprite = LoadTexture("res/PNG/Menu/ExitButton.png");
 			exit.scale = 0.6f;
 
 			backGround.position = {80,0};
 			backGround.sprite = LoadTexture("res/PNG/Menu/MenuBackground.png");
 			backGround.scale = 0.7f;
+
+			menuMusic = LoadMusicStream("res/MUSIC/MenuMusic.mp3");
+			menuTouchSFX = LoadSound("res/MUSIC/SoundEffects/MenuClickSound.wav");
+			
 		}
 
 		void MenuUpdate(Screen& currentScreen)
 		{
+			PlayMusicStream(menuMusic);
+			SetMusicVolume(menuMusic, 0.3f);
+			UpdateMusicStream(menuMusic);
+
 			if (MouseMenuColision( game))
 			{
 				game.color = GRAY;
 
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
+					PlaySound(menuTouchSFX);
+					StopMusicStream(menuMusic);
 					currentScreen = Screen::Game;
 					game::InitGame();
 				}
@@ -66,6 +77,7 @@ namespace asteroids
 
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
+					PlaySound(menuTouchSFX);
 					currentScreen = Screen::Exit;
 				}
 			}
@@ -80,22 +92,19 @@ namespace asteroids
 
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
+					PlaySound(menuTouchSFX);
 					currentScreen = Screen::Credits;
-					credits::InitCredits();
+					credits::InitCredits(menuMusic);
 				}
 			}
 			else
 			{
 				credits.color = WHITE;
 			}
-
-
 		}
 
 		void MenuDrawing()
 		{
-			ClearBackground(BLACK);
-
 			DrawButton(backGround);
 			DrawButton(title);
 			DrawButton(game);
@@ -103,9 +112,5 @@ namespace asteroids
 			DrawButton(credits);
 		}
 
-		static void DrawButton(Button button)
-		{
-			DrawTextureEx(button.sprite,button.position,0,button.scale,button.color);
-		}
 	}
 }

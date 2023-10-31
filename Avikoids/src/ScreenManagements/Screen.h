@@ -6,7 +6,6 @@ namespace asteroids
         {
             Menu,
             Game,
-            Options,
             Credits,
             Exit
         };

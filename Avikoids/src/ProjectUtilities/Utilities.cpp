@@ -24,4 +24,9 @@ namespace asteroids
 		}
 		return false;
 	}
+
+	void DrawButton(Button button)
+	{
+		DrawTextureEx(button.sprite, button.position, 0, button.scale, button.color);
+	}
 }

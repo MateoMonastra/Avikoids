@@ -25,4 +25,6 @@ namespace asteroids
 	float RandomDirection(int min, int max);
 
 	bool MouseMenuColision(Button rec);
+
+	void DrawButton(Button button);
 }

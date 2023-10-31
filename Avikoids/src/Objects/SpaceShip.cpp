@@ -11,6 +11,9 @@ namespace asteroids
 
 		double autoShootingTimer = GetTime();
 
+		Sound ShootSound;
+
+
 		void SpaceshipUpdate(Spaceship& player)
 		{
 
@@ -81,6 +84,10 @@ namespace asteroids
 
 			player.origin = { static_cast<float>(player.source.width / 2) * scale , static_cast<float> (player.source.height / 4) * scale };
 
+			ShootSound = LoadSound("res/MUSIC/SoundEffects/ShootSound.mp3");
+
+			SetSoundVolume(ShootSound, 0.1f);
+
 
 			for (int i = 0; i < player.maxBullets; i++)
 			{
@@ -108,6 +115,8 @@ namespace asteroids
 			{
 				player.currentBullet = 0;
 			}
+
+			PlaySound(ShootSound);
 		}
 	
 		static void SpaceshipMobility(Spaceship& player)

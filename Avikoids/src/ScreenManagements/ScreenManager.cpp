@@ -42,13 +42,13 @@ namespace asteroids
 
 			SetExitKey(NULL);
 			SetRandomSeed(NULL);
-
+			InitAudioDevice();
 			menu::InitMenu();
 		}
 
 		static void Update()
 		{
-
+			
 			switch (currentScreen)
 			{
 			case Screen::Menu:
@@ -56,9 +56,6 @@ namespace asteroids
 				break;
 			case Screen::Game:
 				game::GameUpdate(currentScreen);
-				break;
-			case Screen::Options:
-				/*OptionsUpdate(currentScene);*/
 				break;
 			case Screen::Credits:
 				credits::CreditsUpdate(currentScreen);
@@ -69,7 +66,7 @@ namespace asteroids
 			default:
 				break;
 			}
-
+			
 		}
 
 		static void Draw()
@@ -84,9 +81,6 @@ namespace asteroids
 			case Screen::Game:
 				game::DrawGame();
 				break;
-			case Screen::Options:
-				/* DrawOptions();*/
-				break;
 			case Screen::Credits:
 				credits::CreditsDrawing();
 				break;
@@ -98,6 +92,7 @@ namespace asteroids
 
 		static void Close()
 		{
+			CloseAudioDevice();
 			CloseWindow();
 		}
 

@@ -1,6 +1,6 @@
 #include "Credits.h"
 
-#include "ProjectUtilities/Utilities.h"
+
 
 
 namespace asteroids
@@ -9,10 +9,10 @@ namespace asteroids
 	{
 		Button ShowCredits;
 		Button ReturnMenuButton;
+		Music music;
 
 
-
-		void InitCredits()
+		void InitCredits(Music& menuMusic)
 		{
 			ShowCredits.position = { 140,100 };
 			ShowCredits.scale = 1;
@@ -22,10 +22,14 @@ namespace asteroids
 			ReturnMenuButton.scale = 0.6f;
 			ReturnMenuButton.sprite = LoadTexture("res/PNG/Credits/ReturnMenuButton.png");
 
+			music = menuMusic;
+
 		}
 
 		void CreditsUpdate(Screen& currentScene)
 		{
+			UpdateMusicStream(music);
+
 			if (MouseMenuColision(ReturnMenuButton))
 			{
 				ReturnMenuButton.color = GRAY;
