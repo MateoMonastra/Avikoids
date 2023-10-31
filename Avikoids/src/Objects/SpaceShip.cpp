@@ -123,13 +123,27 @@ namespace asteroids
 
 				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation);
 				player.currentBullet++;
+				
+				if (player.currentBullet >= player.maxBullets)
+				{
+					player.currentBullet = 0;
+				}
 
-				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation + 30);
+				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, Vector2Rotate(player.normalizedDirection,0.3f), player.shipRotation);
+				player.currentBullet++;
+				
+				if (player.currentBullet >= player.maxBullets)
+				{
+					player.currentBullet = 0;
+				}
+
+				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, Vector2Rotate(player.normalizedDirection,-0.3f), player.shipRotation);
 				player.currentBullet++;
 
-				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation - 30);
-				player.currentBullet++;
-
+				if (player.currentBullet >= player.maxBullets)
+				{
+					player.currentBullet = 0;
+				}
 			}
 
 			PlaySound(ShootSound);
