@@ -28,6 +28,7 @@ namespace asteroids
 			const int ASTEROID_DIVITION = 2;
 
 			float SCALE = {};
+
 		};
 
 		

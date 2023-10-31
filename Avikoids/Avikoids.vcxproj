@@ -22,6 +22,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Objects\Asteroids.cpp" />
     <ClCompile Include="src\Objects\Bullet.cpp" />
+    <ClCompile Include="src\Objects\PowerUps.cpp" />
     <ClCompile Include="src\Objects\SpaceShip.cpp" />
     <ClCompile Include="src\ProjectUtilities\Utilities.cpp" />
     <ClCompile Include="src\ScreenManagements\ScreenManager.cpp" />
@@ -32,6 +33,7 @@
   <ItemGroup>
     <ClInclude Include="src\Objects\Asteroids.h" />
     <ClInclude Include="src\Objects\Bullet.h" />
+    <ClInclude Include="src\Objects\PowerUps.h" />
     <ClInclude Include="src\Objects\SpaceShip.h" />
     <ClInclude Include="src\ProjectUtilities\Utilities.h" />
     <ClInclude Include="src\ScreenManagements\GameScenes.h" />

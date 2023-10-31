@@ -7,7 +7,7 @@ namespace asteroids
 {
 	namespace credits
 	{
-		void InitCredits(Music& menuMusic);
+		void InitCredits(Music& menuMusic, Sound menuTouchSFX);
 		void CreditsUpdate(Screen& currentScene);
 		void CreditsDrawing();
 	}

@@ -11,7 +11,7 @@ namespace asteroids
 		struct Spaceship
 		{
 			Circle hitBox;
-			static const int maxBullets = 30;
+			static const int maxBullets = 60;
 			int currentBullet = 0;
 
 			Rectangle textureRec = {};
@@ -36,6 +36,7 @@ namespace asteroids
 			int highScore = 0;
 
 			bool IsAutoShooting = false;
+			bool IsShotGunOn = false;
 
 		};
 

@@ -107,6 +107,8 @@ namespace asteroids
 
 		static void SpaceshipShoot(Spaceship& player)
 		{
+			if (!player.IsShotGunOn)
+			{
 			CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation);
 
 			player.currentBullet++;
@@ -114,6 +116,20 @@ namespace asteroids
 			if (player.currentBullet >= player.maxBullets)
 			{
 				player.currentBullet = 0;
+			}
+			}
+			else
+			{
+
+				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation);
+				player.currentBullet++;
+
+				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation + 30);
+				player.currentBullet++;
+
+				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation - 30);
+				player.currentBullet++;
+
 			}
 
 			PlaySound(ShootSound);

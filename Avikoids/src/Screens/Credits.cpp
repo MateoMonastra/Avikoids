@@ -10,9 +10,10 @@ namespace asteroids
 		Button ShowCredits;
 		Button ReturnMenuButton;
 		Music music;
+		Sound sound;
 
 
-		void InitCredits(Music& menuMusic)
+		void InitCredits(Music& menuMusic, Sound menuTouchSFX)
 		{
 			ShowCredits.position = { 140,100 };
 			ShowCredits.scale = 1;
@@ -23,7 +24,7 @@ namespace asteroids
 			ReturnMenuButton.sprite = LoadTexture("res/PNG/Credits/ReturnMenuButton.png");
 
 			music = menuMusic;
-
+			sound = menuTouchSFX;
 		}
 
 		void CreditsUpdate(Screen& currentScene)
@@ -36,6 +37,7 @@ namespace asteroids
 
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
+					PlaySound(sound);
 					currentScene = Screen::Menu;
 				}
 			}

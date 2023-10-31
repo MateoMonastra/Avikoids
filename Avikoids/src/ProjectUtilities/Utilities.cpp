@@ -29,4 +29,21 @@ namespace asteroids
 	{
 		DrawTextureEx(button.sprite, button.position, 0, button.scale, button.color);
 	}
+
+	bool CollitionCheckCircles(Vector2 Circle1, float Circle1Radius, Vector2 Circle2, float Circle2Radius)
+	{
+
+		double distancia = sqrt((Circle1.x - Circle2.x) * (Circle1.x - Circle2.x) + (Circle1.y - Circle2.y) * (Circle1.y - Circle2.y));
+
+		if (distancia < Circle1Radius + Circle2Radius)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
+	
 }

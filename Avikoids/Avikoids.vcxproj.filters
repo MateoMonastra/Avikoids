@@ -42,6 +42,9 @@
     <ClCompile Include="src\Screens\Credits.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="src\Objects\PowerUps.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Objects\Asteroids.h">
@@ -72,6 +75,9 @@
       <Filter>Archivos de origen\Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="src\Screens\Credits.h">
+      <Filter>Archivos de origen\Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Objects\PowerUps.h">
       <Filter>Archivos de origen\Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

@@ -51,7 +51,7 @@ namespace asteroids
 		void MenuUpdate(Screen& currentScreen)
 		{
 			PlayMusicStream(menuMusic);
-			SetMusicVolume(menuMusic, 0.3f);
+			SetMusicVolume(menuMusic, 0.2f);
 			UpdateMusicStream(menuMusic);
 
 			if (MouseMenuColision( game))
@@ -94,7 +94,7 @@ namespace asteroids
 				{
 					PlaySound(menuTouchSFX);
 					currentScreen = Screen::Credits;
-					credits::InitCredits(menuMusic);
+					credits::InitCredits(menuMusic, menuTouchSFX);
 				}
 			}
 			else

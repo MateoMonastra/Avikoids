@@ -1,10 +1,12 @@
 #include "Game.h"
 
 #include "ProjectUtilities/Utilities.h"
+#include "ScreenManagements/GameScenes.h"
 #include "Objects/SpaceShip.h"
 #include "Objects/Bullet.h"
 #include "Objects/Asteroids.h"
-#include "ScreenManagements/GameScenes.h"
+#include "Objects/PowerUps.h"
+
 
 
 namespace asteroids
@@ -19,7 +21,7 @@ namespace asteroids
 		static void LoseUpdate(Screen& currentScene);
 		static void PauseButtonUpdate();
 		static void PausedUpdate(Screen& currentScreen);
-		static bool CollitionCheckCircles(Vector2 Circle1, float Circle1Radius, Vector2 Circle2, float Circle2Radius);
+		static void InitGameMusic();
 
 		const int TOTAL_BIG_ASTEROIDS = 20;
 		const int TOTAL_MEDIUM_ASTEROIDS = 40;
@@ -57,13 +59,8 @@ namespace asteroids
 			InitPlayer(player);
 			InitAsteroids(bigAsteroids, mediumAsteroids, smallAsteroids);
 			Reset(); 
-
-			gameMusic = LoadMusicStream("res/MUSIC/PlayingMusic.mp3");
-
-			AsteroidHitSound = LoadSound("res/MUSIC/SoundEffects/AsteroidHitSound.mp3");
-			PlayerDeadSound = LoadSound("res/MUSIC/SoundEffects/PlayerDeadSound.mp3");
-			SetSoundVolume(AsteroidHitSound, 0.1f);
-			SetSoundVolume(PlayerDeadSound, 0.1f);
+			InitGameMusic();
+			InitPowerUp();
 
 			actualScene = GameScenes::ShowRules;
 		}
@@ -76,6 +73,8 @@ namespace asteroids
 				SpaceshipUpdate(player);
 
 				AsteroidUpdate(bigAsteroids, mediumAsteroids, smallAsteroids, player);
+
+				UpdatePowerUps(bigAsteroids, mediumAsteroids, smallAsteroids, player);
 
 				GameColitions();
 
@@ -95,7 +94,6 @@ namespace asteroids
 			}
 
 			PlayMusicStream(gameMusic);
-			SetMusicVolume(gameMusic, 0.2f);
 			UpdateMusicStream(gameMusic);
 		}
 
@@ -109,6 +107,8 @@ namespace asteroids
 			}
 			else if (actualScene == GameScenes::Playing)
 			{
+				DrawPowerUps();
+
 				SpaceshipDraw(player);
 
 				for (int i = 0; i < player.maxBullets; i++)
@@ -171,7 +171,7 @@ namespace asteroids
 							bigAsteroids[i].SpawnChild = true;
 							player.bullets[j].IsActive = false;
 
-							player.score += 75;
+							player.score += 25;
 						}
 					}
 				}
@@ -203,7 +203,7 @@ namespace asteroids
 							mediumAsteroids[i].SpawnChild = true;
 							player.bullets[j].IsActive = false;
 
-							player.score += 120;
+							player.score += 50;
 
 						}
 					}
@@ -236,7 +236,7 @@ namespace asteroids
 							smallAsteroids[i].SpawnChild = true;
 							player.bullets[j].IsActive = false;
 
-							player.score += 175;
+							player.score += 75;
 						}
 					}
 				}
@@ -443,20 +443,16 @@ namespace asteroids
 
 		}
 
-		static bool CollitionCheckCircles(Vector2 Circle1, float Circle1Radius, Vector2 Circle2, float Circle2Radius )
+		static void InitGameMusic()
 		{
 
-			double distancia = sqrt((Circle1.x - Circle2.x) * (Circle1.x - Circle2.x) + (Circle1.y - Circle2.y) * (Circle1.y - Circle2.y));
-			
-			if (distancia < Circle1Radius + Circle2Radius)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			gameMusic = LoadMusicStream("res/MUSIC/PlayingMusic.mp3");
+			SetMusicVolume(gameMusic, 0.1f);
 
+			AsteroidHitSound = LoadSound("res/MUSIC/SoundEffects/AsteroidHitSound.mp3");
+			PlayerDeadSound = LoadSound("res/MUSIC/SoundEffects/PlayerDeadSound.mp3");
+			SetSoundVolume(AsteroidHitSound, 0.1f);
+			SetSoundVolume(PlayerDeadSound, 0.1f);
 		}
 	}
 };
