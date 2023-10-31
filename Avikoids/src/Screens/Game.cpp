@@ -19,6 +19,7 @@ namespace asteroids
 		static void LoseUpdate(Screen& currentScene);
 		static void PauseButtonUpdate();
 		static void PausedUpdate(Screen& currentScreen);
+		static bool CollitionCheckCircles(Vector2 Circle1, float Circle1Radius, Vector2 Circle2, float Circle2Radius);
 
 		const int TOTAL_BIG_ASTEROIDS = 20;
 		const int TOTAL_MEDIUM_ASTEROIDS = 40;
@@ -146,7 +147,7 @@ namespace asteroids
 		{
 			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
 			{
-				if (CheckCollisionCircles(player.hitBox.position, player.hitBox.radius, bigAsteroids[i].hitBox.position, bigAsteroids[i].hitBox.radius) && bigAsteroids[i].IsAlive)
+				if (CollitionCheckCircles(player.hitBox.position, player.hitBox.radius, bigAsteroids[i].hitBox.position, bigAsteroids[i].hitBox.radius) && bigAsteroids[i].IsAlive)
 				{
 					PlaySound(PlayerDeadSound);
 					player.lives--;
@@ -163,7 +164,7 @@ namespace asteroids
 				{
 					if (player.bullets[j].IsActive && bigAsteroids[i].IsAlive)
 					{
-						if (CheckCollisionCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, bigAsteroids[i].hitBox.position, bigAsteroids[i].hitBox.radius))
+						if (CollitionCheckCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, bigAsteroids[i].hitBox.position, bigAsteroids[i].hitBox.radius))
 						{
 							PlaySound(AsteroidHitSound);
 							bigAsteroids[i].IsAlive = false;
@@ -178,7 +179,7 @@ namespace asteroids
 
 			for (int i = 0; i < TOTAL_MEDIUM_ASTEROIDS; i++)
 			{
-				if (CheckCollisionCircles(player.hitBox.position, player.hitBox.radius, mediumAsteroids[i].hitBox.position, mediumAsteroids[i].hitBox.radius) && mediumAsteroids[i].IsAlive)
+				if (CollitionCheckCircles(player.hitBox.position, player.hitBox.radius, mediumAsteroids[i].hitBox.position, mediumAsteroids[i].hitBox.radius) && mediumAsteroids[i].IsAlive)
 				{
 					PlaySound(PlayerDeadSound);
 					player.lives--;
@@ -195,7 +196,7 @@ namespace asteroids
 				{
 					if (player.bullets[j].IsActive && mediumAsteroids[i].IsAlive)
 					{
-						if (CheckCollisionCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, mediumAsteroids[i].hitBox.position, mediumAsteroids[i].hitBox.radius))
+						if (CollitionCheckCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, mediumAsteroids[i].hitBox.position, mediumAsteroids[i].hitBox.radius))
 						{
 							PlaySound(AsteroidHitSound);
 							mediumAsteroids[i].IsAlive = false;
@@ -211,7 +212,7 @@ namespace asteroids
 
 			for (int i = 0; i < TOTAL_SMALL_ASTEROIDS; i++)
 			{
-				if (CheckCollisionCircles(player.hitBox.position, player.hitBox.radius, smallAsteroids[i].hitBox.position, smallAsteroids[i].hitBox.radius) && smallAsteroids[i].IsAlive)
+				if (CollitionCheckCircles(player.hitBox.position, player.hitBox.radius, smallAsteroids[i].hitBox.position, smallAsteroids[i].hitBox.radius) && smallAsteroids[i].IsAlive)
 				{
 					PlaySound(PlayerDeadSound);
 					player.lives--;
@@ -228,7 +229,7 @@ namespace asteroids
 				{
 					if (player.bullets[j].IsActive && smallAsteroids[i].IsAlive)
 					{
-						if (CheckCollisionCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, smallAsteroids[i].hitBox.position, smallAsteroids[i].hitBox.radius))
+						if (CollitionCheckCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, smallAsteroids[i].hitBox.position, smallAsteroids[i].hitBox.radius))
 						{
 							PlaySound(AsteroidHitSound);
 							smallAsteroids[i].IsAlive = false;
@@ -439,6 +440,22 @@ namespace asteroids
 				ResumeButton.color = WHITE;
 			}
 
+
+		}
+
+		static bool CollitionCheckCircles(Vector2 Circle1, float Circle1Radius, Vector2 Circle2, float Circle2Radius )
+		{
+
+			double distancia = sqrt((Circle1.x - Circle2.x) * (Circle1.x - Circle2.x) + (Circle1.y - Circle2.y) * (Circle1.y - Circle2.y));
+			
+			if (distancia < Circle1Radius + Circle2Radius)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 
 		}
 	}

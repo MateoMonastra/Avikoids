@@ -58,8 +58,8 @@ namespace asteroids
 		{
 			if (player.IsAlive)
 			{
-				DrawTexturePro(player.texture, player.source, player.dest, player.origin, static_cast<float>(player.shipRotation), WHITE);
 				DrawCircle(static_cast<int>(player.hitBox.position.x), static_cast<int>(player.hitBox.position.y), player.hitBox.radius, GREEN);
+				DrawTexturePro(player.texture, player.source, player.dest, player.origin, static_cast<float>(player.shipRotation), WHITE);
 			}
 		}
 		
@@ -72,8 +72,8 @@ namespace asteroids
 
 			player.lives = 3;
 			player.IsAlive = true;
-			player.hitBox.radius = 25;
-			player.hitBox.position = { WidthF / 2, HeightF / 2 };
+			player.hitBox.radius = 30;
+			player.hitBox.position = { WidthF / 2, HeightF / 2};
 			player.texture = LoadTexture("res/PNG/Game/Play/player/Player.png");
 			player.score = 0;
 			player.velocity = { 0, 0 };
