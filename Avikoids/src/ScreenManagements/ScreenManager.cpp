@@ -57,6 +57,9 @@ namespace asteroids
 			case Screen::Game:
 				game::GameUpdate(currentScreen);
 				break;
+			case Screen::Options:
+				/*OptionsUpdate(currentScene);*/
+				break;
 			case Screen::Credits:
 				credits::CreditsUpdate(currentScreen);
 				break;
@@ -80,6 +83,9 @@ namespace asteroids
 				break;
 			case Screen::Game:
 				game::DrawGame();
+				break;
+			case Screen::Options:
+				/* DrawOptions();*/
 				break;
 			case Screen::Credits:
 				credits::CreditsDrawing();

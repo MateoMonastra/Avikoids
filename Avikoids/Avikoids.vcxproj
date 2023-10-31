@@ -28,6 +28,7 @@
     <ClCompile Include="src\Screens\Credits.cpp" />
     <ClCompile Include="src\Screens\Game.cpp" />
     <ClCompile Include="src\Screens\Menu.cpp" />
+    <ClCompile Include="src\Screens\Options.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Objects\Asteroids.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="src\Screens\Credits.h" />
     <ClInclude Include="src\Screens\Game.h" />
     <ClInclude Include="src\Screens\Menu.h" />
+    <ClInclude Include="src\Screens\Options.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -14,6 +14,7 @@ namespace asteroids
 		static Button game;
 		static Button exit;
 		static Button credits;
+		static Button backGround;
 
 		static void DrawButton(Button button);
 
@@ -21,15 +22,15 @@ namespace asteroids
 		{
 			float middleScreenf = static_cast<float>(GetScreenWidth() / 2);
 
-			title.position = { middleScreenf - 360 , 40 };
-			title.sprite = LoadTexture("res/PNG/Menu/Header.png");
-			title.scale = 0.7f;
+			title.position = { 20 , 80 };
+			title.sprite = LoadTexture("res/PNG/Menu/Title.png");
+			title.scale = 1.2f;
 
-			game.position = { middleScreenf - 118 , 380 };
+			game.position = { middleScreenf - 118 , 330 };
 			game.sprite = LoadTexture("res/PNG/Menu/PlayButton.png");
 			game.scale = 0.6f;
 
-			credits.position = { middleScreenf - 118, 470 };
+			credits.position = { middleScreenf - 118, 420 };
 			credits.sprite = LoadTexture("res/PNG/Menu/CreditsButton.png");
 			credits.scale = 0.6f;
 			
@@ -37,6 +38,9 @@ namespace asteroids
 			exit.sprite = LoadTexture("res/PNG/Menu/ExitButton.png");
 			exit.scale = 0.6f;
 
+			backGround.position = {80,0};
+			backGround.sprite = LoadTexture("res/PNG/Menu/MenuBackground.png");
+			backGround.scale = 0.7f;
 		}
 
 		void MenuUpdate(Screen& currentScreen)
@@ -92,6 +96,7 @@ namespace asteroids
 		{
 			ClearBackground(BLACK);
 
+			DrawButton(backGround);
 			DrawButton(title);
 			DrawButton(game);
 			DrawButton(exit);
