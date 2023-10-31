@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ProjectUtilities/Utilities.h"
+
 #include "Spaceship.h"
 
 namespace asteroids

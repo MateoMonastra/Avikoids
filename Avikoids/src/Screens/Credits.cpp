@@ -1,8 +1,6 @@
 #include "Credits.h"
 
 
-
-
 namespace asteroids
 {
 	namespace credits

@@ -11,7 +11,7 @@ namespace asteroids
 
 		double autoShootingTimer = GetTime();
 
-		Sound ShootSound;
+		Sound Shoot;
 
 
 		void SpaceshipUpdate(Spaceship& player)
@@ -84,9 +84,9 @@ namespace asteroids
 
 			player.origin = { static_cast<float>(player.source.width / 2) * scale , static_cast<float> (player.source.height / 4) * scale };
 
-			ShootSound = LoadSound("res/MUSIC/SoundEffects/ShootSound.mp3");
+			Shoot = LoadSound("res/MUSIC/SoundEffects/ShootSound.mp3");
 
-			SetSoundVolume(ShootSound, 0.1f);
+			SetSoundVolume(Shoot, 0.3f);
 
 
 			for (int i = 0; i < player.maxBullets; i++)
@@ -120,6 +120,7 @@ namespace asteroids
 			}
 			else
 			{
+				float angle = 0.3f;
 
 				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation);
 				player.currentBullet++;
@@ -129,7 +130,7 @@ namespace asteroids
 					player.currentBullet = 0;
 				}
 
-				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, Vector2Rotate(player.normalizedDirection,0.3f), player.shipRotation);
+				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, Vector2Rotate(player.normalizedDirection, angle), player.shipRotation);
 				player.currentBullet++;
 				
 				if (player.currentBullet >= player.maxBullets)
@@ -137,7 +138,7 @@ namespace asteroids
 					player.currentBullet = 0;
 				}
 
-				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, Vector2Rotate(player.normalizedDirection,-0.3f), player.shipRotation);
+				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, Vector2Rotate(player.normalizedDirection,-angle), player.shipRotation);
 				player.currentBullet++;
 
 				if (player.currentBullet >= player.maxBullets)
@@ -146,7 +147,7 @@ namespace asteroids
 				}
 			}
 
-			PlaySound(ShootSound);
+			PlaySound(Shoot);
 		}
 	
 		static void SpaceshipMobility(Spaceship& player)

@@ -1,7 +1,8 @@
 #include "ScreenManager.h"
 
-#include "Screen.h"
 #include "ProjectUtilities/Utilities.h"
+
+#include "Screen.h"
 #include "Screens/Menu.h"
 #include "Screens/Game.h"
 #include "Screens/Credits.h"

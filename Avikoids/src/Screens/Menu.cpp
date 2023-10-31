@@ -1,6 +1,7 @@
 #include "Menu.h"
 
 #include "ProjectUtilities/Utilities.h"
+
 #include "ScreenManagements/Screen.h"
 #include "Game.h"
 #include "Credits.h"
@@ -39,9 +40,9 @@ namespace asteroids
 			exit.sprite = LoadTexture("res/PNG/Menu/ExitButton.png");
 			exit.scale = 0.6f;
 
-			backGround.position = {80,0};
+			backGround.position = {0,0};
 			backGround.sprite = LoadTexture("res/PNG/Menu/MenuBackground.png");
-			backGround.scale = 0.7f;
+			backGround.scale = 1;
 
 			menuMusic = LoadMusicStream("res/MUSIC/MenuMusic.mp3");
 			menuTouchSFX = LoadSound("res/MUSIC/SoundEffects/MenuClickSound.wav");

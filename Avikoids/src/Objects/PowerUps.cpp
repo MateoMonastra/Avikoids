@@ -15,7 +15,7 @@ namespace asteroids
 		struct PowerUp
 		{
 			Circle hitBox;
-			Button Sprite;
+			Texture2D sprite;
 			PowerUpType effect = {};
 			double spawnTime = {};
 			bool IsActive = false;
@@ -35,11 +35,13 @@ namespace asteroids
 
 		void DrawPowerUps()
 		{
+			float textureFix = 27;
 			if (actualPowerUp.IsActive)
 			{
 			DrawCircle(static_cast<int>(actualPowerUp.hitBox.position.x), static_cast<int>(actualPowerUp.hitBox.position.y), actualPowerUp.hitBox.radius, actualPowerUp.hitBox.color);
+			DrawTextureEx(actualPowerUp.sprite, Vector2SubtractValue(actualPowerUp.hitBox.position, textureFix),0,0.1f,actualPowerUp.hitBox.color);
 			}
-
+			
 			/*DrawButton(actualPowerUp.Sprite);*/
 		}
 
@@ -62,7 +64,7 @@ namespace asteroids
 					}
 				}
 			}
-			
+
 			if (GetTime() - actualPowerUp.spawnTime > 15)
 			{
 				CreatePowerUp();
@@ -82,7 +84,9 @@ namespace asteroids
 
 				actualPowerUp.hitBox.radius = 20;
 				actualPowerUp.hitBox.position = { static_cast<float>(GetRandomValue(70,900)),static_cast<float>(GetRandomValue(60,600)) };
-				actualPowerUp.hitBox.color = YELLOW;
+				actualPowerUp.hitBox.color = WHITE;
+
+				actualPowerUp.sprite = LoadTexture("res/PNG/Game/Play/PowerUps/NukeIcon.png");
 
 			}
 			else if (randomNumber == 2)
@@ -93,15 +97,17 @@ namespace asteroids
 
 				actualPowerUp.hitBox.radius = 20;
 				actualPowerUp.hitBox.position = { static_cast<float>(GetRandomValue(70,900)),static_cast<float>(GetRandomValue(60,600)) };
-				actualPowerUp.hitBox.color = ORANGE;
+				actualPowerUp.hitBox.color = WHITE;
+
+				actualPowerUp.sprite = LoadTexture("res/PNG/Game/Play/PowerUps/ShotGunIcon.png");
 			}
 
 		}
 
 		void InitPowerUp()
 		{
-			NukeSound = LoadSound("res/MUSIC/SoundEffects/NukeSound");
-			SetSoundVolume(NukeSound, 0.8f);
+			NukeSound = LoadSound("res/MUSIC/SoundEffects/NukeSound.wav");
+			SetSoundVolume(NukeSound, 0.1f);
 		
 		}
 

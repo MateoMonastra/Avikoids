@@ -1,7 +1,8 @@
 #pragma once
 
-#include "ScreenManagements/Screen.h"
 #include "ProjectUtilities/Utilities.h"
+
+#include "ScreenManagements/Screen.h"
 
 namespace asteroids
 {

@@ -1,12 +1,12 @@
 #include "Game.h"
 
 #include "ProjectUtilities/Utilities.h"
+
 #include "ScreenManagements/GameScenes.h"
 #include "Objects/SpaceShip.h"
 #include "Objects/Bullet.h"
 #include "Objects/Asteroids.h"
 #include "Objects/PowerUps.h"
-
 
 
 namespace asteroids
@@ -251,6 +251,7 @@ namespace asteroids
 			player.hitBox.position = { WidthF / 2, HeightF / 2 };
 			player.IsAutoShooting = false;
 			player.velocity = { 0, 0 };
+			player.IsShotGunOn = false;
 
 			for (int i = 0; i < player.maxBullets; i++)
 			{
