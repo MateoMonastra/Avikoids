@@ -20,6 +20,7 @@ namespace asteroids
 			Rectangle dest = {};
 			Rectangle source = {};
 			double shipRotation = {};
+			
 
 			Vector2 normalizedDirection = {};
 

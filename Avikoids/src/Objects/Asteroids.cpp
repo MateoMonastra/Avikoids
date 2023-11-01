@@ -287,7 +287,9 @@ namespace asteroids
 					followingAsteroid[i].dest = { followingAsteroid[i].hitBox.position.x,followingAsteroid[i].hitBox.position.y,static_cast<float>(followingAsteroid[i].texture.width) * followingAsteroid[i].SCALE,static_cast<float>(followingAsteroid[i].texture.height) * followingAsteroid[i].SCALE };
 					followingAsteroid[i].origin = { static_cast<float>(followingAsteroid[i].source.width / 2) * followingAsteroid[i].SCALE, static_cast<float> (followingAsteroid[i].source.height / 2) * followingAsteroid[i].SCALE };
 
-					if (followingAsteroid[i].velocity < -0.5f)
+					float followingAsteroidMaxVelocity = -0.5f;
+
+					if (followingAsteroid[i].velocity > followingAsteroidMaxVelocity)
 					{
 						followingAsteroid[i].velocity = -0.5f;
 					}
@@ -299,7 +301,6 @@ namespace asteroids
 				}
 				else if (GetTime() - timerFollowingAsteroidSpawn > followingAsteroid[i].FOLLOWING_ASTEROID_SPAWN_RECOIL && !followingAsteroid[i].IsAlive && followingAsteroidsCount < maxFollowingAsteroidSpawn)
 				{
-
 					CreateFollowingAsteroid(followingAsteroid[i]);
 					timerFollowingAsteroidSpawn = GetTime();
 				}

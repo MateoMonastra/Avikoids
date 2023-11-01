@@ -164,7 +164,6 @@ namespace asteroids
 			{
 				DrawPowerUps();
 
-				SpaceshipDraw(player);
 
 				for (int i = 0; i < player.maxBullets; i++)
 				{
@@ -173,6 +172,8 @@ namespace asteroids
 
 				DrawAsteroid(bigAsteroids, mediumAsteroids, smallAsteroids, followingAsteroids);
 
+				SpaceshipDraw(player);
+				
 				DrawTextEx(TextFont,TextFormat("SCORE: %i", player.score), ShowScore.position, ShowScore.fontSize,0, ShowScore.color);
 				DrawTextEx(TextFont,TextFormat("LIVES: %i", player.lives), ShowPlayerLife.position, ShowPlayerLife.fontSize,0, ShowPlayerLife.color);
 

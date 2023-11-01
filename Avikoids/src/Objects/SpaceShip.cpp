@@ -40,7 +40,8 @@ namespace asteroids
 				}
 				else
 				{
-					if (GetTime() - autoShootingTimer > 0.23)
+					float shootRecoil = 0.23f;
+					if (GetTime() - autoShootingTimer > shootRecoil)
 					{
 						SpaceshipShoot(player);
 
@@ -59,16 +60,18 @@ namespace asteroids
 		{
 			if (player.IsAlive)
 			{
-				DrawTexturePro(player.texture, player.source, player.dest, player.origin, static_cast<float>(player.shipRotation), WHITE);
+				DrawCircle(static_cast<int>(player.hitBox.position.x), static_cast<int>(player.hitBox.position.y), player.hitBox.radius, GREEN);
+				DrawTexturePro(player.texture, player.source, player.dest, Vector2AddValue(player.origin, player.hitBox.radius), static_cast<float>(player.shipRotation), WHITE);
 			}
 		}
 
 		void InitPlayer(Spaceship& player)
 		{
-			float scale = 0.15f;
+			float scale = 0.18f;
 			float WidthF = static_cast<float>(GetScreenWidth());
 			float HeightF = static_cast<float>(GetScreenHeight());
 			Texture2D bulletTexture = LoadTexture("res/PNG/Game/Play/Bullets/BaseBullet.png");
+
 
 			player.lives = 3;
 			player.IsAlive = true;
@@ -78,11 +81,17 @@ namespace asteroids
 			player.score = 0;
 			player.velocity = { 0, 0 };
 
+			const float playerOriginWidth = static_cast<float>((player.source.width / 3) / 4) * scale - 20;
+			const float playerOriginHeight = static_cast<float> (player.source.height / 4) * scale;
+
+			float playerDestWidth = (player.hitBox.radius * 8) / 3;
+			float playerDestHeight = player.hitBox.radius * 5;
+
 			player.source = { 0,0,static_cast<float>(player.texture.width),static_cast<float>(player.texture.height) };
 
-			player.dest = { player.hitBox.position.x,player.hitBox.position.y,static_cast<float>(player.texture.width) * scale,static_cast<float>(player.texture.height) * scale };
+			player.dest = { player.hitBox.position.x,player.hitBox.position.y,playerDestWidth,playerDestHeight };
 
-			player.origin = { static_cast<float>(player.source.width / 2) * scale , static_cast<float> (player.source.height / 4) * scale };
+			player.origin = { playerOriginWidth, playerOriginHeight };
 
 			Shoot = LoadSound("res/MUSIC/SoundEffects/ShootSound.mp3");
 
@@ -181,12 +190,30 @@ namespace asteroids
 
 			if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT))
 			{
+				float texturePos1 = player.texture.width / 3.0f;
+				float texturePos2 = player.texture.width / 3.0f * 2.0f;
+				if (player.source.x == texturePos1)
+				{
+					player.source = { texturePos2,0,static_cast<float>(player.texture.width / 3),static_cast<float>(player.texture.height) };
+				}
+				else
+				{
+					player.source = { texturePos1,0,static_cast<float>(player.texture.width / 3),static_cast<float>(player.texture.height) };
+				}
+
 				player.velocity = Vector2Add(player.velocity, Vector2Scale(direction, player.aceleration * GetFrameTime()));
 			}
-
+			else
+			{
+				player.source = { 0,0,static_cast<float>(player.texture.width / 3),static_cast<float>(player.texture.height) };
+			}
 			player.hitBox.position = Vector2Add(player.hitBox.position, Vector2Scale(player.velocity, GetFrameTime()));
-			player.dest.x = player.hitBox.position.x;
-			player.dest.y = player.hitBox.position.y;
+
+
+			float playerDestWidth = (player.hitBox.radius * 8) / 3;
+			float playerDestHeight = player.hitBox.radius * 5;
+			player.dest = { player.hitBox.position.x,player.hitBox.position.y,playerDestWidth,playerDestHeight };
+
 		}
 
 
