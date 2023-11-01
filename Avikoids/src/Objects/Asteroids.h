@@ -30,12 +30,14 @@ namespace asteroids
 
 			float SCALE = {};
 
+			const float BIG_ASTEROID_SPAWN_RECOIL = 1.5f;
+			const float FOLLOWING_ASTEROID_SPAWN_RECOIL = 8.5f;
 		};
 
 		
-		void InitAsteroids(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[]);
-		void DrawAsteroid(Asteroid bigAsteroids[], Asteroid mediumAsteroids[], Asteroid smallAsteroids[]);
-		void AsteroidUpdate(Asteroid bigAsteroids[], Asteroid mediumAsteroids[], Asteroid smallAsteroids[], Spaceship player);
+		void InitAsteroids(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[], Asteroid followingAsteroids[]);
+		void DrawAsteroid(Asteroid bigAsteroids[], Asteroid mediumAsteroids[], Asteroid smallAsteroids[], Asteroid followingAsteroids[]);
+		void AsteroidUpdate(Asteroid bigAsteroids[], Asteroid mediumAsteroids[], Asteroid smallAsteroids[], Spaceship player, Asteroid followingAsteroids[]);
 
 
 	}

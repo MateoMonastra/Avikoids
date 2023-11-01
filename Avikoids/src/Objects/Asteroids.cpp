@@ -9,19 +9,25 @@ namespace asteroids
 		static void CreateBigAsteroid(Asteroid& asteroid);
 		static void CreateMediumAsteroid(Asteroid& asteroid, Asteroid bigAsteroid);
 		static void CreateSmallAsteroid(Asteroid& asteroid, Asteroid mediumAsteroid);
+		static void CreateFollowingAsteroid(Asteroid& asteroid);
+
+		const int TOTAL_BIG_ASTEROIDS = 25;
+		const int TOTAL_MEDIUM_ASTEROIDS = 50;
+		const int TOTAL_SMALL_ASTEROIDS = 100;
+		const int TOTAL_FOLLOWING_ASTEROIDS = 3;
+
+		int maxFollowingAsteroidSpawn = 1;
+
+		double timerBigAsteroidSpawn = 0;
+		double timerFollowingAsteroidSpawn = 0;
 
 
-		const int TOTAL_BIG_ASTEROIDS = 20;
-		const int TOTAL_MEDIUM_ASTEROIDS = 40;
-		const int TOTAL_SMALL_ASTEROIDS = 80;
-
-		double timerBigAsteroidSpawn = GetTime();
-
-		void InitAsteroids(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[])
+		void InitAsteroids(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[], Asteroid followingAsteroids[])
 		{
 			Texture2D bigAsteroidTexture = LoadTexture("res/PNG/Game/Play/Asteroids/BigAsteroid.png");
 			Texture2D mediumAsteroidTexture = LoadTexture("res/PNG/Game/Play/Asteroids/MediumAsteroid.png");
 			Texture2D smallAsteroidTexture = LoadTexture("res/PNG/Game/Play/Asteroids/SmallAsteroid.png");
+			Texture2D followingAsteroidTexture = LoadTexture("res/PNG/Game/Play/Asteroids/SmallAsteroid.png");
 
 			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
 			{
@@ -35,10 +41,16 @@ namespace asteroids
 			{
 				smallAsteroid[i].texture = smallAsteroidTexture;
 			}
+			for (int i = 0; i < TOTAL_FOLLOWING_ASTEROIDS; i++)
+			{
+				followingAsteroids[i].texture = followingAsteroidTexture;
+			}
 
+			timerBigAsteroidSpawn = GetTime();
+			timerFollowingAsteroidSpawn = GetTime();
 		}
 
-		void DrawAsteroid(Asteroid bigAsteroids[], Asteroid mediumAsteroids[], Asteroid smallAsteroids[])
+		void DrawAsteroid(Asteroid bigAsteroids[], Asteroid mediumAsteroids[], Asteroid smallAsteroids[], Asteroid followingAsteroids[])
 		{
 			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
 			{
@@ -66,10 +78,18 @@ namespace asteroids
 				}
 			}
 
+			for (int i = 0; i < TOTAL_FOLLOWING_ASTEROIDS; i++)
+			{
+				if (followingAsteroids[i].IsAlive)
+				{
+					DrawCircle(static_cast<int>(followingAsteroids[i].hitBox.position.x), static_cast<int>(followingAsteroids[i].hitBox.position.y), followingAsteroids[i].hitBox.radius, followingAsteroids[i].hitBox.color);
+					DrawTexturePro(followingAsteroids[i].texture, followingAsteroids[i].source, followingAsteroids[i].dest, followingAsteroids[i].origin, followingAsteroids[i].rotation, followingAsteroids[i].hitBox.color);
+				}
+			}
 
 		}
 
-		void AsteroidUpdate(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[], Spaceship player)
+		void AsteroidUpdate(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[], Spaceship player, Asteroid followingAsteroid[])
 		{
 			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
 			{
@@ -125,7 +145,7 @@ namespace asteroids
 					}
 				}
 
-				if (GetTime() - timerBigAsteroidSpawn > 1.5 && !bigAsteroid[i].IsAlive)
+				if (GetTime() - timerBigAsteroidSpawn > bigAsteroid[i].BIG_ASTEROID_SPAWN_RECOIL && !bigAsteroid[i].IsAlive)
 				{
 					CreateBigAsteroid(bigAsteroid[i]);
 
@@ -220,6 +240,83 @@ namespace asteroids
 					}
 				}
 			}
+		
+			for (int i = 0; i < TOTAL_FOLLOWING_ASTEROIDS; i++)
+			{
+				int followingAsteroidsCount = 0;
+
+				for (int j = 0; j < TOTAL_FOLLOWING_ASTEROIDS; j++)
+				{
+					if(followingAsteroid[j].IsAlive)
+					{
+						followingAsteroidsCount++;
+					}
+				}
+
+				if (followingAsteroid[i].IsAlive)
+				{
+
+					if (followingAsteroid[i].hitBox.position.y - followingAsteroid[i].hitBox.radius / 2 < 0)
+					{
+						followingAsteroid[i].hitBox.position.y = GetScreenHeight() - followingAsteroid[i].hitBox.radius;
+						followingAsteroid[i].aceleration = { 0,0 };
+					}
+					if (followingAsteroid[i].hitBox.position.y + followingAsteroid[i].hitBox.radius / 2 > GetScreenHeight())
+					{
+						followingAsteroid[i].hitBox.position.y = followingAsteroid[i].hitBox.radius;
+						followingAsteroid[i].aceleration = { 0,0 };
+					}
+					if (followingAsteroid[i].hitBox.position.x - followingAsteroid[i].hitBox.radius / 2 < 0)
+					{
+						followingAsteroid[i].hitBox.position.x = GetScreenWidth() - followingAsteroid[i].hitBox.radius;
+						followingAsteroid[i].aceleration = { 0,0 };
+					}
+					if (followingAsteroid[i].hitBox.position.x + followingAsteroid[i].hitBox.radius / 2 > GetScreenWidth())
+					{
+						followingAsteroid[i].hitBox.position.x = followingAsteroid[i].hitBox.radius;
+						followingAsteroid[i].aceleration = { 0,0 };
+					}
+
+
+					Vector2 direction = Vector2Subtract(followingAsteroid[i].hitBox.position, player.hitBox.position);
+
+					double angle = atan2(static_cast<double>(direction.y), static_cast<double>(direction.x)) * RAD2DEG + 90;
+
+					followingAsteroid[i].rotation = static_cast<float>(angle);
+
+					followingAsteroid[i].source = { 0,0,static_cast<float>(followingAsteroid[i].texture.width),static_cast<float>(followingAsteroid[i].texture.height) };
+					followingAsteroid[i].dest = { followingAsteroid[i].hitBox.position.x,followingAsteroid[i].hitBox.position.y,static_cast<float>(followingAsteroid[i].texture.width) * followingAsteroid[i].SCALE,static_cast<float>(followingAsteroid[i].texture.height) * followingAsteroid[i].SCALE };
+					followingAsteroid[i].origin = { static_cast<float>(followingAsteroid[i].source.width / 2) * followingAsteroid[i].SCALE, static_cast<float> (followingAsteroid[i].source.height / 2) * followingAsteroid[i].SCALE };
+
+					if (followingAsteroid[i].velocity <-0.5f)
+					{
+						followingAsteroid[i].velocity = -0.5f;
+					}
+
+					followingAsteroid[i].aceleration = Vector2Add(followingAsteroid[i].aceleration, Vector2Scale(direction, followingAsteroid[i].velocity * GetFrameTime()));
+
+					followingAsteroid[i].hitBox.position.x -= followingAsteroid[i].aceleration.x * followingAsteroid[i].velocity * GetFrameTime();
+					followingAsteroid[i].hitBox.position.y -= followingAsteroid[i].aceleration.y * followingAsteroid[i].velocity * GetFrameTime();
+				}
+				else if (GetTime() - timerFollowingAsteroidSpawn > followingAsteroid[i].FOLLOWING_ASTEROID_SPAWN_RECOIL && !followingAsteroid[i].IsAlive && followingAsteroidsCount < maxFollowingAsteroidSpawn)
+				{
+					CreateFollowingAsteroid(followingAsteroid[i]);
+						timerFollowingAsteroidSpawn = GetTime();
+				}
+
+				if (player.score > 3000 && maxFollowingAsteroidSpawn == 1)
+				{
+					maxFollowingAsteroidSpawn++;
+				}
+				else if (player.score > 8000 && maxFollowingAsteroidSpawn == 2)
+				{
+					maxFollowingAsteroidSpawn++;
+				}
+
+			}
+
+
+
 		}
 		
 		static void CreateBigAsteroid(Asteroid& asteroid)
@@ -300,6 +397,51 @@ namespace asteroids
 			asteroid.hitBox.color = WHITE;
 			asteroid.IsAlive = true;
 			asteroid.SCALE = asteroid.hitBox.radius / 160;
+		}
+		
+		static void CreateFollowingAsteroid(Asteroid& asteroid)
+		{
+			float width = static_cast<float>(GetScreenWidth());
+			float height = static_cast<float>(GetScreenHeight());
+			int randomSpawn = GetRandomValue(1, 4);
+
+
+			if (randomSpawn == 1)
+			{
+				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(25, 30)) };
+				asteroid.hitBox.position = { width,static_cast<float>(GetRandomValue(100, 1000)) };
+				asteroid.hitBox.color = WHITE;
+				asteroid.velocity = { -0.5f };
+				asteroid.IsAlive = true;
+				asteroid.SCALE = asteroid.hitBox.radius / 150;
+			}
+			else if (randomSpawn == 2)
+			{
+				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(25, 30)) };
+				asteroid.hitBox.position = { 40, static_cast<float>(GetRandomValue(100, 1000)) };
+				asteroid.hitBox.color = WHITE;
+				asteroid.velocity = { -0.5f };
+				asteroid.IsAlive = true;
+				asteroid.SCALE = asteroid.hitBox.radius / 200;
+			}
+			else if (randomSpawn == 3)
+			{
+				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(25, 30)) };
+				asteroid.hitBox.position = { static_cast<float>(GetRandomValue(100, 700)), 40 };
+				asteroid.hitBox.color = WHITE;
+				asteroid.velocity = { -0.5f };
+				asteroid.IsAlive = true;
+				asteroid.SCALE = asteroid.hitBox.radius / 200;
+			}
+			else if (randomSpawn == 4)
+			{
+				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(25, 30)) };
+				asteroid.hitBox.position = { static_cast<float>(GetRandomValue(100, 1000)), height };
+				asteroid.hitBox.color = WHITE;
+				asteroid.velocity = { -0.5f };
+				asteroid.IsAlive = true;
+				asteroid.SCALE = asteroid.hitBox.radius / 220;
+			}
 		}
 
 	}

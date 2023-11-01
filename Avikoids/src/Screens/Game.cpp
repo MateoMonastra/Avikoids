@@ -25,13 +25,15 @@ namespace asteroids
 		static void AlienRulesUpdate();
 		static void PowerUpRulesUpdate();
 
-		const int TOTAL_BIG_ASTEROIDS = 20;
-		const int TOTAL_MEDIUM_ASTEROIDS = 40;
-		const int TOTAL_SMALL_ASTEROIDS = 80;
+		const int TOTAL_BIG_ASTEROIDS = 25;
+		const int TOTAL_MEDIUM_ASTEROIDS = 50;
+		const int TOTAL_SMALL_ASTEROIDS = 100;
+		const int TOTAL_FOLLOWING_ASTEROIDS = 3;
 
 		Asteroid bigAsteroids[TOTAL_BIG_ASTEROIDS];
 		Asteroid mediumAsteroids[TOTAL_MEDIUM_ASTEROIDS];
 		Asteroid smallAsteroids[TOTAL_SMALL_ASTEROIDS];
+		Asteroid followingAsteroids[TOTAL_FOLLOWING_ASTEROIDS];
 
 		Spaceship player;
 
@@ -65,7 +67,7 @@ namespace asteroids
 		{
 			initSprites();
 			InitPlayer(player);
-			InitAsteroids(bigAsteroids, mediumAsteroids, smallAsteroids);
+			InitAsteroids(bigAsteroids, mediumAsteroids, smallAsteroids, followingAsteroids);
 			Reset();
 			InitGameMusic();
 			InitPowerUp();
@@ -80,9 +82,9 @@ namespace asteroids
 			{
 				SpaceshipUpdate(player);
 
-				AsteroidUpdate(bigAsteroids, mediumAsteroids, smallAsteroids, player);
+				AsteroidUpdate(bigAsteroids, mediumAsteroids, smallAsteroids, player, followingAsteroids);
 
-				UpdatePowerUps(bigAsteroids, mediumAsteroids, smallAsteroids, player);
+				UpdatePowerUps(bigAsteroids, mediumAsteroids, smallAsteroids, player, followingAsteroids);
 
 				GameColitions();
 
@@ -145,7 +147,7 @@ namespace asteroids
 					DrawBullet(player.bullets[i]);
 				}
 
-				DrawAsteroid(bigAsteroids, mediumAsteroids, smallAsteroids);
+				DrawAsteroid(bigAsteroids, mediumAsteroids, smallAsteroids, followingAsteroids);
 
 				DrawTextEx(TextFont,TextFormat("SCORE: %i", player.score), ShowScore.position, ShowScore.fontSize,0, ShowScore.color);
 				DrawTextEx(TextFont,TextFormat("LIVES: %i", player.lives), ShowPlayerLife.position, ShowPlayerLife.fontSize,0, ShowPlayerLife.color);
@@ -157,6 +159,7 @@ namespace asteroids
 				ShowScore.position = { 100, 300 };
 				ShowScore.fontSize = 60;
 
+				DrawTextEx(TextFont, TextFormat("HIGHSCORE: %i", player.highScore), { ShowPlayerHighscore.position.x + 10,ShowPlayerHighscore.position.y }, ShowPlayerHighscore.fontSize, 0, BLACK);
 				DrawTextEx(TextFont,TextFormat("HIGHSCORE: %i", player.highScore), ShowPlayerHighscore.position, ShowPlayerHighscore.fontSize,0, ShowPlayerHighscore.color);
 				DrawTextEx(TextFont,TextFormat("YOUR SCORE WAS: %i", player.score),ShowScore.position, ShowScore.fontSize,0, ShowScore.color);
 				DrawButton(PlayAganButton);
@@ -270,6 +273,38 @@ namespace asteroids
 					}
 				}
 			}
+
+			for (int i = 0; i < TOTAL_FOLLOWING_ASTEROIDS; i++)
+			{
+				if (CollitionCheckCircles(player.hitBox.position, player.hitBox.radius, followingAsteroids[i].hitBox.position, followingAsteroids[i].hitBox.radius) && followingAsteroids[i].IsAlive)
+				{
+					PlaySound(PlayerDeadSound);
+					player.lives--;
+					Reset();
+
+					if (player.lives == 0)
+					{
+						player.IsAlive = false;
+						actualScene = GameScenes::Lose;
+						UpdateHighScore(player);
+					}
+				}
+				for (int j = 0; j < player.maxBullets; j++)
+				{
+					if (player.bullets[j].IsActive && followingAsteroids[i].IsAlive)
+					{
+						if (CollitionCheckCircles(player.bullets[j].hitBox.position, player.bullets[j].hitBox.radius, followingAsteroids[i].hitBox.position, followingAsteroids[i].hitBox.radius))
+						{
+							PlaySound(AsteroidHitSound);
+							followingAsteroids[i].IsAlive = false;
+							followingAsteroids[i].SpawnChild = true;
+							player.bullets[j].IsActive = false;
+
+							player.score += 75;
+						}
+					}
+				}
+			}
 		}
 
 		static void Reset()
@@ -300,6 +335,11 @@ namespace asteroids
 			for (int i = 0; i < TOTAL_SMALL_ASTEROIDS; i++)
 			{
 				smallAsteroids[i].IsAlive = false;
+			}
+
+			for (int i = 0; i < TOTAL_FOLLOWING_ASTEROIDS; i++)
+			{
+				followingAsteroids[i].IsAlive = false;
 			}
 
 		}

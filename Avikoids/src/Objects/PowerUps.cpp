@@ -22,12 +22,14 @@ namespace asteroids
 		};
 		
 		static void CreatePowerUp();
-		static void PowerUpNuke(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[]);
+		static void PowerUpNuke(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[], Asteroid followingAsteroid[]);
 
 
-		const int TOTAL_BIG_ASTEROIDS = 20;
-		const int TOTAL_MEDIUM_ASTEROIDS = 40;
-		const int TOTAL_SMALL_ASTEROIDS = 80;
+		const int TOTAL_BIG_ASTEROIDS = 25;
+		const int TOTAL_MEDIUM_ASTEROIDS = 50;
+		const int TOTAL_SMALL_ASTEROIDS = 100;
+		const int TOTAL_FOLLOWING_ASTEROIDS = 3;
+		const int POWERUP_RECOIL = 15;
 
 		PowerUp actualPowerUp;
 
@@ -44,7 +46,7 @@ namespace asteroids
 			/*DrawButton(actualPowerUp.Sprite);*/
 		}
 
-		void UpdatePowerUps(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[], Spaceship& player)
+		void UpdatePowerUps(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[], Spaceship& player, Asteroid followingAsteroid[])
 		{
 			if (actualPowerUp.IsActive)
 			{
@@ -54,7 +56,7 @@ namespace asteroids
 					{
 						PlaySound(NukeSound);
 
-						PowerUpNuke(bigAsteroid, mediumAsteroid, smallAsteroid);
+						PowerUpNuke(bigAsteroid, mediumAsteroid, smallAsteroid, followingAsteroid);
 					}
 					else if(actualPowerUp.effect == PowerUpType::ShotGun)
 					{
@@ -64,7 +66,7 @@ namespace asteroids
 				}
 			}
 
-			if (GetTime() - actualPowerUp.spawnTime > 15)
+			if (GetTime() - actualPowerUp.spawnTime > POWERUP_RECOIL)
 			{
 				CreatePowerUp();
 				player.IsShotGunOn = false;
@@ -110,7 +112,7 @@ namespace asteroids
 		
 		}
 
-		static void PowerUpNuke(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[])
+		static void PowerUpNuke(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[], Asteroid followingAsteroid[])
 		{
 
 			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
@@ -126,6 +128,11 @@ namespace asteroids
 			for (int i = 0; i < TOTAL_SMALL_ASTEROIDS; i++)
 			{
 				smallAsteroid[i].IsAlive = false;
+			}
+
+			for (int i = 0; i < TOTAL_FOLLOWING_ASTEROIDS; i++)
+			{
+				followingAsteroid[i].IsAlive = false;
 			}
 
 			actualPowerUp.IsActive = false;
