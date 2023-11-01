@@ -47,6 +47,7 @@ namespace asteroids
 		Button MenuButton;
 		Button RestartButton;
 		Button ResumeButton;
+		Button BackGround;
 
 		Music gameMusic;
 
@@ -99,7 +100,8 @@ namespace asteroids
 
 		void DrawGame()
 		{
-			
+			DrawButton(BackGround);
+
 			if (actualScene == GameScenes::ShowRules)
 			{
 				DrawTextureEx(showRules.sprite, showRules.position, 0, showRules.scale, showRules.color);
@@ -279,9 +281,11 @@ namespace asteroids
 		{
 			showScore.fontSize = 40;
 			showScore.position = { 30,30 };
+			showScore.color = BLACK;
 
 			showPlayerLife.fontSize = 40;
 			showPlayerLife.position = { 30,70 };
+			showPlayerLife.color = BLACK;
 
 			showRules.position = { 140,100 };
 			showRules.scale = 1;
@@ -297,7 +301,7 @@ namespace asteroids
 
 			showPlayerHighscore.position = { 100, 150 };
 			showPlayerHighscore.fontSize = 80;
-			showPlayerHighscore.color = PINK;
+			showPlayerHighscore.color = MAROON;
 
 			PlayAganButton.position = { 400,450 };
 			PlayAganButton.scale = 0.6f;
@@ -322,6 +326,10 @@ namespace asteroids
 			MenuButton.position = { 370,550 };
 			MenuButton.scale = 0.7f;
 			MenuButton.sprite = LoadTexture("res/PNG/Game/Pause/MenuButton.png");
+
+			BackGround.position = { 0,0 };
+			BackGround.scale = 1;
+			BackGround.sprite = LoadTexture("res/PNG/Game/GameBackGround.png");
 
 		}
 

@@ -6,6 +6,7 @@ namespace asteroids
 	namespace credits
 	{
 		Button ShowCredits;
+		Button BackGround;
 		Button ReturnMenuButton;
 		Music music;
 		Sound sound;
@@ -20,6 +21,10 @@ namespace asteroids
 			ReturnMenuButton.position = { 400,550 };
 			ReturnMenuButton.scale = 0.6f;
 			ReturnMenuButton.sprite = LoadTexture("res/PNG/Credits/ReturnMenuButton.png");
+
+			BackGround.position = {0,0};
+			BackGround.scale = 1;
+			BackGround.sprite = LoadTexture("res/PNG/Game/GameBackGround.png");
 
 			music = menuMusic;
 			sound = menuTouchSFX;
@@ -48,8 +53,9 @@ namespace asteroids
 
 		void CreditsDrawing()
 		{
-			DrawTextureEx(ShowCredits.sprite, ShowCredits.position, 0, ShowCredits.scale, ShowCredits.color);
-			DrawTextureEx(ReturnMenuButton.sprite, ReturnMenuButton.position, 0, ReturnMenuButton.scale, ReturnMenuButton.color);
+			DrawButton(BackGround);
+			DrawButton(ShowCredits);
+			DrawButton(ReturnMenuButton);
 		}
 	}
 }

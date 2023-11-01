@@ -38,7 +38,6 @@ namespace asteroids
 			float textureFix = 27;
 			if (actualPowerUp.IsActive)
 			{
-			DrawCircle(static_cast<int>(actualPowerUp.hitBox.position.x), static_cast<int>(actualPowerUp.hitBox.position.y), actualPowerUp.hitBox.radius, actualPowerUp.hitBox.color);
 			DrawTextureEx(actualPowerUp.sprite, Vector2SubtractValue(actualPowerUp.hitBox.position, textureFix),0,0.1f,actualPowerUp.hitBox.color);
 			}
 			
