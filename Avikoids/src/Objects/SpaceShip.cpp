@@ -10,7 +10,7 @@ namespace asteroids
 		static void SpaceshipMobility(Spaceship& player);
 
 		double autoShootingTimer = GetTime();
-
+		float animationTimer = 0;
 
 		Sound Shoot;
 
@@ -161,6 +161,9 @@ namespace asteroids
 
 		static void SpaceshipMobility(Spaceship& player)
 		{
+			float playerDestWidth = (player.hitBox.radius * 8) / 3;
+			float playerDestHeight = player.hitBox.radius * 5;
+
 			if (player.hitBox.position.y < 0)
 			{
 				player.hitBox.position.y = GetScreenHeight() - player.textureRec.height;
@@ -192,13 +195,23 @@ namespace asteroids
 			{
 				float texturePos1 = player.texture.width / 3.0f;
 				float texturePos2 = player.texture.width / 3.0f * 2.0f;
-				if (player.source.x == texturePos1)
+
+				const float animationCooldown = 0.3f;
+
+				animationTimer += GetFrameTime();
+				
+				if (animationTimer >= animationCooldown)
 				{
-					player.source = { texturePos2,0,static_cast<float>(player.texture.width / 3),static_cast<float>(player.texture.height) };
-				}
-				else
-				{
-					player.source = { texturePos1,0,static_cast<float>(player.texture.width / 3),static_cast<float>(player.texture.height) };
+					if (player.source.x == texturePos1)
+					{
+						player.source = { texturePos2,0,static_cast<float>(player.texture.width / 3),static_cast<float>(player.texture.height) };
+					}
+					else
+					{
+						player.source = { texturePos1,0,static_cast<float>(player.texture.width / 3),static_cast<float>(player.texture.height) };
+					}
+					
+					animationTimer = 0;
 				}
 
 				player.velocity = Vector2Add(player.velocity, Vector2Scale(direction, player.aceleration * GetFrameTime()));
@@ -207,11 +220,8 @@ namespace asteroids
 			{
 				player.source = { 0,0,static_cast<float>(player.texture.width / 3),static_cast<float>(player.texture.height) };
 			}
+
 			player.hitBox.position = Vector2Add(player.hitBox.position, Vector2Scale(player.velocity, GetFrameTime()));
-
-
-			float playerDestWidth = (player.hitBox.radius * 8) / 3;
-			float playerDestHeight = player.hitBox.radius * 5;
 			player.dest = { player.hitBox.position.x,player.hitBox.position.y,playerDestWidth,playerDestHeight };
 
 		}
