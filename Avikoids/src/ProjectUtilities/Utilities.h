@@ -12,7 +12,7 @@ namespace asteroids
 		Texture2D sprite = {};
 		float scale = 0;
 		
-		int fontSize = {};
+		float fontSize = {};
 	};
 
 	struct Circle
@@ -29,4 +29,6 @@ namespace asteroids
 	void DrawButton(Button button);
 
 	bool CollitionCheckCircles(Vector2 Circle1, float Circle1Radius, Vector2 Circle2, float Circle2Radius);
+
+	void DrawMouse();
 }

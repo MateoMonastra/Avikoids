@@ -42,6 +42,7 @@ namespace asteroids
 			currentScreen = Screen::Menu;
 
 			SetExitKey(NULL);
+			HideCursor();
 			SetRandomSeed(NULL);
 			InitAudioDevice();
 			menu::InitMenu();
@@ -88,6 +89,7 @@ namespace asteroids
 			default:
 				break;
 			}
+			DrawMouse();
 			EndDrawing();
 		}
 

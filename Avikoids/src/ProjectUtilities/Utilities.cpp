@@ -45,5 +45,14 @@ namespace asteroids
 		}
 
 	}
+
+	void DrawMouse()
+	{
+		Vector2 mousePos = GetMousePosition();
+		
+		float mouseRadius = 5;
+
+		DrawCircle(static_cast<int>(mousePos.x), static_cast<int>(mousePos.y), mouseRadius, MAROON);
+	}
 	
 }

@@ -59,6 +59,8 @@ namespace asteroids
 		Sound AsteroidHitSound;
 		Sound PlayerDeadSound;
 
+		Font TextFont;
+
 		void InitGame()
 		{
 			initSprites();
@@ -145,8 +147,8 @@ namespace asteroids
 
 				DrawAsteroid(bigAsteroids, mediumAsteroids, smallAsteroids);
 
-				DrawText(TextFormat("SCORE: %i", player.score), static_cast<int>(ShowScore.position.x), static_cast<int>(ShowScore.position.y), ShowScore.fontSize, ShowScore.color);
-				DrawText(TextFormat("LIVES: %i", player.lives), static_cast<int>(ShowPlayerLife.position.x), static_cast<int>(ShowPlayerLife.position.y), ShowPlayerLife.fontSize, ShowPlayerLife.color);
+				DrawTextEx(TextFont,TextFormat("SCORE: %i", player.score), ShowScore.position, ShowScore.fontSize,0, ShowScore.color);
+				DrawTextEx(TextFont,TextFormat("LIVES: %i", player.lives), ShowPlayerLife.position, ShowPlayerLife.fontSize,0, ShowPlayerLife.color);
 
 				DrawButton(PauseButton);
 			}
@@ -155,8 +157,8 @@ namespace asteroids
 				ShowScore.position = { 100, 300 };
 				ShowScore.fontSize = 60;
 
-				DrawText(TextFormat("HIGHSCORE: %i", player.highScore), static_cast<int>(ShowPlayerHighscore.position.x), static_cast<int>(ShowPlayerHighscore.position.y), ShowPlayerHighscore.fontSize, ShowPlayerHighscore.color);
-				DrawText(TextFormat("YOUR SCORE WAS: %i", player.score), static_cast<int>(ShowScore.position.x), static_cast<int>(ShowScore.position.y), ShowScore.fontSize, ShowScore.color);
+				DrawTextEx(TextFont,TextFormat("HIGHSCORE: %i", player.highScore), ShowPlayerHighscore.position, ShowPlayerHighscore.fontSize,0, ShowPlayerHighscore.color);
+				DrawTextEx(TextFont,TextFormat("YOUR SCORE WAS: %i", player.score),ShowScore.position, ShowScore.fontSize,0, ShowScore.color);
 				DrawButton(PlayAganButton);
 				DrawButton(ReturnMenuButton);
 			}
@@ -321,7 +323,7 @@ namespace asteroids
 			ReturnMenuButton.sprite = LoadTexture("res/PNG/Game/Lose/ReturnMenuButton.png");
 
 			ShowPlayerHighscore.position = { 100, 150 };
-			ShowPlayerHighscore.fontSize = 80;
+			ShowPlayerHighscore.fontSize = 100;
 			ShowPlayerHighscore.color = MAROON;
 
 			PlayAganButton.position = { 400,450 };
@@ -367,6 +369,8 @@ namespace asteroids
 			ShowPowerUpRules.position = { 140,100 };
 			ShowPowerUpRules.scale = 1;
 			ShowPowerUpRules.sprite = LoadTexture("res/PNG/Game/Rules/ShowPowerUpRules.png");
+
+			TextFont = LoadFont("res/Orbitron.ttf");
 		}
 
 		static void PlayerRulesUpdate()
