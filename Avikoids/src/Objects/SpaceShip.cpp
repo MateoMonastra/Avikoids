@@ -11,6 +11,7 @@ namespace asteroids
 
 		double autoShootingTimer = GetTime();
 
+
 		Sound Shoot;
 
 

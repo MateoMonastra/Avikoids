@@ -17,11 +17,13 @@ namespace asteroids
 		static void GameColitions();
 		static void Reset();
 		static void initSprites();
-		static void RulesUpdate();
+		static void PlayerRulesUpdate();
 		static void LoseUpdate(Screen& currentScene);
 		static void PauseButtonUpdate();
 		static void PausedUpdate(Screen& currentScreen);
 		static void InitGameMusic();
+		static void AlienRulesUpdate();
+		static void PowerUpRulesUpdate();
 
 		const int TOTAL_BIG_ASTEROIDS = 20;
 		const int TOTAL_MEDIUM_ASTEROIDS = 40;
@@ -30,24 +32,27 @@ namespace asteroids
 		Asteroid bigAsteroids[TOTAL_BIG_ASTEROIDS];
 		Asteroid mediumAsteroids[TOTAL_MEDIUM_ASTEROIDS];
 		Asteroid smallAsteroids[TOTAL_SMALL_ASTEROIDS];
-		
+
 		Spaceship player;
 
 		GameScenes actualScene;
 
-		Button showScore;
-		Button showPlayerLife;
-		Button showRules;
+		Button ShowScore;
+		Button ShowPlayerLife;
 		Button NextButton;
 		Button ReturnMenuButton;
 		Button PlayAganButton;
-		Button showPlayerHighscore;
+		Button ShowPlayerHighscore;
 		Button PauseButton;
 		Button PurpleRec;
 		Button MenuButton;
 		Button RestartButton;
 		Button ResumeButton;
 		Button BackGround;
+		Button ReturnButton;
+		Button ShowPlayerRules;
+		Button ShowAlienRules;
+		Button ShowPowerUpRules;
 
 		Music gameMusic;
 
@@ -59,11 +64,11 @@ namespace asteroids
 			initSprites();
 			InitPlayer(player);
 			InitAsteroids(bigAsteroids, mediumAsteroids, smallAsteroids);
-			Reset(); 
+			Reset();
 			InitGameMusic();
 			InitPowerUp();
 
-			actualScene = GameScenes::ShowRules;
+			actualScene = GameScenes::ShowPlayerRules;
 		}
 
 		void GameUpdate(Screen& currentScene)
@@ -81,9 +86,17 @@ namespace asteroids
 
 				PauseButtonUpdate();
 			}
-			else if (actualScene == GameScenes::ShowRules)
+			else if (actualScene == GameScenes::ShowPlayerRules)
 			{
-				RulesUpdate();
+				PlayerRulesUpdate();
+			}
+			else if (actualScene == GameScenes::ShowAlienRules)
+			{
+				AlienRulesUpdate();
+			}
+			else if (actualScene == GameScenes::ShowPowerUpsRules)
+			{
+				PowerUpRulesUpdate();
 			}
 			else if (actualScene == GameScenes::Lose)
 			{
@@ -102,10 +115,22 @@ namespace asteroids
 		{
 			DrawButton(BackGround);
 
-			if (actualScene == GameScenes::ShowRules)
+			if (actualScene == GameScenes::ShowPlayerRules)
 			{
-				DrawTextureEx(showRules.sprite, showRules.position, 0, showRules.scale, showRules.color);
-				DrawTextureEx(NextButton.sprite, NextButton.position, 0, NextButton.scale, NextButton.color);
+				DrawButton(ShowPlayerRules);
+				DrawButton(NextButton);
+			}
+			else if (actualScene == GameScenes::ShowAlienRules)
+			{
+				DrawButton(ShowAlienRules);
+				DrawButton(NextButton);
+				DrawButton(ReturnButton);
+			}
+			else if (actualScene == GameScenes::ShowPowerUpsRules)
+			{
+				DrawButton(ShowPowerUpRules);
+				DrawButton(NextButton);
+				DrawButton(ReturnButton);
 			}
 			else if (actualScene == GameScenes::Playing)
 			{
@@ -120,20 +145,20 @@ namespace asteroids
 
 				DrawAsteroid(bigAsteroids, mediumAsteroids, smallAsteroids);
 
-				DrawText(TextFormat("SCORE: %i", player.score), static_cast<int>(showScore.position.x), static_cast<int>(showScore.position.y), showScore.fontSize, showScore.color);
-				DrawText(TextFormat("LIVES: %i", player.lives), static_cast<int>(showPlayerLife.position.x), static_cast<int>(showPlayerLife.position.y), showPlayerLife.fontSize, showPlayerLife.color);
+				DrawText(TextFormat("SCORE: %i", player.score), static_cast<int>(ShowScore.position.x), static_cast<int>(ShowScore.position.y), ShowScore.fontSize, ShowScore.color);
+				DrawText(TextFormat("LIVES: %i", player.lives), static_cast<int>(ShowPlayerLife.position.x), static_cast<int>(ShowPlayerLife.position.y), ShowPlayerLife.fontSize, ShowPlayerLife.color);
 
 				DrawButton(PauseButton);
 			}
 			else if (actualScene == GameScenes::Lose)
 			{
-				showScore.position = { 100, 300 };
-				showScore.fontSize = 60;
+				ShowScore.position = { 100, 300 };
+				ShowScore.fontSize = 60;
 
-				DrawText(TextFormat("HIGHSCORE: %i", player.highScore), static_cast<int>(showPlayerHighscore.position.x), static_cast<int>(showPlayerHighscore.position.y), showPlayerHighscore.fontSize, showPlayerHighscore.color);
-				DrawText(TextFormat("YOUR SCORE WAS: %i", player.score), static_cast<int>(showScore.position.x), static_cast<int>(showScore.position.y), showScore.fontSize, showScore.color);
-				DrawTextureEx(PlayAganButton.sprite, PlayAganButton.position, 0, PlayAganButton.scale, PlayAganButton.color);
-				DrawTextureEx(ReturnMenuButton.sprite, ReturnMenuButton.position, 0, ReturnMenuButton.scale, ReturnMenuButton.color);
+				DrawText(TextFormat("HIGHSCORE: %i", player.highScore), static_cast<int>(ShowPlayerHighscore.position.x), static_cast<int>(ShowPlayerHighscore.position.y), ShowPlayerHighscore.fontSize, ShowPlayerHighscore.color);
+				DrawText(TextFormat("YOUR SCORE WAS: %i", player.score), static_cast<int>(ShowScore.position.x), static_cast<int>(ShowScore.position.y), ShowScore.fontSize, ShowScore.color);
+				DrawButton(PlayAganButton);
+				DrawButton(ReturnMenuButton);
 			}
 			else if (actualScene == GameScenes::Paused)
 			{
@@ -141,7 +166,7 @@ namespace asteroids
 				DrawButton(MenuButton);
 				DrawButton(RestartButton);
 				DrawButton(ResumeButton);
-			
+
 			}
 		}
 
@@ -279,17 +304,13 @@ namespace asteroids
 
 		static void initSprites()
 		{
-			showScore.fontSize = 40;
-			showScore.position = { 30,30 };
-			showScore.color = BLACK;
+			ShowScore.fontSize = 40;
+			ShowScore.position = { 30,30 };
+			ShowScore.color = BLACK;
 
-			showPlayerLife.fontSize = 40;
-			showPlayerLife.position = { 30,70 };
-			showPlayerLife.color = BLACK;
-
-			showRules.position = { 140,100 };
-			showRules.scale = 1;
-			showRules.sprite = LoadTexture("res/PNG/Game/Rules/ShowRules.png");
+			ShowPlayerLife.fontSize = 40;
+			ShowPlayerLife.position = { 30,70 };
+			ShowPlayerLife.color = BLACK;
 
 			NextButton.position = { 600,600 };
 			NextButton.scale = 0.6f;
@@ -299,9 +320,9 @@ namespace asteroids
 			ReturnMenuButton.scale = 0.6f;
 			ReturnMenuButton.sprite = LoadTexture("res/PNG/Game/Lose/ReturnMenuButton.png");
 
-			showPlayerHighscore.position = { 100, 150 };
-			showPlayerHighscore.fontSize = 80;
-			showPlayerHighscore.color = MAROON;
+			ShowPlayerHighscore.position = { 100, 150 };
+			ShowPlayerHighscore.fontSize = 80;
+			ShowPlayerHighscore.color = MAROON;
 
 			PlayAganButton.position = { 400,450 };
 			PlayAganButton.scale = 0.6f;
@@ -318,7 +339,7 @@ namespace asteroids
 			ResumeButton.position = { 370,250 };
 			ResumeButton.scale = 0.7f;
 			ResumeButton.sprite = LoadTexture("res/PNG/Game/Pause/ResumeButton.png");
-			
+
 			RestartButton.position = { 370,400 };
 			RestartButton.scale = 0.7f;
 			RestartButton.sprite = LoadTexture("res/PNG/Game/Pause/RestartButton.png");
@@ -331,9 +352,24 @@ namespace asteroids
 			BackGround.scale = 1;
 			BackGround.sprite = LoadTexture("res/PNG/Game/GameBackGround.png");
 
+			ReturnButton.position = { 200,600 };
+			ReturnButton.scale = 0.6f;
+			ReturnButton.sprite = LoadTexture("res/PNG/Game/Rules/BackButton.png");
+
+			ShowPlayerRules.position = { 140,100 };
+			ShowPlayerRules.scale = 1;
+			ShowPlayerRules.sprite = LoadTexture("res/PNG/Game/Rules/ShowRules.png");
+
+			ShowAlienRules.position = { 140,100 };
+			ShowAlienRules.scale = 1;
+			ShowAlienRules.sprite = LoadTexture("res/PNG/Game/Rules/ShowAlienRules.png");
+
+			ShowPowerUpRules.position = { 140,100 };
+			ShowPowerUpRules.scale = 1;
+			ShowPowerUpRules.sprite = LoadTexture("res/PNG/Game/Rules/ShowPowerUpRules.png");
 		}
 
-		static void RulesUpdate()
+		static void PlayerRulesUpdate()
 		{
 			if (MouseMenuColision(NextButton))
 			{
@@ -344,7 +380,7 @@ namespace asteroids
 					InitPlayer(player);
 					initSprites();
 					Reset();
-					actualScene = GameScenes::Playing;
+					actualScene = GameScenes::ShowAlienRules;
 				}
 			}
 			else
@@ -361,7 +397,7 @@ namespace asteroids
 
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
-					actualScene = GameScenes::ShowRules;
+					actualScene = GameScenes::ShowPlayerRules;
 					currentScene = Screen::Menu;
 				}
 			}
@@ -376,7 +412,7 @@ namespace asteroids
 
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
-					actualScene = GameScenes::ShowRules;
+					actualScene = GameScenes::ShowPlayerRules;
 				}
 			}
 			else
@@ -384,7 +420,7 @@ namespace asteroids
 				PlayAganButton.color = WHITE;
 			}
 		}
-		
+
 		static void PauseButtonUpdate()
 		{
 			if (MouseMenuColision(PauseButton))
@@ -412,7 +448,7 @@ namespace asteroids
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
 					currentScreen = Screen::Menu;
-					actualScene = GameScenes::ShowRules;
+					actualScene = GameScenes::ShowPlayerRules;
 				}
 			}
 			else
@@ -426,7 +462,7 @@ namespace asteroids
 
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
-					actualScene = GameScenes::ShowRules;
+					actualScene = GameScenes::ShowPlayerRules;
 				}
 			}
 			else
@@ -462,6 +498,70 @@ namespace asteroids
 			PlayerDeadSound = LoadSound("res/MUSIC/SoundEffects/PlayerDeadSound.mp3");
 			SetSoundVolume(AsteroidHitSound, 0.1f);
 			SetSoundVolume(PlayerDeadSound, 0.1f);
+		}
+
+		static void AlienRulesUpdate()
+		{
+			if (MouseMenuColision(NextButton))
+			{
+				NextButton.color = GRAY;
+
+				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+				{
+					actualScene = GameScenes::ShowPowerUpsRules;
+				}
+			}
+			else
+			{
+				NextButton.color = WHITE;
+			}
+
+			if (MouseMenuColision(ReturnButton))
+			{
+				ReturnButton.color = GRAY;
+
+				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+				{
+					actualScene = GameScenes::ShowPlayerRules;
+				}
+			}
+			else
+			{
+				ReturnButton.color = WHITE;
+			}
+
+
+		}
+
+		static void PowerUpRulesUpdate()
+		{
+			if (MouseMenuColision(NextButton))
+			{
+				NextButton.color = GRAY;
+
+				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+				{
+					actualScene = GameScenes::Playing;
+				}
+			}
+			else
+			{
+				NextButton.color = WHITE;
+			}
+
+			if (MouseMenuColision(ReturnButton))
+			{
+				ReturnButton.color = GRAY;
+
+				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+				{
+					actualScene = GameScenes::ShowAlienRules;
+				}
+			}
+			else
+			{
+				ReturnButton.color = WHITE;
+			}
 		}
 	}
 };
