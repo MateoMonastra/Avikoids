@@ -336,7 +336,7 @@ namespace asteroids
 				asteroid.aceleration = { RandomDirection(-1,-100),RandomDirection(-100,100) };
 				asteroid.IsAlive = true;
 				asteroid.SpawnChild = false;
-				asteroid.SCALE = asteroid.hitBox.radius / 150;
+				asteroid.SCALE = asteroid.hitBox.radius / 180;
 			}
 			else if (randomSpawn == 2)
 			{
@@ -347,7 +347,7 @@ namespace asteroids
 				asteroid.aceleration = { RandomDirection(1,100),RandomDirection(-100,100) };
 				asteroid.IsAlive = true;
 				asteroid.SpawnChild = false;
-				asteroid.SCALE = asteroid.hitBox.radius / 200;
+				asteroid.SCALE = asteroid.hitBox.radius / 180;
 			}
 			else if (randomSpawn == 3)
 			{
@@ -358,7 +358,7 @@ namespace asteroids
 				asteroid.aceleration = { RandomDirection(1,100),RandomDirection(-1,-100) };
 				asteroid.IsAlive = true;
 				asteroid.SpawnChild = false;
-				asteroid.SCALE = asteroid.hitBox.radius / 200;
+				asteroid.SCALE = asteroid.hitBox.radius / 180;
 			}
 			else if (randomSpawn == 4)
 			{
@@ -369,7 +369,7 @@ namespace asteroids
 				asteroid.aceleration = { RandomDirection(-100,100),RandomDirection(1,100) };
 				asteroid.IsAlive = true;
 				asteroid.SpawnChild = false;
-				asteroid.SCALE = asteroid.hitBox.radius / 220;
+				asteroid.SCALE = asteroid.hitBox.radius / 180;
 			}
 
 
@@ -386,7 +386,7 @@ namespace asteroids
 			asteroid.hitBox.color = WHITE;
 			asteroid.IsAlive = true;
 			asteroid.SpawnChild = false;
-			asteroid.SCALE = asteroid.hitBox.radius / 200;
+			asteroid.SCALE = asteroid.hitBox.radius / 140;
 		}
 
 		static void CreateSmallAsteroid(Asteroid& asteroid, Asteroid mediumAsteroid)
@@ -397,7 +397,7 @@ namespace asteroids
 			asteroid.velocity = { 80 };
 			asteroid.hitBox.color = WHITE;
 			asteroid.IsAlive = true;
-			asteroid.SCALE = asteroid.hitBox.radius / 160;
+			asteroid.SCALE = asteroid.hitBox.radius / 150;
 		}
 
 		static void CreateFollowingAsteroid(Asteroid& asteroid)

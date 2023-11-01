@@ -60,7 +60,6 @@ namespace asteroids
 		{
 			if (player.IsAlive)
 			{
-				DrawCircle(static_cast<int>(player.hitBox.position.x), static_cast<int>(player.hitBox.position.y), player.hitBox.radius, GREEN);
 				DrawTexturePro(player.texture, player.source, player.dest, Vector2AddValue(player.origin, player.hitBox.radius), static_cast<float>(player.shipRotation), WHITE);
 			}
 		}
@@ -199,7 +198,7 @@ namespace asteroids
 				const float animationCooldown = 0.3f;
 
 				animationTimer += GetFrameTime();
-				
+
 				if (animationTimer >= animationCooldown)
 				{
 					if (player.source.x == texturePos1)
@@ -210,7 +209,7 @@ namespace asteroids
 					{
 						player.source = { texturePos1,0,static_cast<float>(player.texture.width / 3),static_cast<float>(player.texture.height) };
 					}
-					
+
 					animationTimer = 0;
 				}
 

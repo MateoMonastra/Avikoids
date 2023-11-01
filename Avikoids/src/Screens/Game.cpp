@@ -84,13 +84,13 @@ namespace asteroids
 
 			if (actualScene == GameScenes::Playing)
 			{
+				GameColitions();
+
 				SpaceshipUpdate(player);
 
 				AsteroidUpdate(bigAsteroids, mediumAsteroids, smallAsteroids, player, followingAsteroids);
 
 				UpdatePowerUps(bigAsteroids, mediumAsteroids, smallAsteroids, player, followingAsteroids);
-
-				GameColitions();
 
 				PauseButtonUpdate();
 			}
@@ -183,8 +183,9 @@ namespace asteroids
 			{
 				ShowScore.position = { 100, 300 };
 				ShowScore.fontSize = 60;
+				float ShowPlayerHighscoreX = ShowPlayerHighscore.position.x + 10;
 
-				DrawTextEx(TextFont, TextFormat("HIGHSCORE: %i", player.highScore), { ShowPlayerHighscore.position.x + 10,ShowPlayerHighscore.position.y }, ShowPlayerHighscore.fontSize, 0, BLACK);
+				DrawTextEx(TextFont, TextFormat("HIGHSCORE: %i", player.highScore), { ShowPlayerHighscoreX,ShowPlayerHighscore.position.y }, ShowPlayerHighscore.fontSize, 0, BLACK);
 				DrawTextEx(TextFont,TextFormat("HIGHSCORE: %i", player.highScore), ShowPlayerHighscore.position, ShowPlayerHighscore.fontSize,0, ShowPlayerHighscore.color);
 				DrawTextEx(TextFont,TextFormat("YOUR SCORE WAS: %i", player.score),ShowScore.position, ShowScore.fontSize,0, ShowScore.color);
 				DrawButton(PlayAganButton);

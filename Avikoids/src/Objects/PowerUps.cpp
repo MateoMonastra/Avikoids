@@ -32,6 +32,9 @@ namespace asteroids
 		const int TOTAL_FOLLOWING_ASTEROIDS = 3;
 		const int POWERUP_RECOIL = 15;
 
+		double shotGunTimer = 0;
+		int shotGunDuration = 9;
+
 		PowerUp actualPowerUp;
 
 		Sound NukeSound;
@@ -60,16 +63,24 @@ namespace asteroids
 					else if(actualPowerUp.effect == PowerUpType::ShotGun)
 					{
 						player.IsShotGunOn = true;
+						shotGunTimer = GetTime();
 						actualPowerUp.IsActive = false;
 					}
 				}
 			}
 
-			if (GetTime() - actualPowerUp.spawnTime > POWERUP_RECOIL)
+			if (GetTime() - actualPowerUp.spawnTime > POWERUP_RECOIL && GetTime() - shotGunTimer > shotGunDuration)
 			{
 				CreatePowerUp();
 				player.IsShotGunOn = false;
 			}
+		}
+
+		void InitPowerUp()
+		{
+			NukeSound = LoadSound("res/MUSIC/SoundEffects/NukeSound.wav");
+			SetSoundVolume(NukeSound, 0.1f);
+		
 		}
 
 		static void CreatePowerUp()
@@ -102,13 +113,6 @@ namespace asteroids
 				actualPowerUp.sprite = LoadTexture("res/PNG/Game/Play/PowerUps/ShotGunIcon.png");
 			}
 
-		}
-
-		void InitPowerUp()
-		{
-			NukeSound = LoadSound("res/MUSIC/SoundEffects/NukeSound.wav");
-			SetSoundVolume(NukeSound, 0.1f);
-		
 		}
 
 		static void PowerUpNuke(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[], Asteroid followingAsteroid[])
