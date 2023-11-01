@@ -7,7 +7,9 @@ namespace asteroids
 		enum class GameScenes
 		{
 			ShowPlayerRules = 1,
+			ShowReminder,
 			ShowAlienRules,
+			ShowFollowingAlienRules,
 			ShowPowerUpsRules,
 			Playing,
 			Paused,

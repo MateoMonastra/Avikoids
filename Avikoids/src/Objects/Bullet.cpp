@@ -38,7 +38,6 @@ namespace asteroids
 		{
 			if (bullet.IsActive)
 			{
-				DrawCircle(static_cast<int>(bullet.hitBox.position.x), static_cast<int>(bullet.hitBox.position.y), bullet.hitBox.radius, bullet.hitBox.color);
 				DrawTexturePro(bullet.texture, bullet.source, bullet.dest, bullet.origin, static_cast<float>(bullet.rotation), bullet.hitBox.color);
 			}
 

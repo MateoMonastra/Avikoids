@@ -40,7 +40,7 @@ namespace asteroids
 				}
 				else
 				{
-					if (GetTime() - autoShootingTimer > 0.23 )
+					if (GetTime() - autoShootingTimer > 0.23)
 					{
 						SpaceshipShoot(player);
 
@@ -54,16 +54,15 @@ namespace asteroids
 				BulletUpdate(player.bullets[i]);
 			}
 		}
-		
+
 		void SpaceshipDraw(Spaceship player)
 		{
 			if (player.IsAlive)
 			{
-				DrawCircle(static_cast<int>(player.hitBox.position.x), static_cast<int>(player.hitBox.position.y), player.hitBox.radius, GREEN);
 				DrawTexturePro(player.texture, player.source, player.dest, player.origin, static_cast<float>(player.shipRotation), WHITE);
 			}
 		}
-		
+
 		void InitPlayer(Spaceship& player)
 		{
 			float scale = 0.15f;
@@ -74,7 +73,7 @@ namespace asteroids
 			player.lives = 3;
 			player.IsAlive = true;
 			player.hitBox.radius = 30;
-			player.hitBox.position = { WidthF / 2, HeightF / 2};
+			player.hitBox.position = { WidthF / 2, HeightF / 2 };
 			player.texture = LoadTexture("res/PNG/Game/Play/player/Player.png");
 			player.score = 0;
 			player.velocity = { 0, 0 };
@@ -98,26 +97,26 @@ namespace asteroids
 
 		void UpdateHighScore(Spaceship& player)
 		{
-		
+
 			if (player.score > player.highScore)
 			{
 				player.highScore = player.score;
 			}
-		
+
 		}
 
 		static void SpaceshipShoot(Spaceship& player)
 		{
 			if (!player.IsShotGunOn)
 			{
-			CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation);
+				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation);
 
-			player.currentBullet++;
+				player.currentBullet++;
 
-			if (player.currentBullet >= player.maxBullets)
-			{
-				player.currentBullet = 0;
-			}
+				if (player.currentBullet >= player.maxBullets)
+				{
+					player.currentBullet = 0;
+				}
 			}
 			else
 			{
@@ -125,7 +124,7 @@ namespace asteroids
 
 				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, player.normalizedDirection, player.shipRotation);
 				player.currentBullet++;
-				
+
 				if (player.currentBullet >= player.maxBullets)
 				{
 					player.currentBullet = 0;
@@ -133,13 +132,13 @@ namespace asteroids
 
 				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, Vector2Rotate(player.normalizedDirection, angle), player.shipRotation);
 				player.currentBullet++;
-				
+
 				if (player.currentBullet >= player.maxBullets)
 				{
 					player.currentBullet = 0;
 				}
 
-				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, Vector2Rotate(player.normalizedDirection,-angle), player.shipRotation);
+				CreateBullet(player.bullets[player.currentBullet], player.hitBox.position, Vector2Rotate(player.normalizedDirection, -angle), player.shipRotation);
 				player.currentBullet++;
 
 				if (player.currentBullet >= player.maxBullets)
@@ -150,7 +149,7 @@ namespace asteroids
 
 			PlaySound(Shoot);
 		}
-	
+
 		static void SpaceshipMobility(Spaceship& player)
 		{
 			if (player.hitBox.position.y < 0)

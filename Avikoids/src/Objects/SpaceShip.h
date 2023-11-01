@@ -11,7 +11,7 @@ namespace asteroids
 
 		struct Spaceship
 		{
-			Circle hitBox;
+			Circle hitBox = {};
 			static const int maxBullets = 60;
 			int currentBullet = 0;
 

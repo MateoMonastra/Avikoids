@@ -16,6 +16,9 @@ namespace asteroids
 		const int TOTAL_SMALL_ASTEROIDS = 100;
 		const int TOTAL_FOLLOWING_ASTEROIDS = 3;
 
+		const int FIRST_PHASE = 3000;
+		const int SECOND_PHASE = 8000;
+
 		int maxFollowingAsteroidSpawn = 1;
 
 		double timerBigAsteroidSpawn = 0;
@@ -27,7 +30,7 @@ namespace asteroids
 			Texture2D bigAsteroidTexture = LoadTexture("res/PNG/Game/Play/Asteroids/BigAsteroid.png");
 			Texture2D mediumAsteroidTexture = LoadTexture("res/PNG/Game/Play/Asteroids/MediumAsteroid.png");
 			Texture2D smallAsteroidTexture = LoadTexture("res/PNG/Game/Play/Asteroids/SmallAsteroid.png");
-			Texture2D followingAsteroidTexture = LoadTexture("res/PNG/Game/Play/Asteroids/SmallAsteroid.png");
+			Texture2D followingAsteroidTexture = LoadTexture("res/PNG/Game/Play/Asteroids/FollowingAsteroid.png");
 
 			for (int i = 0; i < TOTAL_BIG_ASTEROIDS; i++)
 			{
@@ -56,7 +59,6 @@ namespace asteroids
 			{
 				if (bigAsteroids[i].IsAlive)
 				{
-					DrawCircle(static_cast<int>(bigAsteroids[i].hitBox.position.x), static_cast<int>(bigAsteroids[i].hitBox.position.y), bigAsteroids[i].hitBox.radius, RED);
 					DrawTexturePro(bigAsteroids[i].texture, bigAsteroids[i].source, bigAsteroids[i].dest, bigAsteroids[i].origin, bigAsteroids[i].rotation, bigAsteroids[i].hitBox.color);
 				}
 			}
@@ -64,7 +66,6 @@ namespace asteroids
 			{
 				if (mediumAsteroids[i].IsAlive)
 				{
-					DrawCircle(static_cast<int>(mediumAsteroids[i].hitBox.position.x), static_cast<int>(mediumAsteroids[i].hitBox.position.y), mediumAsteroids[i].hitBox.radius, mediumAsteroids[i].hitBox.color);
 					DrawTexturePro(mediumAsteroids[i].texture, mediumAsteroids[i].source, mediumAsteroids[i].dest, mediumAsteroids[i].origin, mediumAsteroids[i].rotation, mediumAsteroids[i].hitBox.color);
 				}
 			}
@@ -73,7 +74,6 @@ namespace asteroids
 			{
 				if (smallAsteroids[i].IsAlive)
 				{
-					DrawCircle(static_cast<int>(smallAsteroids[i].hitBox.position.x), static_cast<int>(smallAsteroids[i].hitBox.position.y), smallAsteroids[i].hitBox.radius, smallAsteroids[i].hitBox.color);
 					DrawTexturePro(smallAsteroids[i].texture, smallAsteroids[i].source, smallAsteroids[i].dest, smallAsteroids[i].origin, smallAsteroids[i].rotation, smallAsteroids[i].hitBox.color);
 				}
 			}
@@ -82,7 +82,6 @@ namespace asteroids
 			{
 				if (followingAsteroids[i].IsAlive)
 				{
-					DrawCircle(static_cast<int>(followingAsteroids[i].hitBox.position.x), static_cast<int>(followingAsteroids[i].hitBox.position.y), followingAsteroids[i].hitBox.radius, followingAsteroids[i].hitBox.color);
 					DrawTexturePro(followingAsteroids[i].texture, followingAsteroids[i].source, followingAsteroids[i].dest, followingAsteroids[i].origin, followingAsteroids[i].rotation, followingAsteroids[i].hitBox.color);
 				}
 			}
@@ -109,11 +108,11 @@ namespace asteroids
 					bigAsteroid[i].origin = { static_cast<float>(bigAsteroid[i].source.width / 2) * bigAsteroid[i].SCALE, static_cast<float> (bigAsteroid[i].source.height / 2) * bigAsteroid[i].SCALE };
 
 
-					if (bigAsteroid[i].hitBox.position.y - bigAsteroid[i].hitBox.radius /2 < 0)
+					if (bigAsteroid[i].hitBox.position.y - bigAsteroid[i].hitBox.radius / 2 < 0)
 					{
 						bigAsteroid[i].hitBox.position.y = GetScreenHeight() - bigAsteroid[i].hitBox.radius;
 					}
-					if (bigAsteroid[i].hitBox.position.y + bigAsteroid[i].hitBox.radius /2 > GetScreenHeight())
+					if (bigAsteroid[i].hitBox.position.y + bigAsteroid[i].hitBox.radius / 2 > GetScreenHeight())
 					{
 						bigAsteroid[i].hitBox.position.y = bigAsteroid[i].hitBox.radius;
 					}
@@ -240,14 +239,14 @@ namespace asteroids
 					}
 				}
 			}
-		
+
 			for (int i = 0; i < TOTAL_FOLLOWING_ASTEROIDS; i++)
 			{
 				int followingAsteroidsCount = 0;
 
 				for (int j = 0; j < TOTAL_FOLLOWING_ASTEROIDS; j++)
 				{
-					if(followingAsteroid[j].IsAlive)
+					if (followingAsteroid[j].IsAlive)
 					{
 						followingAsteroidsCount++;
 					}
@@ -288,7 +287,7 @@ namespace asteroids
 					followingAsteroid[i].dest = { followingAsteroid[i].hitBox.position.x,followingAsteroid[i].hitBox.position.y,static_cast<float>(followingAsteroid[i].texture.width) * followingAsteroid[i].SCALE,static_cast<float>(followingAsteroid[i].texture.height) * followingAsteroid[i].SCALE };
 					followingAsteroid[i].origin = { static_cast<float>(followingAsteroid[i].source.width / 2) * followingAsteroid[i].SCALE, static_cast<float> (followingAsteroid[i].source.height / 2) * followingAsteroid[i].SCALE };
 
-					if (followingAsteroid[i].velocity <-0.5f)
+					if (followingAsteroid[i].velocity < -0.5f)
 					{
 						followingAsteroid[i].velocity = -0.5f;
 					}
@@ -300,15 +299,16 @@ namespace asteroids
 				}
 				else if (GetTime() - timerFollowingAsteroidSpawn > followingAsteroid[i].FOLLOWING_ASTEROID_SPAWN_RECOIL && !followingAsteroid[i].IsAlive && followingAsteroidsCount < maxFollowingAsteroidSpawn)
 				{
+
 					CreateFollowingAsteroid(followingAsteroid[i]);
-						timerFollowingAsteroidSpawn = GetTime();
+					timerFollowingAsteroidSpawn = GetTime();
 				}
 
-				if (player.score > 3000 && maxFollowingAsteroidSpawn == 1)
+				if (player.score > FIRST_PHASE && maxFollowingAsteroidSpawn == 1)
 				{
 					maxFollowingAsteroidSpawn++;
 				}
-				else if (player.score > 8000 && maxFollowingAsteroidSpawn == 2)
+				else if (player.score > SECOND_PHASE && maxFollowingAsteroidSpawn == 2)
 				{
 					maxFollowingAsteroidSpawn++;
 				}
@@ -318,7 +318,7 @@ namespace asteroids
 
 
 		}
-		
+
 		static void CreateBigAsteroid(Asteroid& asteroid)
 		{
 			float width = static_cast<float>(GetScreenWidth());
@@ -398,7 +398,7 @@ namespace asteroids
 			asteroid.IsAlive = true;
 			asteroid.SCALE = asteroid.hitBox.radius / 160;
 		}
-		
+
 		static void CreateFollowingAsteroid(Asteroid& asteroid)
 		{
 			float width = static_cast<float>(GetScreenWidth());

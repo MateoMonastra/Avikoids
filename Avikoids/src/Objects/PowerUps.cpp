@@ -14,9 +14,10 @@ namespace asteroids
 
 		struct PowerUp
 		{
-			Circle hitBox;
-			Texture2D sprite;
+			Circle hitBox = {};
+			Texture2D sprite = {};
 			PowerUpType effect = {};
+			float scale = 0.1f;
 			double spawnTime = {};
 			bool IsActive = false;
 		};
@@ -40,10 +41,8 @@ namespace asteroids
 			float textureFix = 27;
 			if (actualPowerUp.IsActive)
 			{
-			DrawTextureEx(actualPowerUp.sprite, Vector2SubtractValue(actualPowerUp.hitBox.position, textureFix),0,0.1f,actualPowerUp.hitBox.color);
+			DrawTextureEx(actualPowerUp.sprite, Vector2SubtractValue(actualPowerUp.hitBox.position, textureFix),0,actualPowerUp.scale,actualPowerUp.hitBox.color);
 			}
-			
-			/*DrawButton(actualPowerUp.Sprite);*/
 		}
 
 		void UpdatePowerUps(Asteroid bigAsteroid[], Asteroid mediumAsteroid[], Asteroid smallAsteroid[], Spaceship& player, Asteroid followingAsteroid[])

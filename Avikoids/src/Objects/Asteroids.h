@@ -31,7 +31,7 @@ namespace asteroids
 			float SCALE = {};
 
 			const float BIG_ASTEROID_SPAWN_RECOIL = 1.5f;
-			const float FOLLOWING_ASTEROID_SPAWN_RECOIL = 8.5f;
+			const float FOLLOWING_ASTEROID_SPAWN_RECOIL = 5.5f;
 		};
 
 		
