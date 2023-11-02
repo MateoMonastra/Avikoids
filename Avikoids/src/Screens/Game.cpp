@@ -473,6 +473,9 @@ namespace asteroids
 
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
+					ShowScore.fontSize = 40;
+					ShowScore.position = { 30,30 };
+
 					actualScene = GameScenes::ShowPlayerRules;
 					currentScene = Screen::Menu;
 				}
@@ -488,6 +491,9 @@ namespace asteroids
 
 				if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
 				{
+					ShowScore.fontSize = 40;
+					ShowScore.position = { 30,30 };
+
 					actualScene = GameScenes::ShowPlayerRules;
 				}
 			}
