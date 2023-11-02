@@ -397,7 +397,7 @@ namespace asteroids
 			PlayAganButton.sprite = LoadTexture("res/PNG/Game/Lose/PlayAgainButton.png");
 
 			PauseButton.position = { 900,40 };
-			PauseButton.scale = 0.3f;
+			PauseButton.scale = 0.2f;
 			PauseButton.sprite = LoadTexture("res/PNG/Game/Pause/PauseButton.png");
 
 			PurpleRec.position = { 340,100 };
