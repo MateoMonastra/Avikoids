@@ -28,9 +28,9 @@ namespace asteroids
 		static void FollowingAlienRulesUpdate();
 
 		const int TOTAL_BIG_ASTEROIDS = 25;
-		const int TOTAL_MEDIUM_ASTEROIDS = 50;
-		const int TOTAL_SMALL_ASTEROIDS = 100;
-		const int TOTAL_FOLLOWING_ASTEROIDS = 3;
+		const int TOTAL_MEDIUM_ASTEROIDS = 75;
+		const int TOTAL_SMALL_ASTEROIDS = 225;
+		const int TOTAL_FOLLOWING_ASTEROIDS = 5;
 
 		Asteroid bigAsteroids[TOTAL_BIG_ASTEROIDS];
 		Asteroid mediumAsteroids[TOTAL_MEDIUM_ASTEROIDS];

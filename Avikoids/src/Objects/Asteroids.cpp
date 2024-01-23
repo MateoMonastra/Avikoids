@@ -12,9 +12,9 @@ namespace asteroids
 		static void CreateFollowingAsteroid(Asteroid& asteroid);
 
 		const int TOTAL_BIG_ASTEROIDS = 25;
-		const int TOTAL_MEDIUM_ASTEROIDS = 50;
-		const int TOTAL_SMALL_ASTEROIDS = 100;
-		const int TOTAL_FOLLOWING_ASTEROIDS = 3;
+		const int TOTAL_MEDIUM_ASTEROIDS = 75;
+		const int TOTAL_SMALL_ASTEROIDS = 225;
+		const int TOTAL_FOLLOWING_ASTEROIDS = 5;
 
 		const int FIRST_PHASE = 3000;
 		const int SECOND_PHASE = 8000;
@@ -332,7 +332,7 @@ namespace asteroids
 				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(50, 55)) };
 				asteroid.hitBox.position = { width,static_cast<float>(GetRandomValue(100, 1000)) };
 				asteroid.hitBox.color = WHITE;
-				asteroid.velocity = { 60 };
+				asteroid.velocity = { 200 };
 				asteroid.aceleration = { RandomDirection(-1,-100),RandomDirection(-100,100) };
 				asteroid.IsAlive = true;
 				asteroid.SpawnChild = false;
@@ -343,7 +343,7 @@ namespace asteroids
 				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(50, 55)) };
 				asteroid.hitBox.position = { 40, static_cast<float>(GetRandomValue(100, 1000)) };
 				asteroid.hitBox.color = WHITE;
-				asteroid.velocity = { 60 };
+				asteroid.velocity = { 200 };
 				asteroid.aceleration = { RandomDirection(1,100),RandomDirection(-100,100) };
 				asteroid.IsAlive = true;
 				asteroid.SpawnChild = false;
@@ -354,7 +354,7 @@ namespace asteroids
 				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(50, 55)) };
 				asteroid.hitBox.position = { static_cast<float>(GetRandomValue(100, 700)), 40 };
 				asteroid.hitBox.color = WHITE;
-				asteroid.velocity = { 60 };
+				asteroid.velocity = { 200 };
 				asteroid.aceleration = { RandomDirection(1,100),RandomDirection(-1,-100) };
 				asteroid.IsAlive = true;
 				asteroid.SpawnChild = false;
@@ -365,7 +365,7 @@ namespace asteroids
 				asteroid.hitBox.radius = { static_cast<float>(GetRandomValue(50, 55)) };
 				asteroid.hitBox.position = { static_cast<float>(GetRandomValue(100, 1000)), height };
 				asteroid.hitBox.color = WHITE;
-				asteroid.velocity = { 60 };
+				asteroid.velocity = { 200 };
 				asteroid.aceleration = { RandomDirection(-100,100),RandomDirection(1,100) };
 				asteroid.IsAlive = true;
 				asteroid.SpawnChild = false;
@@ -382,7 +382,7 @@ namespace asteroids
 			asteroid.hitBox.radius = { bigAsteroid.hitBox.radius / 2 };
 			asteroid.hitBox.position = bigAsteroid.hitBox.position;
 			asteroid.aceleration = { RandomDirection(-100,100), RandomDirection(-100,100) };
-			asteroid.velocity = { 70 };
+			asteroid.velocity = { 200 };
 			asteroid.hitBox.color = WHITE;
 			asteroid.IsAlive = true;
 			asteroid.SpawnChild = false;
@@ -394,7 +394,7 @@ namespace asteroids
 			asteroid.hitBox.radius = { mediumAsteroid.hitBox.radius / 2 };
 			asteroid.hitBox.position = mediumAsteroid.hitBox.position;
 			asteroid.aceleration = { RandomDirection(-100,100), RandomDirection(-100,100) };
-			asteroid.velocity = { 80 };
+			asteroid.velocity = { 200 };
 			asteroid.hitBox.color = WHITE;
 			asteroid.IsAlive = true;
 			asteroid.SCALE = asteroid.hitBox.radius / 150;

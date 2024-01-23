@@ -26,7 +26,7 @@ namespace asteroids
 
 			Texture2D texture = {};
 
-			const int ASTEROID_DIVITION = 2;
+			const int ASTEROID_DIVITION = 3;
 
 			float SCALE = {};
 
